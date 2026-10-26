@@ -159,4 +159,5 @@ function toggleTip(idx){
   const chev=document.getElementById('tchev-'+idx);
   const open=tc.classList.toggle('open');
   chev.classList.toggle('open',open);
+  if(open) window.TrainingAnalytics?.track('tip_view', {tip_index:idx});
 }

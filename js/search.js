@@ -69,7 +69,7 @@ function buildSearchIndex(){
       const quiz = QUIZZES[lineKey];
       if(quiz && quiz.questions){
         quiz.questions.forEach((q, qIdx)=>{
-          const searchText = `${q.q} ${q.a1} ${q.a2} ${q.a3} ${q.a4}`.toLowerCase();
+          const searchText = `${q.q} ${(q.opts || []).join(' ')}`.toLowerCase();
           searchIndex.push({
             type:'quiz',
             id:`quiz-${lineKey}-${qIdx}`,
@@ -126,9 +126,10 @@ function formatSearchResultsHtml(){
   }
   
   if(searchState.results.length === 0){
+    const queryLabel = searchState.query.replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
     return `<div style="padding:24px 16px;text-align:center;color:var(--muted)">
       <div style="font-size:32px;margin-bottom:12px">🔍</div>
-      <p>No results for "${searchState.query}"</p>
+      <p>No results for "${queryLabel}"</p>
       <p style="font-size:12px;margin-top:6px">Try different keywords</p>
     </div>`;
   }
@@ -218,13 +219,23 @@ function closeSearchModal(){
   if(overlay) overlay.classList.remove('open');
 }
 
+let searchAnalyticsTimer;
 function onSearchInput(e){
   const query = e.target.value;
   performSearch(query);
   renderSearchResults();
+  clearTimeout(searchAnalyticsTimer);
+  if(query.trim() && window.TrainingAnalytics?.isEnabled()){
+    const searchSurface = e.target.id === 'globalSearchInput' ? 'overlay' : 'screen';
+    const resultCount = searchState.resultCount;
+    searchAnalyticsTimer = setTimeout(()=>{
+      window.TrainingAnalytics?.track('search_used', {search_surface:searchSurface, result_count:resultCount});
+    }, 700);
+  }
 }
 
 function clearSearchInput(){
+  clearTimeout(searchAnalyticsTimer);
   const input = document.getElementById('globalSearchInput');
   if(input){
     input.value = '';

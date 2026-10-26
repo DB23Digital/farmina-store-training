@@ -1,321 +1,519 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#1B75BC">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Farmina SA · Staff Training Guide</title>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="assets/icons/favicon.png">
-<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js');
-    });
-  }
-</script>
+  <meta charset="UTF-8">
+  <base href="/training/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1B75BC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Farmina SA · Staff Training Guide</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/training/service-worker.js', {scope:'/training/'});
+      });
+    }
+  </script>
 </head>
+
 <body>
-<div id="app">
+  <div id="app">
+    <header class="apex-brand">
+      <img src="assets/apexlogo-mark.png" width="64" height="64" alt="Apex Pet Group">
+      <p>Training powered by <strong>Apex Pet Group</strong></p>
+      <a class="training-exit" href="/" aria-label="Log out of training and return to Apex Pet Group home">Log out</a>
+    </header>
 
-<!-- CATALOG SCREEN -->
-<div class="screen active" id="s-catalog">
-  <div class="hdr"><div style="display:flex;align-items:center;gap:12px;justify-content:space-between"><div style="display:flex;align-items:center;gap:12px;flex:1"><img src="assets/logo.png" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0" alt="Farmina"><div><h1>Farmina Staff Training</h1><p>Product Knowledge Guide · SA Edition</p></div></div><button type="button" onclick="openSearchModal()" style="background:none;border:none;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;padding:8px;display:flex;align-items:center;justify-content:center">🔍</button></div></div>
-  <div class="sh"><h2>Product Catalogue</h2><p>Filter and explore the full Farmina range</p></div>
-  <div class="sb"><input type="search" id="psearch" placeholder="Search by name or ingredient…" oninput="renderProducts()"></div>
-  <div class="fr">
-    <div class="fgrp">
-      <div class="flbl">Pet</div>
-      <div class="cr" id="fpet">
-        <div class="chip active" onclick="setF('pet','all',this)">All</div>
-        <div class="chip" onclick="setF('pet','dog',this)">🐶 Dog</div>
-        <div class="chip" onclick="setF('pet','cat',this)">🐱 Cat</div>
+    <!-- CATALOG SCREEN -->
+    <div class="screen active" id="s-catalog">
+      <div class="hdr">
+        <div style="display:flex;align-items:center;gap:12px;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:12px;flex:1"><img src="assets/logo.png"
+              style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0" alt="Farmina">
+            <div>
+              <h1>Farmina Staff Training</h1>
+              <p>Product Knowledge Guide · SA Edition</p>
+              <button type="button" id="analyticsPreferences" class="analytics-preferences" hidden>Analytics choices</button>
+            </div>
+          </div><button type="button" onclick="openSearchModal()"
+            style="background:none;border:none;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;padding:8px;display:flex;align-items:center;justify-content:center">🔍</button>
+        </div>
       </div>
-    </div>
-    <div class="fgrp">
-      <div class="flbl">Life Stage</div>
-      <div class="cr" id="fstage">
-        <div class="chip active" onclick="setF('stage','all',this)">All</div>
-        <div class="chip" onclick="setF('stage','puppy',this)">Puppy</div>
-        <div class="chip" onclick="setF('stage','adult',this)">Adult</div>
-        <div class="chip" onclick="setF('stage','light',this)">Light</div>
-        <div class="chip" onclick="setF('stage','kitten',this)">Kitten</div>
-        <div class="chip" onclick="setF('stage','neutered',this)">Neutered</div>
+      <div class="sh">
+        <h2>Product Catalogue</h2>
+        <p>Filter and explore the full Farmina range</p>
       </div>
-    </div>
-    <div class="fgrp">
-      <div class="flbl">Line</div>
-      <div class="cr" id="fline">
-        <div class="chip active" onclick="setF('line','all',this)">All</div>
-        <div class="chip" onclick="setF('line','quinoa',this)">N&D Quinoa</div>
-        <div class="chip" onclick="setF('line','pumpkin',this)">N&D Pumpkin</div>
-        <div class="chip" onclick="setF('line','ocean',this)">N&D Ocean</div>
-        <div class="chip" onclick="setF('line','prime',this)">N&D Prime</div>
-        <div class="chip" onclick="setF('line','lag',this)">N&D Ancestral Grain</div>
+      <section class="buddy-cta" aria-labelledby="buddyCtaTitle">
+        <div>
+          <h3 id="buddyCtaTitle">Helping a customer right now?</h3>
+          <p>Find product starting points in about a minute.</p>
+        </div>
+        <div class="buddy-cta-actions">
+          <button type="button" onclick="startBuddy()">Help a customer <span aria-hidden="true">→</span></button>
+          <button type="button" class="voice-open" id="voiceAgentButton" onclick="loadVoiceAgent()">🎙️ Ask by voice</button>
+        </div>
+      </section>
+      <p class="voice-status" id="voiceAgentStatus" role="status" aria-live="polite">Voice uses ElevenLabs online. Avoid sharing customer details; check the pack label and shelf price.</p>
+      <div class="sb"><input type="search" id="psearch" placeholder="Search by name or ingredient…"
+          oninput="renderProducts()"></div>
+      <div class="fr">
+        <div class="fgrp">
+          <div class="flbl">Pet</div>
+          <div class="cr" id="fpet">
+            <div class="chip active" onclick="setF('pet','all',this)">All</div>
+            <div class="chip" onclick="setF('pet','dog',this)">🐶 Dog</div>
+            <div class="chip" onclick="setF('pet','cat',this)">🐱 Cat</div>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flbl">Life Stage</div>
+          <div class="cr" id="fstage">
+            <div class="chip active" onclick="setF('stage','all',this)">All</div>
+            <div class="chip" onclick="setF('stage','puppy',this)">Puppy</div>
+            <div class="chip" onclick="setF('stage','adult',this)">Adult</div>
+            <div class="chip" onclick="setF('stage','light',this)">Light</div>
+            <div class="chip" onclick="setF('stage','kitten',this)">Kitten</div>
+            <div class="chip" onclick="setF('stage','neutered',this)">Neutered</div>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flbl">Line</div>
+          <div class="cr" id="fline">
+            <div class="chip active" onclick="setF('line','all',this)">All</div>
+            <div class="chip" onclick="setF('line','quinoa',this)">N&D Quinoa</div>
+            <div class="chip" onclick="setF('line','pumpkin',this)">N&D Pumpkin</div>
+            <div class="chip" onclick="setF('line','ocean',this)">N&D Ocean</div>
+            <div class="chip" onclick="setF('line','prime',this)">N&D Prime</div>
+            <div class="chip" onclick="setF('line','lag',this)">N&D Ancestral Grain</div>
+          </div>
+        </div>
       </div>
+      <div class="pg" id="pgrid"></div>
+      <div style="height:12px"></div>
     </div>
-  </div>
-  <div class="pg" id="pgrid"></div>
-  <div style="height:12px"></div>
-</div>
 
-<!-- INGREDIENTS SCREEN -->
-<div class="screen" id="s-ingredients">
-  <div class="hdr"><h1>Ingredient Encyclopedia</h1><p>What's inside · Why it matters</p></div>
-  <div class="sb"><input type="search" id="isearch" placeholder="Search ingredients…" oninput="renderIngredients()"></div>
-  <!-- Mode toggle -->
-  <div class="ing-toggle" id="imodetoggle">
-    <button class="active" onclick="setIngMode('type')">By Type</button>
-    <button onclick="setIngMode('condition')">By Condition</button>
-  </div>
-  <!-- Type filter chips -->
-  <div class="fr" id="ifilter" style="padding-bottom:14px">
-    <div class="chip active" onclick="setIF('all',this)">All</div>
-    <div class="chip" onclick="setIF('protein',this)">🥩 Protein</div>
-    <div class="chip" onclick="setIF('prebiotic',this)">🦠 Prebiotics</div>
-    <div class="chip" onclick="setIF('botanical',this)">🌿 Botanicals</div>
-    <div class="chip" onclick="setIF('grain',this)">🌾 Grains</div>
-    <div class="chip" onclick="setIF('joint',this)">🦴 Joint Health</div>
-    <div class="chip" onclick="setIF('fruit',this)">🍎 Fruits</div>
-  </div>
-  <!-- Condition chips grid -->
-  <div class="condgrid" id="icondfilter">
-    <div class="condchip" onclick="setIC('digestion',this)"><span class="cci">🍏</span><span class="ccl">Digestion</span></div>
-    <div class="condchip" onclick="setIC('joint',this)"><span class="cci">🦴</span><span class="ccl">Joints</span></div>
-    <div class="condchip" onclick="setIC('skin',this)"><span class="cci">🐾</span><span class="ccl">Skin & Coat</span></div>
-    <div class="condchip" onclick="setIC('immune',this)"><span class="cci">🛡️</span><span class="ccl">Immunity</span></div>
-    <div class="condchip" onclick="setIC('brain',this)"><span class="cci">🧠</span><span class="ccl">Brain</span></div>
-    <div class="condchip" onclick="setIC('eye',this)"><span class="cci">👁️</span><span class="ccl">Eyes</span></div>
-    <div class="condchip" onclick="setIC('heart',this)"><span class="cci">❤️</span><span class="ccl">Heart</span></div>
-    <div class="condchip" onclick="setIC('allergy',this)"><span class="cci">🌿</span><span class="ccl">Sensitivities</span></div>
-  </div>
-  <div class="ig" id="igrid"></div>
-  <div id="condpanel"></div>
-  <div style="height:20px"></div>
-</div>
+    <!-- SHOP-FLOOR CONVERSATION GUIDE -->
+    <div class="screen" id="s-buddy">
+      <div class="hdr">
+        <h1>Help a customer</h1>
+        <p>A quick guide to products worth comparing</p>
+      </div>
+      <div class="buddy-container" id="buddyContainer" aria-live="polite"></div>
+    </div>
 
-<!-- QUIZ SCREEN -->
-<div class="screen" id="s-quiz">
-  <div class="hdr"><h1>Knowledge Quiz</h1><p>Test your Farmina expertise</p></div>
-  <div id="qselect">
-    <div class="sh" style="margin-bottom:12px"><h2>Select a Product Line</h2><p>5 questions per line — earn your badge!</p></div>
-    <div class="qls" id="qlines"></div>
-  </div>
-  <div id="qplay" style="display:none;padding-top:14px">
-    <div class="qcon">
-      <div class="qprog">
-        <div class="qpbar"><div class="qpfill" id="qpf" style="width:0%"></div></div>
-        <div class="qptxt" id="qptxt">Question 1 of 5</div>
+    <!-- INGREDIENTS SCREEN -->
+    <div class="screen" id="s-ingredients">
+      <div class="hdr">
+        <h1>Ingredient Encyclopedia</h1>
+        <p>What's inside · Why it matters</p>
       </div>
-      <div class="qqcard" id="qqcard">
-        <h3 id="qtxt"></h3>
-        <div id="qopts"></div>
-        <div id="qfb" style="display:none"></div>
-        <button class="nxt" id="qnxt" onclick="nextQ()">Next Question →</button>
+      <div class="sb"><input type="search" id="isearch" placeholder="Search ingredients…" oninput="renderIngredients()">
       </div>
-      <div class="qres" id="qres">
-        <div class="stars" id="qstars"></div>
-        <div class="rscore" id="qscore"></div>
-        <div class="rlbl">correct out of 5</div>
-        <div class="rmsg" id="qmsg"></div>
-        <div class="rsub" id="qsub"></div>
-        <div class="racts">
-          <button class="bret" onclick="retryQ()">Try Again</button>
-          <button class="bback" onclick="backToLines()">All Quizzes</button>
+      <!-- Mode toggle -->
+      <div class="ing-toggle" id="imodetoggle">
+        <button class="active" onclick="setIngMode('type')">By Type</button>
+        <button onclick="setIngMode('condition')">By Condition</button>
+      </div>
+      <!-- Type filter chips -->
+      <div class="fr" id="ifilter" style="padding-bottom:14px">
+        <div class="chip active" onclick="setIF('all',this)">All</div>
+        <div class="chip" onclick="setIF('protein',this)">🥩 Protein</div>
+        <div class="chip" onclick="setIF('prebiotic',this)">🦠 Prebiotics</div>
+        <div class="chip" onclick="setIF('botanical',this)">🌿 Botanicals</div>
+        <div class="chip" onclick="setIF('grain',this)">🌾 Grains</div>
+        <div class="chip" onclick="setIF('joint',this)">🦴 Joint Health</div>
+        <div class="chip" onclick="setIF('fruit',this)">🍎 Fruits</div>
+      </div>
+      <!-- Condition chips grid -->
+      <div class="condgrid" id="icondfilter">
+        <div class="condchip" onclick="setIC('digestion',this)"><span class="cci">🍏</span><span
+            class="ccl">Digestion</span></div>
+        <div class="condchip" onclick="setIC('joint',this)"><span class="cci">🦴</span><span class="ccl">Joints</span>
+        </div>
+        <div class="condchip" onclick="setIC('skin',this)"><span class="cci">🐾</span><span class="ccl">Skin &
+            Coat</span></div>
+        <div class="condchip" onclick="setIC('immune',this)"><span class="cci">🛡️</span><span
+            class="ccl">Immunity</span></div>
+        <div class="condchip" onclick="setIC('brain',this)"><span class="cci">🧠</span><span class="ccl">Brain</span>
+        </div>
+        <div class="condchip" onclick="setIC('eye',this)"><span class="cci">👁️</span><span class="ccl">Eyes</span>
+        </div>
+        <div class="condchip" onclick="setIC('heart',this)"><span class="cci">❤️</span><span class="ccl">Heart</span>
+        </div>
+        <div class="condchip" onclick="setIC('allergy',this)"><span class="cci">🌿</span><span
+            class="ccl">Sensitivities</span></div>
+      </div>
+      <div class="ig" id="igrid"></div>
+      <div id="condpanel"></div>
+      <div style="height:20px"></div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div class="screen" id="s-quiz">
+      <div class="hdr">
+        <h1>Knowledge Quiz</h1>
+        <p>Test your Farmina expertise</p>
+      </div>
+      <div id="qselect">
+        <div class="sh" style="margin-bottom:12px">
+          <h2>Select a Product Line</h2>
+          <p>5 questions per line — earn your badge!</p>
+        </div>
+        <div class="qls" id="qlines"></div>
+      </div>
+      <div id="qplay" style="display:none;padding-top:14px">
+        <div class="qcon">
+          <div class="qprog">
+            <div class="qpbar">
+              <div class="qpfill" id="qpf" style="width:0%"></div>
+            </div>
+            <div class="qptxt" id="qptxt">Question 1 of 5</div>
+          </div>
+          <div class="qqcard" id="qqcard">
+            <h3 id="qtxt"></h3>
+            <div id="qopts"></div>
+            <div id="qfb" style="display:none"></div>
+            <button class="nxt" id="qnxt" onclick="nextQ()">Next Question →</button>
+          </div>
+          <div class="qres" id="qres">
+            <div class="stars" id="qstars"></div>
+            <div class="rscore" id="qscore"></div>
+            <div class="rlbl">correct out of 5</div>
+            <div class="rmsg" id="qmsg"></div>
+            <div class="rsub" id="qsub"></div>
+            <div class="racts">
+              <button class="bret" onclick="retryQ()">Try Again</button>
+              <button class="bback" onclick="backToLines()">All Quizzes</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- TIPS SCREEN -->
-<div class="screen" id="s-tips">
-  <div class="hdr"><h1>Selling Tips</h1><p>Customer conversations · Objection handling</p></div>
-  <div class="sh" style="margin-bottom:12px"><h2>Instore Guide</h2><p>Scripts and strategies for every conversation</p></div>
-  <div class="tcon" id="tcon"></div>
-  <div style="height:12px"></div>
-</div>
-
-<!-- MATCHER SCREEN -->
-<div class="screen" id="s-matcher">
-  <div class="hdr"><h1>Sensitivity Matcher</h1><p>Diagnose needs · Find the right product</p></div>
-  <div style="padding:14px 16px">
-    <div id="matcherContainer"></div>
-  </div>
-</div>
-
-<!-- SEARCH SCREEN -->
-<div class="screen" id="s-search">
-  <div class="hdr"><h1>Knowledge Base</h1><p>Search everything</p></div>
-  <div style="padding:14px 16px">
-    <input type="text" id="screenSearchInput" placeholder="Search products, ingredients, tips, quiz..." style="width:100%;padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--ww);outline:none;margin-bottom:12px" oninput="onSearchInput(event)">
-    <div id="screenSearchResultsContainer"></div>
-  </div>
-</div>
-
-<!-- INGREDIENT MODAL -->
-<div class="overlay" id="overlay" onclick="closeModal(event)">
-  <div class="modal" id="mcontent"></div>
-</div>
-
-<!-- SEARCH OVERLAY (GLOBAL) -->
-<div class="overlay" id="searchOverlay" onclick="if(event.target === this) closeSearchModal()" style="background:rgba(0,0,0,.7)">
-  <div class="search-modal" onclick="event.stopPropagation()">
-    <div class="search-modal-header">
-      <div style="position:relative;flex:1">
-        <input type="text" id="globalSearchInput" placeholder="Search products, ingredients, tips..." style="width:100%;padding:12px 44px 12px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;background:var(--ww);outline:none" oninput="onSearchInput(event)">
-        <button type="button" onclick="clearSearchInput()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px">✕</button>
+    <!-- TIPS SCREEN -->
+    <div class="screen" id="s-tips">
+      <div class="hdr">
+        <h1>Selling Tips</h1>
+        <p>Customer conversations · Objection handling</p>
       </div>
-      <button type="button" onclick="closeSearchModal()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;margin-left:12px">✕</button>
-    </div>
-    <div class="search-modal-results" id="searchResultsContainer"></div>
-  </div>
-</div>
-
-<!-- CALENDAR SCREEN -->
-<div class="screen" id="s-calc">
-  <div class="hdr"><div style="display:flex;align-items:center;gap:12px"><div style="flex:1"><h1>Cost Calculator</h1><p>Daily feeding cost · Bag duration</p></div></div></div>
-  <div style="padding:18px 20px 4px"><h2 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--gd)">Daily Feeding Cost</h2><p style="font-size:12px;color:var(--muted);margin-top:3px">Enter pet details and bag info to calculate real cost per day</p></div>
-
-  <div style="padding:14px 16px 0;display:flex;flex-direction:column;gap:11px">
-
-    <!-- Pet Type -->
-    <div class="cfield">
-      <label>Pet Type</label>
-      <select id="cPetType" onchange="updateProductList();calcUpdate()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
-        <option value="dog">🐶 Dog</option>
-        <option value="cat">🐱 Cat</option>
-      </select>
-    </div>
-
-    <!-- Weight -->
-    <div class="cfield">
-      <label>Pet Weight (kg)</label>
-      <input type="number" id="cWeight" min="0.5" max="80" step="0.5" placeholder="e.g. 20" oninput="calcUpdate()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none">
-    </div>
-
-    <!-- Product selector -->
-    <div class="cfield">
-      <label>Formula (optional)</label>
-      <select id="cProductSelect" onchange="onCalcProductChange()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
-        <option value="">Custom price or choose a product</option>
-      </select>
-    </div>
-
-    <!-- Bag Size + Price row -->
-    <div style="display:flex;gap:10px">
-      <div style="flex:1">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px">Bag Size</div>
-        <select id="cBagSize" onchange="onCalcBagSizeChange()" style="width:100%;padding:11px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
-          <optgroup label="Dog">
-            <option value="2500">2.5 kg</option>
-            <option value="7000" selected>7 kg</option>
-            <option value="10000">10 kg</option>
-            <option value="12000">12 kg</option>
-
-          </optgroup>
-          <optgroup label="Cat">
-            <option value="300">300 g</option>
-            <option value="1500">1.5 kg</option>
-            <option value="5000">5 kg</option>
-          </optgroup>
-        </select>
+      <div class="sh" style="margin-bottom:12px">
+        <h2>Instore Guide</h2>
+        <p>Scripts and strategies for every conversation</p>
       </div>
-      <div style="flex:1">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px">Bag Price (R)</div>
-        <input type="number" id="cPrice" min="0" step="1" placeholder="e.g. 1049" oninput="calcUpdate()" style="width:100%;padding:11px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--ww);outline:none">
+      <div class="tcon" id="tcon"></div>
+      <div style="height:12px"></div>
+    </div>
+
+    <!-- MATCHER SCREEN -->
+    <div class="screen" id="s-matcher">
+      <div class="hdr">
+        <h1>Sensitivity Matcher</h1>
+        <p>Diagnose needs · Find the right product</p>
+      </div>
+      <div style="padding:14px 16px">
+        <div id="matcherContainer"></div>
       </div>
     </div>
 
-    <!-- Presets -->
-    <div>
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:7px">Bag SKU pricing</div>
-      <div id="cProductSkuButtons" style="display:flex;gap:8px;flex-wrap:wrap;min-height:40px"></div>
-      <div id="cProductSkuHint" style="font-size:10px;color:var(--muted);margin-top:6px">Select a product first, then choose a bag to auto-fill price from the current SKU.</div>
+    <!-- SEARCH SCREEN -->
+    <div class="screen" id="s-search">
+      <div class="hdr">
+        <h1>Knowledge Base</h1>
+        <p>Search everything</p>
+      </div>
+      <div style="padding:14px 16px">
+        <input type="text" id="screenSearchInput" placeholder="Search products, ingredients, tips, quiz..."
+          style="width:100%;padding:11px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--ww);outline:none;margin-bottom:12px"
+          oninput="onSearchInput(event)">
+        <div id="screenSearchResultsContainer"></div>
+      </div>
     </div>
 
-    <!-- Run button -->
-    <button onclick="runCalc()" style="width:100%;background:var(--gm);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:2px">Calculate →</button>
+    <!-- INGREDIENT MODAL -->
+    <div class="overlay" id="overlay" onclick="closeModal(event)">
+      <div class="modal" id="mcontent"></div>
+    </div>
 
-    <!-- Result -->
-    <div id="calcResult" style="display:none;background:var(--gd);border-radius:16px;padding:18px;margin-top:4px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
-          <div id="crPortion" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">grams / day</div>
+    <!-- SEARCH OVERLAY (GLOBAL) -->
+    <div class="overlay" id="searchOverlay" onclick="if(event.target === this) closeSearchModal()"
+      style="background:rgba(0,0,0,.7)">
+      <div class="search-modal" onclick="event.stopPropagation()">
+        <div class="search-modal-header">
+          <div style="position:relative;flex:1">
+            <input type="text" id="globalSearchInput" placeholder="Search products, ingredients, tips..."
+              style="width:100%;padding:12px 44px 12px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;background:var(--ww);outline:none"
+              oninput="onSearchInput(event)">
+            <button type="button" onclick="clearSearchInput()"
+              style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px">✕</button>
+          </div>
+          <button type="button" onclick="closeSearchModal()"
+            style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;margin-left:12px">✕</button>
         </div>
-        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
-          <div id="crCostDay" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">cost / day</div>
-        </div>
-        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
-          <div id="crDays" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">days / bag</div>
-        </div>
-        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
-          <div id="crMonth" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">per month</div>
+        <div class="search-modal-results" id="searchResultsContainer"></div>
+      </div>
+    </div>
+
+    <!-- CALENDAR SCREEN -->
+    <div class="screen" id="s-calc">
+      <div class="hdr">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="flex:1">
+            <h1>Cost Calculator</h1>
+            <p>Daily feeding cost · Bag duration</p>
+          </div>
         </div>
       </div>
-      <div id="crNote" style="font-size:11px;color:rgba(255,255,255,.65);text-align:center;line-height:1.6;border-top:1px solid rgba(255,255,255,.15);padding-top:10px"></div>
+      <div style="padding:18px 20px 4px">
+        <h2 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--gd)">Daily Feeding Cost</h2>
+        <p style="font-size:12px;color:var(--muted);margin-top:3px">Enter pet details and bag info to calculate real
+          cost per day</p>
+      </div>
+
+      <div style="padding:14px 16px 0;display:flex;flex-direction:column;gap:11px">
+
+        <!-- Pet Type -->
+        <div class="cfield">
+          <label>Pet Type</label>
+          <select id="cPetType" aria-label="Pet type" onchange="onCalcPetChange()"
+            style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
+            <option value="dog">🐶 Dog</option>
+            <option value="cat">🐱 Cat</option>
+          </select>
+        </div>
+
+        <!-- Weight -->
+        <div class="cfield">
+          <label>Pet Weight (kg)</label>
+          <input type="number" id="cWeight" aria-label="Current weight in kilograms (adult estimate only)" min="0.5" max="80" step="0.5" placeholder="e.g. 20" oninput="calcUpdate()"
+            style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none">
+        </div>
+
+        <!-- Product selector -->
+        <div class="cfield">
+          <label>Formula (optional)</label>
+          <select id="cProductSelect" aria-label="Formula" onchange="onCalcProductChange()"
+            style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
+            <option value="">Custom price or choose a product</option>
+          </select>
+        </div>
+
+        <!-- Metabolic Energy -->
+        <div class="cfield" id="cMEContainer">
+          <label>Metabolic Energy (Kcal/Kg)</label>
+          <input type="number" id="cME" aria-label="Metabolic energy in kcal per kilogram" value="3997" min="1" step="1" placeholder="e.g. 3997" oninput="calcUpdate()"
+            style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none">
+        </div>
+
+        <!-- Bag Size + Price row -->
+        <div style="display:flex;gap:10px">
+          <div style="flex:1">
+            <div
+              style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px">
+              Bag Size</div>
+            <select id="cBagSize" aria-label="Bag size" onchange="onCalcBagSizeChange()"
+              style="width:100%;padding:11px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
+              <optgroup label="Dog">
+                <option value="2500">2.5 kg</option>
+                <option value="7000" selected>7 kg</option>
+                <option value="10000">10 kg</option>
+                <option value="12000">12 kg</option>
+
+              </optgroup>
+              <optgroup label="Cat">
+                <option value="300">300 g</option>
+                <option value="1500">1.5 kg</option>
+                <option value="5000">5 kg</option>
+              </optgroup>
+            </select>
+          </div>
+          <div style="flex:1">
+            <div
+              style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px">
+              Bag Price (R)</div>
+            <input type="number" id="cPrice" aria-label="Bag price in rand" min="0.01" step="0.01" placeholder="e.g. 1049" oninput="calcUpdate()"
+              style="width:100%;padding:11px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--ww);outline:none">
+          </div>
+        </div>
+
+        <!-- Presets -->
+        <div>
+          <div
+            style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:7px">
+            Bag SKU pricing</div>
+          <div id="cProductSkuButtons" style="display:flex;gap:8px;flex-wrap:wrap;min-height:40px"></div>
+          <div id="cProductSkuHint" style="font-size:10px;color:var(--muted);margin-top:6px">Select a product first,
+            then choose a bag to auto-fill price from the current SKU.</div>
+        </div>
+
+        <div class="calc-field">
+          <label for="cFeedMethod">Feeding basis</label>
+          <select id="cFeedMethod" onchange="updateFeedingMode();calcUpdate()">
+            <option value="estimate">Adult formula estimate</option>
+            <option value="guide" id="cGuideOption" disabled>Supplied puppy guide table</option>
+          </select>
+        </div>
+        <div id="cGuideFields" class="calc-guide-fields" hidden>
+          <div class="calc-field" id="cGuideBreedField" hidden>
+            <label for="cGuideBreed">Breed size for supplied guide</label>
+            <select id="cGuideBreed" onchange="calcUpdate()">
+              <option value="">Choose breed size</option><option value="mini">Mini</option><option value="medium">Medium</option><option value="maxi">Maxi</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label for="cAgeMonths">Age (months)</label>
+            <select id="cAgeMonths" onchange="populateGuideWeights();calcUpdate()"><option value="">Choose age</option></select>
+          </div>
+          <div class="calc-field">
+            <label for="cMatureWeight">Expected adult weight (kg)</label>
+            <select id="cMatureWeight" onchange="calcUpdate()"><option value="">Choose weight</option></select>
+          </div>
+        </div>
+        <p id="cGuideNote" class="calc-source-note"></p>
+        <p id="calcError" class="calc-error" role="alert" hidden></p>
+
+        <!-- Run button -->
+        <button onclick="runCalc()"
+          style="width:100%;background:var(--gm);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:2px">Calculate
+          →</button>
+
+        <!-- Result -->
+        <div id="calcResult" style="display:none;background:var(--gd);border-radius:16px;padding:18px;margin-top:4px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
+              <div id="crPortion" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
+              <div
+                style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">
+                grams / day</div>
+            </div>
+            <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
+              <div id="crCostDay" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
+              <div
+                style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">
+                cost / day</div>
+            </div>
+            <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
+              <div id="crDays" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
+              <div
+                style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">
+                days / bag</div>
+            </div>
+            <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px;text-align:center">
+              <div id="crMonth" style="font-size:24px;font-weight:700;color:#fff;line-height:1">–</div>
+              <div
+                style="font-size:9px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px">
+                per month</div>
+            </div>
+          </div>
+          <div id="crNote"
+            style="font-size:11px;color:rgba(255,255,255,.65);text-align:center;line-height:1.6;border-top:1px solid rgba(255,255,255,.15);padding-top:10px">
+          </div>
+        </div>
+
+        <!-- Comparison banner -->
+        <div
+          style="background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--sh)">
+          <div
+            style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gold);margin-bottom:8px">
+            💡 Value Context</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">N&D Ancestral Adult is <strong>38% lower cost
+              per day</strong> than comparable premium brands and by far the <strong>most cost-effective food available
+              in South Africa</strong> — with 60–65% more meat than leading competitors on a per-day feeding cost basis.
+          </div>
+        </div>
+
+      </div>
+      <div style="height:20px"></div>
     </div>
 
-    <!-- Comparison banner -->
-    <div style="background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--sh)">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gold);margin-bottom:8px">💡 Value Context</div>
-      <div style="font-size:13px;color:var(--text);line-height:1.6">N&D Ancestral Adult is <strong>38% lower cost per day</strong> than comparable premium brands and by far the <strong>most cost-effective food available in South Africa</strong> — with 60–65% more meat than leading competitors on a per-day feeding cost basis.</div>
-    </div>
-
+    <!-- BOTTOM NAV -->
+    <nav>
+      <button class="active" onclick="showScreen('catalog',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        Products
+      </button>
+      <button onclick="showScreen('ingredients',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+          <path d="M12 8v4l3 3" />
+        </svg>
+        Ingredients
+      </button>
+      <button onclick="showScreen('quiz',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M9 12l2 2 4-4" />
+          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+        </svg>
+        Quiz
+      </button>
+      <button onclick="showScreen('calc',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="4" y="2" width="16" height="20" rx="2" />
+          <path d="M8 6h8M8 10h8M8 14h4" />
+        </svg>
+        Calculator
+      </button>
+      <button onclick="showScreen('tips',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path
+            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+        Tips
+      </button>
+      <button onclick="showScreen('matcher',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        Matcher
+      </button>
+      <button onclick="showScreen('search',this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        Search
+      </button>
+    </nav>
   </div>
-  <div style="height:20px"></div>
-</div>
 
-<!-- BOTTOM NAV -->
-<nav>
-  <button class="active" onclick="showScreen('catalog',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    Products
-  </button>
-  <button onclick="showScreen('ingredients',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/></svg>
-    Ingredients
-  </button>
-  <button onclick="showScreen('quiz',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-    Quiz
-  </button>
-  <button onclick="showScreen('calc',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/></svg>
-    Calculator
-  </button>
-  <button onclick="showScreen('tips',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-    Tips
-  </button>
-  <button onclick="showScreen('matcher',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    Matcher
-  </button>
-  <button onclick="showScreen('search',this)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    Search
-  </button>
-</nav>
-</div>
+  <aside id="analyticsConsent" class="analytics-consent" aria-labelledby="analyticsConsentTitle" hidden>
+    <h2 id="analyticsConsentTitle">Help improve staff training</h2>
+    <p>Allow Google Analytics to measure screens visited, product views and training activities, including quiz scores. We do not send your search text or personal details. You can change your choice using Analytics choices.</p>
+    <div class="analytics-actions">
+      <button type="button" id="analyticsAccept">Allow analytics</button>
+      <button type="button" id="analyticsDecline">No thanks</button>
+    </div>
+  </aside>
 
-<script src="js/farmina-data.js"></script>
-<script src="js/products.js"></script>
-<script src="js/ingredients.js"></script>
-<script src="js/quiz.js"></script>
-<script src="js/tips.js"></script>
-<script src="js/calculator.js"></script>
-<script src="js/matcher.js"></script>
-<script src="js/search.js"></script>
-<script src="js/app.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/farmina-data.js"></script>
+  <script src="js/catalog-links.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/product-images.js"></script>
+  <script src="js/ingredients.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/tips.js"></script>
+  <script src="js/feeding.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/matcher.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/buddy.js"></script>
+  <script src="js/voice-agent.js"></script>
 </body>
+
 </html>

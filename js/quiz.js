@@ -103,6 +103,7 @@ function renderQuizLines(){
 
 function startQuiz(line){
   currentLine=line; currentQ=0; score=0; answered=false;
+  window.TrainingAnalytics?.track('quiz_start', {quiz_line:line, question_count:QUIZZES[line].questions.length});
   document.getElementById('qselect').style.display='none';
   document.getElementById('qplay').style.display='block';
   document.getElementById('qres').classList.remove('on');
@@ -156,7 +157,9 @@ function nextQ(){
 }
 
 function showResult(){
+  if(quizDone[currentLine]===score && document.getElementById('qres').classList.contains('on')) return;
   quizDone[currentLine]=score;
+  window.TrainingAnalytics?.track('quiz_complete', {quiz_line:currentLine, score, question_count:QUIZZES[currentLine].questions.length});
   document.getElementById('qqcard').style.display='none';
   const res=document.getElementById('qres');
   res.classList.add('on');

@@ -1,71 +1,58 @@
-// ═══════════════════════════════════════
-// CALCULATOR LOGIC
-// Feeding guide formula: metabolic body weight × species factor
-// If feeding-guides.txt is available, use it for product-specific, weight-based feeding calculations.
-// Otherwise, fallback to formula: Dogs: ~22.3 × weight^0.75 | Cats: ~16.5 × weight^0.75
-
-let FEEDING_GUIDES = null;
-
-// Load feeding guides CSV (optional — falls back to formula if not present)
-fetch('feeding-guides.txt')
-  .then(r => {
-    if (!r.ok) return null;  // file not found — use formula fallback
-    return r.text();
-  })
-  .then(txt => {
-    if (!txt) return;
-    FEEDING_GUIDES = txt.split('\n').slice(1)
-      .filter(line => line.trim())
-      .map(line => {
-        const [Product, Weight, Feeding_Dosage_Grams] = line.split(',');
-        return {Product: Product?.trim(), Weight: Weight?.trim(), Feeding_Dosage_Grams: parseFloat(Feeding_Dosage_Grams)};
-      })
-      .filter(row => row.Product && !isNaN(row.Feeding_Dosage_Grams));
-  })
-  .catch(() => { /* feeding-guides.txt not available — using formula fallback */ });
-// ═══════════════════════════════════════
-
-function calcPortion(petType, weightKg, productName, maturityStr){
-  // Try to use feeding guide data if available
-  if (FEEDING_GUIDES && productName) {
-    // Try to find the closest match for product and weight
-    // maturityStr is optional, e.g. "Maturity=10kg"
-    let best = null;
-    let bestScore = -Infinity;
-    FEEDING_GUIDES.forEach(row => {
-      // Basic product match (ignore case)
-      if (row.Product && productName && row.Product.toLowerCase().includes(productName.toLowerCase())) {
-        // Try to match weight/age string
-        let score = 1;
-        if (maturityStr && row.Weight && row.Weight.includes(maturityStr)) score += 2;
-        // Try to extract kg from row.Weight
-        const kgMatch = row.Weight && row.Weight.match(/(\d+)kg/);
-        if (kgMatch && Math.abs(parseInt(kgMatch[1]) - weightKg) < 2) score += 1;
-        if (score > bestScore) {
-          bestScore = score;
-          best = row;
-        }
-      }
-    });
-    if (best) return best.Feeding_Dosage_Grams;
-  }
-  // Fallback to formula
-  const factor = petType === 'cat' ? 16.5 : 22.3;
-  return Math.round(factor * Math.pow(weightKg, 0.75));
+function selectedGuide() {
+  const id = document.getElementById('cProductSelect')?.value;
+  return FEEDING_GUIDES?.guides.find(guide=>guide.product_id === id) || null;
 }
 
-function updateProductList(){
+function populateGuideWeights() {
+  const guide = selectedGuide();
+  const age = Number(document.getElementById('cAgeMonths').value);
+  const select = document.getElementById('cMatureWeight');
+  const previous = select.value;
+  const weights = (guide?.rows || []).filter(row=>row.age_months === age && !row.adult_food).map(row=>row.mature_weight_kg);
+  select.innerHTML = '<option value="">Choose weight</option>' + weights.map(weight=>`<option value="${weight}">${weight} kg</option>`).join('');
+  select.value = weights.includes(Number(previous)) ? previous : '';
+}
+
+function updateFeedingMode(reset = false) {
+  const select = document.getElementById('cFeedMethod');
+  if(!select) return;
+  const productId = document.getElementById('cProductSelect').value;
+  const link = GUIDE_LINKS[productId];
+  document.getElementById('cGuideOption').disabled = !link || feedingGuideStatus !== 'ready';
+  if(reset) select.value = link ? 'guide' : 'estimate';
+  const guideMode = select.value === 'guide';
+  document.getElementById('cGuideFields').hidden = !guideMode;
+  document.getElementById('cGuideBreedField').hidden = !guideMode || productId !== 'P0020';
+  if(reset) document.getElementById('cGuideBreed').value = '';
+  document.getElementById('cWeight').disabled = guideMode;
+  document.getElementById('cMEContainer').hidden = guideMode || document.getElementById('cPetType').value === 'cat';
+  document.getElementById('cGuideNote').textContent = link
+    ? `${link.label}. ${feedingGuideStatus === 'ready' ? 'Choose an exact table age and expected adult weight. Adult-food cells and unlisted combinations have no puppy dosage.' : 'Supplied guide ' + feedingGuideStatus + '.'}`
+    : 'No supplied table is linked to this formula. Adult estimates use the existing calculation; use the product’s own instructions for puppies and kittens.';
+  if(reset || !document.getElementById('cAgeMonths').options?.length || document.getElementById('cAgeMonths').options.length === 1) {
+    const guide = selectedGuide();
+    const ageSelect = document.getElementById('cAgeMonths');
+    const previous = reset ? '' : ageSelect.value;
+    const ages = [...new Set((guide?.rows || []).map(row=>row.age_months))].sort((a,b)=>a-b);
+    ageSelect.innerHTML = '<option value="">Choose age</option>' + ages.map(age=>`<option value="${age}">${age} months</option>`).join('');
+    ageSelect.value = ages.includes(Number(previous)) ? previous : '';
+    populateGuideWeights();
+  }
+}
+
+function updateProductList() {
   const sel = document.getElementById('cProductSelect');
   const petTypeSelect = document.getElementById('cPetType');
-  if(!sel || !petTypeSelect) return;
-  
+  if (!sel || !petTypeSelect) return;
+
   const selectedPet = petTypeSelect.value; // 'dog' or 'cat'
+
   sel.innerHTML = '<option value="">Custom price or choose a product</option>';
-  
-  if(typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') return;
-  
+
+  if (typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') return;
+
   // Filter products by selected pet type
-  FARMINA_SCRAPED_PRODUCTS.filter(p => p.species === selectedPet).forEach(p=>{
+  FARMINA_SCRAPED_PRODUCTS.filter(p => p.species === selectedPet && validatedSourceIds.has(p.product_id)).forEach(p => {
     const opt = document.createElement('option');
     const petIcon = p.species === 'cat' ? '🐱' : '🐶';
     opt.value = p.product_id;
@@ -74,23 +61,32 @@ function updateProductList(){
   });
 }
 
-function initCalculator(){
+let calculatorInitialised = false;
+function initCalculator() {
+  if(calculatorInitialised) return;
+  calculatorInitialised = true;
   updateProductList();
   setGenericBagOptions();
+  updateFeedingMode(true);
 }
 
-function getCalcProduct(){
+function onCalcPetChange() {
+  updateProductList();
+  onCalcProductChange();
+}
+
+function getCalcProduct() {
   const productId = document.getElementById('cProductSelect')?.value;
-  if(!productId || typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') return null;
-  return FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id===productId) || null;
+  if (!productId || typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') return null;
+  return FARMINA_SCRAPED_PRODUCTS.find(p => p.product_id === productId && validatedSourceIds.has(p.product_id)) || null;
 }
 
-function renderCalcSkuButtons(product){
+function renderCalcSkuButtons(product) {
   const container = document.getElementById('cProductSkuButtons');
-  if(!container) return;
+  if (!container) return;
   container.innerHTML = '';
-  if(!product || !Array.isArray(product.skus) || !product.skus.length) return;
-  product.skus.forEach(sku=>{
+  if (!product || !Array.isArray(product.skus) || !product.skus.length) return;
+  product.skus.forEach(sku => {
     const button = document.createElement('button');
     const sizeLabel = sku.pack_size_unit === 'g'
       ? `${parseInt(sku.pack_size_grams)} g`
@@ -98,11 +94,11 @@ function renderCalcSkuButtons(product){
     button.type = 'button';
     button.textContent = `${sizeLabel} · R${sku.price_current}`;
     button.style.cssText = 'padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--surf);font-size:12px;font-weight:600;cursor:pointer;color:var(--gd);box-shadow:var(--sh)';
-    button.addEventListener('click', ()=>{
+    button.addEventListener('click', () => {
       const bagSelect = document.getElementById('cBagSize');
-      if(!bagSelect) return;
-      const opt = Array.from(bagSelect.options).find(o=>o.value === String(sku.pack_size_grams));
-      if(opt){
+      if (!bagSelect) return;
+      const opt = Array.from(bagSelect.options).find(o => o.value === String(sku.pack_size_grams));
+      if (opt) {
         bagSelect.value = opt.value;
         document.getElementById('cPrice').value = sku.price_current;
         calcUpdate();
@@ -112,26 +108,27 @@ function renderCalcSkuButtons(product){
   });
 }
 
-function onCalcProductChange(){
+function onCalcProductChange() {
   const product = getCalcProduct();
   const bagSelect = document.getElementById('cBagSize');
   const priceInput = document.getElementById('cPrice');
   const petTypeSelect = document.getElementById('cPetType');
-  if(!bagSelect || !priceInput) return;
-  if(!product){
+  if (!bagSelect || !priceInput) return;
+  if (!product) {
     setGenericBagOptions();
     renderCalcSkuButtons(null);
     priceInput.value = '';
+    updateFeedingMode(true);
     calcUpdate();
     return;
   }
 
-  if(petTypeSelect && product.species){
+  if (petTypeSelect && product.species) {
     petTypeSelect.value = product.species;
   }
 
   bagSelect.innerHTML = '';
-  product.skus.forEach(sku=>{
+  product.skus.forEach(sku => {
     const opt = document.createElement('option');
     opt.value = String(sku.pack_size_grams || sku.pack_size_value || '');
     opt.dataset.price = sku.price_current || '';
@@ -142,99 +139,97 @@ function onCalcProductChange(){
     bagSelect.appendChild(opt);
   });
 
-  if(bagSelect.options.length){
+  if (bagSelect.options.length) {
     bagSelect.selectedIndex = 0;
     const selected = bagSelect.selectedOptions[0];
-    if(selected && selected.dataset.price){
+    if (selected && selected.dataset.price) {
       priceInput.value = selected.dataset.price;
     }
   }
 
   renderCalcSkuButtons(product);
+  updateFeedingMode(true);
   calcUpdate();
 }
 
-function onCalcBagSizeChange(){
+function onCalcBagSizeChange() {
   const bagSelect = document.getElementById('cBagSize');
   const priceInput = document.getElementById('cPrice');
-  if(!bagSelect || !priceInput) return;
+  if (!bagSelect || !priceInput) return;
   const selected = bagSelect.selectedOptions[0];
-  if(selected && selected.dataset.price){
+  if (selected && selected.dataset.price) {
     priceInput.value = selected.dataset.price;
   }
   calcUpdate();
 }
 
-function setGenericBagOptions(){
+function setGenericBagOptions() {
   const bagSelect = document.getElementById('cBagSize');
-  if(!bagSelect) return;
+  if (!bagSelect) return;
   bagSelect.innerHTML =
     '<optgroup label="Dog">' +
-      '<option value="2500">2.5 kg</option>' +
-      '<option value="7000" selected>7 kg</option>' +
-      '<option value="10000">10 kg</option>' +
-      '<option value="12000">12 kg</option>' +
+    '<option value="2500">2.5 kg</option>' +
+    '<option value="7000" selected>7 kg</option>' +
+    '<option value="10000">10 kg</option>' +
+    '<option value="12000">12 kg</option>' +
     '</optgroup>' +
     '<optgroup label="Cat">' +
-      '<option value="300">300 g</option>' +
-      '<option value="1500">1.5 kg</option>' +
-      '<option value="5000">5 kg</option>' +
+    '<option value="300">300 g</option>' +
+    '<option value="1500">1.5 kg</option>' +
+    '<option value="5000">5 kg</option>' +
     '</optgroup>';
 }
 
 window.addEventListener('load', initCalculator);
 
-function calcBagPrice(){
+function calcBagPrice() {
   calcUpdate();
 }
 
-function calcUpdate(){
+function calcUpdate() {
+  const error = document.getElementById('calcError');
+  if(error) error.hidden = true;
   const result = document.getElementById('calcResult');
-  if(result){
+  if (result) {
     result.classList.remove('show');
     result.style.display = 'none';
   }
 }
 
-function runCalc(){
-  const petType = document.getElementById('cPetType').value;
-  const weight = parseFloat(document.getElementById('cWeight').value);
-  const bagSizeG = parseInt(document.getElementById('cBagSize').value);
-  const price = parseFloat(document.getElementById('cPrice').value);
-
-  if(!weight || weight <= 0 || !price || price <= 0) {
-    alert('Please enter a valid pet weight and bag price to calculate.');
-    return;
+function runCalc() {
+  calcUpdate();
+  try {
+    const petType = document.getElementById('cPetType').value;
+    const weight = Number(document.getElementById('cWeight').value);
+    const bagSizeG = Number(document.getElementById('cBagSize').value);
+    const price = Number(document.getElementById('cPrice').value);
+    const meValue = Number(document.getElementById('cME').value);
+    if(!Number.isFinite(price) || price <= 0 || !Number.isFinite(bagSizeG) || bagSizeG <= 0) throw Error('Enter a positive bag size and bag price.');
+    const productId = document.getElementById('cProductSelect').value;
+    const mode = document.getElementById('cFeedMethod').value || 'estimate';
+    const feeding = getFeedingResult({mode,petType,weightKg:weight,meValue,productId,
+      ageMonths:Number(document.getElementById('cAgeMonths').value),
+      matureWeightKg:Number(document.getElementById('cMatureWeight').value),
+      breedSize:document.getElementById('cGuideBreed').value});
+    const portion = feeding.grams;
+    const costPerDay = price / bagSizeG * portion;
+    if(!Number.isFinite(costPerDay) || costPerDay <= 0) throw Error('These inputs do not produce a valid daily cost.');
+    document.getElementById('crPortion').textContent = portion + 'g';
+    document.getElementById('crCostDay').textContent = 'R' + costPerDay.toFixed(2);
+    document.getElementById('crDays').textContent = Math.floor(bagSizeG / portion);
+    document.getElementById('crMonth').textContent = 'R' + Math.round(costPerDay * 30.4);
+    const sourceNote = feeding.source === 'guide'
+      ? `Supplied guide: ${feeding.label}. Age ${feeding.ageMonths} months; expected adult weight ${feeding.matureWeightKg}kg. <a href="${feeding.pdf}" target="_blank" rel="noopener" style="color:inherit">View source PDF</a>.`
+      : `Adult formula estimate for a ${weight}kg ${petType}. Confirm against the selected product’s feeding instructions.`;
+    const formulaNote = feeding.source === 'estimate' && petType === 'dog'
+      ? ` Existing calculation: 63.3 × ${weight}^0.75 kcal/day; ME ${meValue} kcal/kg.` : '';
+    document.getElementById('crNote').innerHTML = sourceNote + formulaNote +
+      `<br>${bagSizeG/1000}kg bag at R${price} = R${costPerDay.toFixed(2)}/day.<br>Prices: June 2026 snapshot; confirm current RRP.`;
+    document.getElementById('calcResult').style.display = 'block';
+    window.TrainingAnalytics?.track('calculator_used', {pet_type:petType, product_id:productId || 'custom'});
+  } catch(error) {
+    const message = document.getElementById('calcError');
+    message.textContent = error.message;
+    message.hidden = false;
   }
-
-  // Try to get selected product name and maturity string for feeding guide lookup
-  let productName = null;
-  let maturityStr = null;
-  const selectedProductId = document.getElementById('cProductSelect')?.value;
-  const selectedProduct = (typeof FARMINA_SCRAPED_PRODUCTS !== 'undefined' && selectedProductId)
-    ? FARMINA_SCRAPED_PRODUCTS.find(p => p.product_id === selectedProductId)
-    : null;
-  if(selectedProduct){
-    productName = selectedProduct.product_name || selectedProduct.line || null;
-    // Try to extract maturity string from product name or UI (future: add UI for age/maturity)
-    // For now, leave null or parse from feeding guide if needed
-  }
-
-  const portion = calcPortion(petType, weight, productName, maturityStr);
-  const bagSizeKg = bagSizeG / 1000;
-  const costPerG = price / bagSizeG;
-  const costPerDay = costPerG * portion;
-  const daysPerBag = Math.floor(bagSizeG / portion);
-  const monthlyCost = costPerDay * 30.4;
-
-  document.getElementById('crPortion').textContent = portion + 'g';
-  document.getElementById('crCostDay').textContent = 'R' + costPerDay.toFixed(2);
-  document.getElementById('crDays').textContent = daysPerBag;
-  document.getElementById('crMonth').textContent = 'R' + Math.round(monthlyCost);
-  document.getElementById('crNote').innerHTML =
-    `Based on ${FEEDING_GUIDES && productName ? 'official feeding guide' : 'mid-range formula'} for a ${weight}kg ${petType}.<br>` +
-    `${bagSizeKg}kg bag @ R${price} = <strong style="color:#fff">R${costPerDay.toFixed(2)}/day</strong> · Individual pets vary — adjust for healthy body weight.<br>` +
-    `${selectedProduct ? `Product: ${selectedProduct.line} · ${selectedProduct.product_name}<br>` : ''}` +
-    `⚠️ Prices subject to change in 2026.`;
-  document.getElementById('calcResult').style.display = 'block';
 }

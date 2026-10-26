@@ -17,7 +17,8 @@ function showScreen(name, btn){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('s-'+name).classList.add('active');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  window.TrainingAnalytics?.screen(name);
   
   // Initialize screen-specific logic
   if(name === 'matcher') initMatcher();
@@ -82,16 +83,18 @@ function renderProducts(){
     const hlHtml = p.highlights.map(h=>`<span class="ht">${h}</span>`).join('');
     const skuOptionsHtml = renderSkuOptions(p);
     const selectedSku = getSelectedSku(p);
+    const shot = getProductShot(p, selectedSku);
     const selectedPriceLabel = selectedSku ? `R${selectedSku.price_current.toFixed(0)}` : (p.scraped_price_label || '');
     const selectedSizeLabel = selectedSku ? (selectedSku.pack_size_unit==='g' ? `${parseInt(selectedSku.pack_size_grams)} g` : `${selectedSku.pack_size_value}${selectedSku.pack_size_unit}`) : '';
     const priceHtml = selectedSku ?
       `<div class="price-summary" id="price-${p.id}">${selectedPriceLabel}</div>` +
       `<div class="price-summary-size" id="size-${p.id}">${selectedSizeLabel}</div>${skuOptionsHtml}` :
-      (p.scraped_price_label ? `<div class="price-summary">${p.scraped_price_label}</div>` : '');
+      (p.catalog_error ? '<div class="price-summary">Pricing unavailable — catalogue needs review</div>' :
+        (p.scraped_price_label ? `<div class="price-summary">${p.scraped_price_label}</div>` : ''));
     html += `
 <div class="pc" id="pc-${p.id}">
   <div class="ch" onclick="toggleCard('${p.id}')">
-    <div class="ci">${p.icon}</div>
+    ${shot ? `<img class="product-shot" id="shot-${p.id}" src="${shot.src}" alt="${shot.alt}" width="52" height="78" loading="lazy" decoding="async">` : `<div class="ci">${p.icon}</div>`}
     <div class="cm">
       <div class="cb">
         <span class="badge ${lb}">${lbn}</span>
@@ -140,12 +143,25 @@ function toggleCard(id){
   const chev = document.getElementById('chev-'+id);
   const open = cd.classList.toggle('open');
   chev.classList.toggle('open',open);
+  if(open){
+    const product = PRODUCTS.find(p=>p.id===id);
+    if(product) window.TrainingAnalytics?.track('product_view', {product_id:id, product_line:product.line, pet_type:product.pet});
+  }
 }
 
 function getSelectedSku(product){
   if(!product.scraped_skus || !product.scraped_skus.length) return null;
   const selectedIndex = Number.isFinite(selectedSkuByProduct[product.id]) ? selectedSkuByProduct[product.id] : 0;
   return product.scraped_skus[selectedIndex] || product.scraped_skus[0];
+}
+
+function getProductShot(product, sku){
+  const image = sku && PRODUCT_SHOTS[sku.product_id];
+  if(!image) return null;
+  return {
+    src: image.large && sku.pack_size_grams >= 12000 ? image.large : image.standard,
+    alt: `${product.lineName} ${product.name} ${product.variant} product pack`
+  };
 }
 
 function renderSkuOptions(product){
@@ -174,6 +190,11 @@ function setProductSku(productId, selectedIndex){
   const sku = product.scraped_skus?.[selectedIndex];
   const priceText = document.getElementById(`price-${productId}`);
   const sizeText = document.getElementById(`size-${productId}`);
+  const shot = document.getElementById(`shot-${productId}`);
+  if(shot){
+    const nextShot = getProductShot(product, sku);
+    if(nextShot){ shot.src = nextShot.src; shot.alt = nextShot.alt; }
+  }
   if(priceText){
     priceText.textContent = sku ? `R${sku.price_current.toFixed(0)}` : '';
   }
@@ -275,6 +296,7 @@ function jumpToProduct(id){
 function openIng(id){
   const i = INGREDIENTS.find(x=>x.id===id);
   if(!i) return;
+  window.TrainingAnalytics?.track('ingredient_view', {ingredient_id:id});
   document.getElementById('mcontent').innerHTML = `
 <div class="micon">${i.icon}</div>
 <h3>${i.name}</h3>

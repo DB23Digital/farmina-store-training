@@ -1,0 +1,13 @@
+# Scoped to /training/. Vercel configuration is not used by Apache.
+<IfModule mod_dir.c>
+  DirectoryIndex index.html
+  DirectorySlash On
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css|json)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

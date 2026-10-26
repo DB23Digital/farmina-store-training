@@ -265,57 +265,30 @@ const PRODUCTS = [
    sell:'Duck is novel protein. Cranberry and chamomile provide targeted urinary tract support. Ideal for recurrent struvite stone issues.'},
 ];
 
-function normalizeText(value){
-  return (value || '').toString().toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-}
-
-function scoreScrapedProduct(product, scraped){
-  if(product.pet !== scraped.species) return -999;
-  const productWords = new Set(normalizeText(product.name).split(' ').filter(Boolean));
-  const scrapedWords = new Set(normalizeText(scraped.product_name).split(' ').filter(Boolean));
-  const overlap = [...productWords].filter(word=>scrapedWords.has(word)).length;
-  let score = overlap * 10;
-  const appLine = normalizeText(product.lineName || product.line);
-  const scrapedLine = normalizeText(scraped.line);
-  if(appLine && scrapedLine && (appLine === scrapedLine || appLine.includes(scrapedLine) || scrapedLine.includes(appLine))) {
-    score += 5;
-  }
-  // Stage-aware bonus so puppy/adult/light SKUs don't bleed across life stages
-  const sn = normalizeText(scraped.product_name);
-  const scrapedStage = sn.includes('puppy') || sn.includes('kitten') ? 'young' :
-    sn.includes('light') || sn.includes('neutered') ? 'special' : 'adult';
-  const productStage = product.stage === 'puppy' || product.stage === 'kitten' ? 'young' :
-    product.stage === 'light' || product.stage === 'neutered' ? 'special' : 'adult';
-  if(scrapedStage === productStage) score += 15;
-  return score;
-}
-
 function applyScrapedProductData(){
-  if(typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') return;
+  catalogIssues = [];
+  validatedSourceIds = new Set();
   PRODUCTS.forEach(product=>{
-    const allScored = FARMINA_SCRAPED_PRODUCTS
-      .map(scraped=>({scraped, score:scoreScrapedProduct(product, scraped)}))
-      .filter(({score})=>score>0);
-    if(!allScored.length) return;
-    const topScore = Math.max(...allScored.map(({score})=>score));
-    const topMatches = allScored.filter(({score})=>score===topScore).map(({scraped})=>scraped);
-    const best = topMatches[0];
-    product.scraped_product_id = best.product_id;
-    product.scraped_product_name = best.product_name;
-    product.scraped_product_url = best.product_url;
-    product.scraped_line = best.line;
-    // Merge SKUs from all tied top matches (e.g. MINI + MEDIUM&MAXI), dedup by pack size
-    const seen = new Set();
-    product.scraped_skus = topMatches.flatMap(m=>m.skus||[])
-      .filter(sku=>{ if(seen.has(sku.pack_size_grams)) return false; seen.add(sku.pack_size_grams); return true; })
-      .sort((a,b)=>a.pack_size_grams-b.pack_size_grams);
-    const pricedSkus = product.scraped_skus.filter(sku => typeof sku.price_current === 'number');
-    if(pricedSkus.length){
-      const cheapest = pricedSkus.reduce((best, sku) => (sku.price_current < best.price_current ? sku : best), pricedSkus[0]);
+    Object.keys(product).filter(key=>key.startsWith('scraped_')).forEach(key=>delete product[key]);
+    product.catalog_error = false;
+    try {
+      if(typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') throw Error('Source catalogue unavailable');
+      const resolved = resolveCatalogProduct(product, FARMINA_SCRAPED_PRODUCTS);
+      const best = resolved.records[0];
+      product.scraped_product_id = best.product_id;
+      product.scraped_product_name = best.product_name;
+      product.scraped_product_url = best.product_url;
+      product.scraped_line = best.line;
+      product.scraped_skus = resolved.skus;
+      resolved.records.forEach(record=>validatedSourceIds.add(record.product_id));
+      const cheapest = resolved.skus.reduce((best,sku)=>sku.price_current < best.price_current ? sku : best);
       const sizeLabel = cheapest.pack_size_unit === 'g' ? `${parseInt(cheapest.pack_size_grams)} g` : `${cheapest.pack_size_value}${cheapest.pack_size_unit}`;
       product.scraped_price_min = cheapest.price_current;
       product.scraped_price_per_kg = cheapest.price_per_kg;
       product.scraped_price_label = `From R${cheapest.price_current.toFixed(0)} (${sizeLabel})`;
+    } catch(error) {
+      product.catalog_error = true;
+      catalogIssues.push({product_id:product.id,reason:error.message});
     }
   });
 }

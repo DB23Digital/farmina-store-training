@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════
 // ALLERGY/SENSITIVITY MATCHER
-// Q&A flow to diagnose pet needs and recommend products
+// Product comparison aid. Does not diagnose allergies or establish suitability.
 // ═══════════════════════════════════════
 
 let matcherState = {
@@ -12,7 +12,7 @@ let matcherState = {
 
 // Concern definitions
 const MATCHER_CONCERNS = [
-  {id:'allergies',icon:'🐾',label:'Food Allergies/Sensitivities',desc:'Novel proteins, hypoallergenic options'},
+  {id:'allergies',icon:'🐾',label:'Food Allergies/Sensitivities',desc:'How to review full ingredient lists'},
   {id:'digestion',icon:'🫁',label:'Digestive Issues',desc:'Loose stools, constipation, gas'},
   {id:'skin',icon:'✨',label:'Skin & Coat Issues',desc:'Dull coat, itching, dry skin'},
   {id:'joints',icon:'🦴',label:'Joint/Mobility Support',desc:'Age-related stiffness, arthritis'},
@@ -27,16 +27,13 @@ const MATCHER_STAGES = {
 
 // Matcher logic: concern + pet type + stage → product IDs
 const MATCHER_LOGIC = {
-  allergies: {
-    dog: {puppy:['dp1'],adult:['dp1','do1','dq2']},  // Prime puppy/adult, Ocean adult, Duck Quinoa
-    cat: {adult:['cp3','cp4','co1'],kitten:['cp1']} // Lamb, Boar, Herring for adult; Chicken for kitten
-  },
+  allergies: {}, // An exposure history and confirmed excluded ingredients are required.
   digestion: {
     dog: {puppy:['dp3','dp4'],adult:['dp5','dp6','dp7']},  // Pumpkin puppies & adult
-    cat: {adult:['cp5'],neutered:['cp5']}  // Pumpkin neutered
+    cat: {neutered:['cp5']}  // Keep the explicitly neutered formula within its displayed stage.
   },
   skin: {
-    dog: {adult:['dq1','dq2','do1','do2']},  // Quinoa Skin&Coat, Ocean with omega
+    dog: {adult:['dq1','dq2','do2']},
     cat: {adult:['co1']}  // Ocean (wild-caught fish)
   },
   joints: {
@@ -44,7 +41,7 @@ const MATCHER_LOGIC = {
     cat: {adult:['cp2','cp3','cp4']}  // Prime adult varieties + Lamb
   },
   immunity: {
-    dog: {puppy:['dp1','dp2'],adult:['dp2','do2','dl2']},  // Prime & Ocean (prebiotic trio)
+    dog: {puppy:['dp1'],adult:['dp2','do2','dl2']},
     cat: {adult:['cp2','cp3','cp4']}  // Prime formulas
   }
 };
@@ -53,6 +50,7 @@ const MATCHER_LOGIC = {
 
 function initMatcher(){
   matcherState = {step:1,petType:null,stage:null,concern:null};
+  window.TrainingAnalytics?.track('matcher_start');
   renderMatcherStep();
 }
 
@@ -116,7 +114,7 @@ function renderMatcherStep(){
 <div class="match-step">
   <div class="match-progress"><div class="match-prog-bar" style="width:100%"></div></div>
   <button type="button" onclick="initMatcher()" style="float:right;background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;text-decoration:underline">Reset</button>
-  <h3>Recommended for you</h3>
+  <h3>Products to compare</h3>
   <p style="color:var(--muted);font-size:13px;margin-top:6px;clear:both">Based on ${matcherState.concern === 'allergies' ? 'food allergies' : matcherState.concern === 'digestion' ? 'digestive needs' : matcherState.concern === 'skin' ? 'skin & coat health' : matcherState.concern === 'joints' ? 'joint support' : 'immune support'}</p>
   <div style="margin-top:16px">
     ${resultProducts.length ? resultProducts.map(p=>`
@@ -133,7 +131,7 @@ function renderMatcherStep(){
           <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.4"><strong>Why this match:</strong> ${getMatchReason(p.id)}</div>
         </div>
       </div>
-    </div>`).join('') : `<p style="color:var(--muted);text-align:center;padding:20px">No exact matches found. Browse all products to compare.</p>`}
+    </div>`).join('') : `<p style="color:var(--muted);text-align:center;padding:20px">${matcherState.concern === 'allergies' ? 'A headline protein cannot establish allergy suitability. Review the complete ingredient list with the pet’s known exclusions and veterinary advice. Browse the catalogue to compare ingredients.' : 'No verified matches for this pet and life stage. Browse all products to compare.'}</p>`}
   </div>
   <button type="button" onclick="initMatcher()" style="width:100%;padding:12px;background:var(--gm);color:#fff;border:none;border-radius:10px;font-weight:600;margin-top:12px;cursor:pointer">Start Over</button>
 </div>`;
@@ -162,6 +160,7 @@ function selectMatcherConcern(concern){
   } else {
     matcherState.concern = concern;
     matcherState.step = 4;
+    window.TrainingAnalytics?.track('matcher_complete', {pet_type:matcherState.petType, life_stage:matcherState.stage, concern, result_count:getMatcherResults().length});
   }
   renderMatcherStep();
 }
@@ -172,7 +171,10 @@ function getMatcherResults(){
   const byPet = logic[matcherState.petType];
   if(!byPet) return [];
   const byStage = byPet[matcherState.stage];
-  return byStage || [];
+  return (byStage || []).filter(id=>{
+    const product = PRODUCTS.find(p=>p.id===id);
+    return product && !product.catalog_error && product.pet === matcherState.petType && product.stage === matcherState.stage;
+  });
 }
 
 function getMatchReason(productId){
@@ -180,11 +182,11 @@ function getMatchReason(productId){
   if(!p) return '';
   
   const concerns = {
-    allergies: `Novel ${p.protein.toLowerCase()} protein — ideal for elimination diets with no prior exposure`,
-    digestion: `${p.macros.meat} meat, ${(p.composition.match(/pumpkin|psyllium|inulin|FOS|MOS/gi) || []).length > 0 ? 'natural digestive support' : 'high protein for gut health'}`,
-    skin: `High omega-3 from ${p.protein} ${p.protein.includes('cod')||p.protein.includes('herring')?'(wild-caught)':''}, supports coat shine and skin elasticity`,
-    joints: `${p.nutrition.protein}% protein ${p.nutrition.protein > 38 ? '(premium level)' : ''} plus glucosamine & chondroitin for joint health`,
-    immunity: `${(p.composition.match(/inulin|FOS|MOS/gi) || []).length > 0 ? 'Three-type prebiotic system' : 'High-quality protein'} for gut-based immune health`
+    allergies: 'Review the complete ingredient list against known exclusions.',
+    digestion: 'Compare the declared fibre sources and full ingredient list.',
+    skin: 'Compare the declared oils and fatty-acid information.',
+    joints: 'Check the full ingredient list for declared glucosamine and chondroitin.',
+    immunity: 'Compare the declared prebiotic ingredients and product information.'
   };
   
   return concerns[matcherState.concern] || `Perfect match for ${matcherState.concern}`;
