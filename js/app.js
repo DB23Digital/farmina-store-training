@@ -266,8 +266,8 @@ function renderConditionPanel(){
   if(ingMode!=='condition'||condFilter==='all'){panel.className='';panel.innerHTML='';return;}
   const cond=BODY_CONDITIONS.find(c=>c.id===condFilter);
   if(!cond){panel.className='';panel.innerHTML='';return;}
-  const prodIds=CONDITIONS_PRODUCTS[condFilter]||[];
-  const prods=prodIds.map(id=>PRODUCTS.find(p=>p.id===id)).filter(Boolean);
+  const rule=CONDITION_MATCHER_RULES[condFilter];
+  const prods=rule?conditionPanelProducts(rule):[];
   const pillsHtml=prods.map(p=>{
     const badge=p.line==='quinoa'?'bq':p.line==='pumpkin'?'bp':p.line==='ocean'?'bo':p.line==='prime'?'bpr':'bl';
     const lname=p.line==='quinoa'?'Quinoa':p.line==='pumpkin'?'Pumpkin':p.line==='ocean'?'Ocean':p.line==='prime'?'Prime':'Low Grain';
@@ -278,8 +278,8 @@ function renderConditionPanel(){
   panel.innerHTML=`
 <div class="cpanel-hdr"><h4>${cond.icon} ${cond.label}</h4><p>${cond.blurb}</p></div>
 <div class="cpanel-body">
-  <div class="cpanel-label">Tap a formula to view it</div>
-  <div class="cpanel-pills">${pillsHtml||'<span style="font-size:12px;color:var(--muted)">All Farmina formulas provide support</span>'}</div>
+  <div class="cpanel-label">Formulas that declare these ingredients · tap to view. Use Matcher for a pet-specific list.</div>
+  <div class="cpanel-pills">${pillsHtml||'<span style="font-size:12px;color:var(--muted)">No catalogue formula declares these ingredients.</span>'}</div>
 </div>`;
   panel.className='active';
 }

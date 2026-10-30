@@ -11,7 +11,7 @@ Current installation instructions: [CPANEL-INSTALLATION.md](CPANEL-INSTALLATION.
 From `store_training/`:
 
 ```powershell
-node --test tests/analytics.test.cjs tests/buddy.test.cjs tests/foundation.test.cjs tests/voice-agent.test.cjs
+node --test tests/analytics.test.cjs tests/buddy.test.cjs tests/foundation.test.cjs tests/voice-agent.test.cjs tests/matcher.test.cjs tests/content.test.cjs
 python tests/package.test.py
 node scripts/check-release.cjs
 ```
@@ -46,7 +46,8 @@ The workspace's `assessment-2026-10-26/preview.cjs` accepts a staging directory 
 - The source price/nutrition snapshot was not rewritten. Training SKU IDs are internal `S...` IDs, not supplier SKUs. A supplier reconciliation must first establish explicit supplier SKU identity and pack size; the existence of a June RRP list does not authorise a name-based price import.
 - The supplied PDFs provide two puppy tables. The generated JSON contains 168 cells: 152 numeric dosages and 16 cells specifying adult food. The Prime PDF is explicitly Maxi; that mode requires a Maxi breed-size choice. Ancestral covers Medium/Maxi. No cells are interpolated and an unsupported cell does not fall back to an adult estimate.
 - Adult formula constants from the existing app are retained and clearly labelled as estimates. They are not newly approved feeding policy. Puppy/kitten products cannot use that estimate path. Product/guide edition applicability and current nutrition/price authority remain owner checks before production sign-off.
-- The matcher filters exact displayed species/life stage. It does not diagnose allergies or infer allergy suitability from a headline protein. The allergy branch gives ingredient-review guidance without fabricated recommendations.
+- The matcher lists formulas from each card's declared composition and claims, and every result shows the declared ingredients or claim that put it there. Exact life-stage matches come first. Other-stage formulas appear only in a labelled section: dedicated Skin & Coat and Urinary formulas always, and everything else only when the exact stage has none. The allergy branch is an ingredient-exclusion filter: it lists formulas whose composition text does not name the excluded ingredients, and it treats unnamed animal protein as failing every animal exclusion. It does not diagnose allergies or establish suitability. `node scripts/audit-matcher.cjs` prints every combination with its evidence.
+- Prices were checked against column G of the June 2026 RRP workbook on 30/10/2026: 75 of 75 matched. See [RRP and resource verification](RRP-AND-RESOURCE-VERIFICATION-2026-10-30.md), which also lists the 10 records without a feeding guide and the training-copy errors.
 - Analytics is aggregate activity reporting. Named employee identity, attendance, certification and server-side progress are separate features; this release adds none of them. Quiz completion remains in memory for the current visit.
 
 ## Verification record

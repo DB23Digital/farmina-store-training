@@ -153,7 +153,7 @@ const PRODUCTS = [
    macros:{meat:'55%',grains:'0%',fruits:'5%',legumes:'38%',fresh:'30%'},
    highlights:['GMO Free','Mono Protein','Grain Free','Skin & Coat','Novel Protein','Lean Protein'],
    composition:'Quail, dehydrated quail protein, pea starch, fish oil from herring, quinoa seed (extracted), linseed, dried coconut, turmeric, inulin, fructooligosaccharides, yeast extract (source of mannooligosaccharides), calcium carbonate, dicalcium phosphate, psyllium husks and seeds, potassium chloride, sodium chloride, dried brewers\' yeast, aloe vera extract, glucosamine, chondroitin sulphate.',
-   suitable:'All breeds and all life stages. For dogs with food sensitivities or skin and coat concerns.',
+   suitable:'Adult dogs of all breeds. Farmina lists it for reducing ingredient and nutrient intolerances and supporting skin and coat.',
    sizes:['800g','2.5kg','7kg'],
    sell:'Quail is exceptionally lean and highly digestible with omega fatty acid support for skin and coat health.'},
 
@@ -164,7 +164,7 @@ const PRODUCTS = [
    macros:{meat:'55%',grains:'0%',fruits:'5%',legumes:'38%',fresh:'30%'},
    highlights:['GMO Free','Mono Protein','Grain Free','Skin & Coat','Novel Protein','Omega Rich'],
    composition:'Boneless duck, dehydrated duck protein, pea starch, fish oil from herring, quinoa seed (extracted), linseed, dried coconut, turmeric, inulin, fructooligosaccharides, yeast extract (source of mannooligosaccharides), calcium carbonate, dicalcium phosphate, psyllium husks and seeds, potassium chloride, sodium chloride, dried brewers\' yeast, aloe vera extract, glucosamine, chondroitin sulphate.',
-   suitable:'All breeds and all life stages. For dogs with food sensitivities or skin and coat concerns.',
+   suitable:'Adult dogs of all breeds. Farmina lists it for reducing ingredient and nutrient intolerances and supporting skin and coat.',
    sizes:['800g','2.5kg','7kg'],
    sell:'Mono-protein skin and coat formula with duck and quinoa for exceptional omega support.'},
 
@@ -262,7 +262,7 @@ const PRODUCTS = [
    composition:'Fresh boneless duck (28%), dehydrated duck meat (26%), sweet potato, duck fat, dehydrated whole eggs, fresh herring, dehydrated herring, herring oil, pea fibre, dried carrots, sun-cured alfalfa, inulin, FOS, MOS, cranberry powder (0.5%), chamomile flowers, dehydrated apple, pomegranate powder, spinach powder, psyllium (0.3%), sodium chloride, dried brewer\'s yeast, turmeric (0.2%), glucosamine, chondroitin sulfate, marigold flower extract (lutein), aloe vera gel concentrate, green tea extract, rosemary extract.',
    suitable:'All breeds and adult life stages. For cats with lower urinary tract disease concerns.',
    sizes:['300g','1.5kg','5kg'],
-   sell:'Duck is novel protein. Cranberry and chamomile provide targeted urinary tract support. Ideal for recurrent struvite stone issues.'},
+   sell:'Duck is novel protein. Cranberry and chamomile are included for urinary tract support. Farmina lists it for reducing the recurrence of struvite stones.'},
 ];
 
 function applyScrapedProductData(){

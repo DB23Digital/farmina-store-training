@@ -128,7 +128,7 @@ const INGREDIENTS = [
 
   {id:'i21',icon:'🍠',name:'Sweet Potato',cat:'grain',catLabel:'Low-GI Carbohydrate',
    conditions:['digestion'],
-   what:'Whole sweet potato used as the primary carbohydrate source in grain-free puppy and kitten formulas. Rich in beta-carotene, vitamin C, potassium and dietary fibre.',
+   what:'Whole sweet potato used as a carbohydrate source in several N&D grain-free formulas, such as N&D Prime Puppy and N&D Ocean Puppy. Rich in beta-carotene, vitamin C, potassium and dietary fibre.',
    why:'Sweet potato has a lower glycaemic index than white potato or rice, providing sustained energy release rather than blood sugar spikes. A nutrient-dense, naturally sweet carb source that is highly palatable and easy to digest.',
    sell:'When customers ask what replaces grains in grain-free food, sweet potato is the answer. Clean energy, no spikes, plus natural vitamins built in.'},
 
@@ -239,19 +239,19 @@ const BODY_CONDITIONS = [
 ];
 
 // ═══════════════════════════════════════
-// CONDITION → PRODUCT mapping
-// Lists product ids most relevant to each condition.
-// Order = priority (best match first).
+// CONDITION → MATCHER RULE
+// Formulas are derived in matcher.js from each card's declared composition
+// and claims, so the panel cannot point at a missing product id.
 // ═══════════════════════════════════════
-const CONDITIONS_PRODUCTS = {
-  digestion: ['p1','p3','p6','p7'],
-  joint:     ['pr2','o2','l2','q2'],
-  skin:      ['q8','q9','p2'],
-  immune:    ['q1','q3','o1'],
-  brain:     ['o1','o2'],
-  eye:       ['o2','q2','o1'],
-  heart:     ['o1','o2'],
-  allergy:   ['p4','p1','o1','o2'],
+const CONDITION_MATCHER_RULES = {
+  digestion: 'digestion',
+  joint:     'joints',
+  skin:      'skin',
+  immune:    'immunity',
+  brain:     'omega3',
+  eye:       'eye',
+  heart:     'omega3',
+  allergy:   'novel',
 };
 
 function normalizeIngredientKey(value){
