@@ -357,7 +357,7 @@
         <div class="calc-field">
           <label for="cFeedMethod">Feeding basis</label>
           <select id="cFeedMethod" onchange="updateFeedingMode();calcUpdate()">
-            <option value="estimate">Adult formula estimate</option>
+            <option value="estimate" id="cEstimateOption">Formula estimate (custom bag only)</option>
             <option value="guide" id="cGuideOption" disabled>Supplied feeding guide</option>
           </select>
         </div>
@@ -375,6 +375,10 @@
           <div class="calc-field" id="cGuideMatureField">
             <label for="cMatureWeight">Expected adult weight (kg)</label>
             <select id="cMatureWeight" onchange="calcUpdate()"><option value="">Choose weight</option></select>
+          </div>
+          <div class="calc-field" id="cGuideBandField" hidden>
+            <label for="cAgeBand">Kitten age</label>
+            <select id="cAgeBand" onchange="populateGuideWeightOptions();calcUpdate()"><option value="">Choose age</option></select>
           </div>
           <div class="calc-field" id="cGuideWeightField" hidden>
             <label for="cGuideWeight">Current weight listed in the guide (kg)</label>

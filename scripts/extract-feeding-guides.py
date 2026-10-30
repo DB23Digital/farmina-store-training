@@ -67,7 +67,11 @@ PDF_SOURCES = [
      'Prime Wild Boar & Apple Adult Cat', ['N&D PRIME', 'WILD BOAR & APPLE', 'CA TS']),
     ('prime-cat-lamb', 'P0006', 'all', 'adult', 'nd-prime-feline-4-lamb.pdf',
      'Prime Lamb & Blueberry Adult Cat', ['N&D PRIME', 'LAMB & BLUEBERRY', 'CA TS']),
+    ('prime-kitten', 'P0002', 'all', 'kitten', 'nd-prime-feline-1-chicken-kitten.pdf',
+     'Prime Chicken & Pomegranate Kitten', ['N&D PRIME', 'KITTENS', 'CHICKEN & POMEGRANATE KITTEN']),
 ]
+# Kitten table rows, in printed order. Cells printed as "—" have no amount and are omitted.
+KITTEN_BANDS = [('weaning', 'Weaning'), ('1-3', '1-3 mesi/ months'), ('4-6', '4-6 mesi/ months'), ('7-12', '7-12 mesi/ months')]
 
 WEIGHT = re.compile(r'(?<![\d.])(\d+(?:\.\d+)?)\s?kg\b')
 RANGE = re.compile(r'(\d+)\s?-\s?(\d+)\s?g(?![a-z])')
@@ -80,8 +84,26 @@ def number(text):
     return int(value) if value.is_integer() else value
 
 
+def parse_kitten(flat, name):
+    header = flat[flat.index('Kitten weight'):flat.index('Weaning')]
+    weights = [number(w) for w in WEIGHT.findall(header)]
+    labels = [label for _, label in KITTEN_BANDS] + ['For gestating']
+    rows = []
+    for i, (band, label) in enumerate(KITTEN_BANDS):
+        segment = flat[flat.index(label) + len(label):flat.index(labels[i + 1])]
+        cells = re.findall(r'(\d+)\s?-\s?(\d+)\s?g|—', segment)
+        if len(cells) != len(weights):
+            raise ValueError(f'{name}: {band} has {len(cells)} cells for {len(weights)} weights')
+        for weight, (low, high) in zip(weights, cells):
+            if low:
+                rows.append({'age_band': band, 'weight_kg': weight, 'grams_min': int(low), 'grams_max': int(high)})
+    return weights, rows
+
+
 def parse_pdf(text, kind, name):
     flat = ' '.join(text.split())
+    if kind == 'kitten':
+        return parse_kitten(flat, name)
     weights = [number(w) for w in WEIGHT.findall(flat)]
     if kind == 'adult':
         ranges = [(int(a), int(b)) for a, b in RANGE.findall(flat)]
@@ -106,11 +128,13 @@ def parse_pdf(text, kind, name):
 
 
 def check_rows(guide):
-    keys = [(r['age_months'], r['mature_weight_kg']) if guide['kind'] == 'puppy' else r['weight_kg'] for r in guide['rows']]
+    key = {'puppy': lambda r: (r['age_months'], r['mature_weight_kg']), 'adult': lambda r: r['weight_kg'],
+           'kitten': lambda r: (r['age_band'], r['weight_kg'])}[guide['kind']]
+    keys = [key(r) for r in guide['rows']]
     if not keys or len(set(keys)) != len(keys):
         raise ValueError(f'Empty or duplicate cells: {guide["id"]}')
     for r in guide['rows']:
-        if guide['kind'] == 'adult' and not 0 < r['grams_min'] <= r['grams_max']:
+        if guide['kind'] != 'puppy' and not 0 < r['grams_min'] <= r['grams_max']:
             raise ValueError(f'Invalid range: {guide["id"]} {r}')
 
 

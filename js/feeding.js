@@ -1,7 +1,9 @@
-// Existing formula constants are retained. Supplied-table results have a separate,
-// exact lookup contract and never fall back to a formula on a missing table cell.
+// Farmina products use only their supplied guide, so results match the printed bag
+// guide; a missing table cell never falls back to a formula. The formula estimate
+// (existing constants) is kept only for a custom bag with no product selected.
 // Puppy guides: grams per day by age and projected adult weight.
 // Adult and cat guides: a min-max gram range by current weight.
+// Kitten guide: a min-max gram range by age band and current weight.
 // size is the breed size the guide covers; source is the supplied PDF or image.
 const GUIDE_LINKS = [
   {id:'ancestral-puppy-mini',productId:'P0009',size:'mini',kind:'puppy',label:'Ancestral Grain Chicken & Pomegranate Puppy — Mini',source:'assets/feeding-guides/nd-ancestral-grain-canine-chicken-puppy-mini.pdf'},
@@ -28,6 +30,7 @@ const GUIDE_LINKS = [
   {id:'prime-cat-neutered',productId:'P0004',size:'all',kind:'adult',label:'Prime Chicken & Pomegranate Neutered Cat',source:'assets/feeding-guides/nd-prime-feline-5-chicken-neutered.pdf'},
   {id:'prime-cat-boar',productId:'P0005',size:'all',kind:'adult',label:'Prime Wild Boar & Apple Adult Cat',source:'assets/feeding-guides/nd-prime-feline-3-wild-boar.pdf'},
   {id:'prime-cat-lamb',productId:'P0006',size:'all',kind:'adult',label:'Prime Lamb & Blueberry Adult Cat',source:'assets/feeding-guides/nd-prime-feline-4-lamb.pdf'},
+  {id:'prime-kitten',productId:'P0002',size:'all',kind:'kitten',label:'Prime Chicken & Pomegranate Kitten',source:'assets/feeding-guides/nd-prime-feline-1-chicken-kitten.pdf'},
   {id:'ocean-puppy-mini',productId:'P0017',size:'mini',kind:'puppy',label:'Ocean Cod, Pumpkin & Cantaloupe Puppy — Mini',source:'assets/feeding-guides/nd-ocean-canine-cod-pumpkin-cantaloupe-puppy-mini.png'},
   {id:'ocean-puppy-medium-maxi',productId:'P0018',size:'medium_maxi',kind:'puppy',label:'Ocean Cod, Pumpkin & Cantaloupe Puppy — Medium & Maxi',source:'assets/feeding-guides/nd-ocean-canine-cod-pumpkin-cantaloupe-puppy-medium-maxi.png'},
   {id:'pumpkin-chicken-puppy-mini',productId:'P0028',size:'mini',kind:'puppy',label:'Pumpkin Chicken & Pomegranate Puppy — Mini',source:'assets/feeding-guides/nd-pumpkin-canine-chicken-puppy-mini.jpg'},
@@ -38,10 +41,8 @@ const GUIDE_LINKS = [
   {id:'pumpkin-cat-neutered',productId:'P0007',size:'all',kind:'adult',label:'Pumpkin Lamb & Blueberry Neutered Cat',source:'assets/feeding-guides/nd-pumpkin-feline-lamb-neutered.jpg'},
   {id:'quinoa-cat-urinary',productId:'P0008',size:'all',kind:'adult',label:'Quinoa Urinary Duck Cat',source:'assets/feeding-guides/nd-quinoa-feline-duck-urinary.jpg'}
 ];
-// Supplied guides whose table shape the calculator does not compute; linked for reading.
-const GUIDE_REFERENCES = {
-  P0002: {label:'Prime Chicken & Pomegranate Kitten',source:'assets/feeding-guides/nd-prime-feline-1-chicken-kitten.pdf'}
-};
+// Kitten guide age bands, in printed order.
+const KITTEN_BANDS = [{id:'weaning',label:'Weaning'},{id:'1-3',label:'1–3 months'},{id:'4-6',label:'4–6 months'},{id:'7-12',label:'7–12 months'}];
 // Which guide sizes a chosen breed size may use.
 const BREED_SIZE_GUIDES = {mini:['mini'], medium:['medium_maxi'], maxi:['medium_maxi','maxi']};
 let FEEDING_GUIDES = null;
@@ -85,12 +86,15 @@ function validateFeedingGuides(data) {
     seen.add(guide.id);
     const cells = new Set();
     guide.rows.forEach(row=>{
-      const key = link.kind === 'puppy' ? row.age_months + ':' + row.mature_weight_kg : String(row.weight_kg);
-      const valid = link.kind === 'puppy'
+      const key = link.kind === 'puppy' ? row.age_months + ':' + row.mature_weight_kg
+        : link.kind === 'kitten' ? row.age_band + ':' + row.weight_kg : String(row.weight_kg);
+      const bandOk = link.kind !== 'kitten' || KITTEN_BANDS.some(b=>b.id === row.age_band);
+      const cellOk = link.kind === 'puppy'
         ? Number.isFinite(row.age_months) && row.age_months > 0 && Number.isFinite(row.mature_weight_kg) && row.mature_weight_kg > 0 &&
           (row.adult_food ? row.grams_per_day === null : Number.isFinite(row.grams_per_day) && row.grams_per_day > 0)
         : Number.isFinite(row.weight_kg) && row.weight_kg > 0 && Number.isFinite(row.grams_min) && row.grams_min > 0 &&
           Number.isFinite(row.grams_max) && row.grams_max >= row.grams_min;
+      const valid = bandOk && cellOk;
       if (cells.has(key) || !valid) throw Error('Invalid or duplicate guide cell');
       cells.add(key);
     });
@@ -111,15 +115,23 @@ function calcPortion(petType, weightKg, meValue = 3997) {
   return Math.round((63.3 * Math.pow(weightKg, 0.75) / meValue) * 1000);
 }
 
-function getFeedingResult({mode,petType,weightKg,meValue,productId,ageMonths,matureWeightKg,breedSize,guideWeightKg}, data = FEEDING_GUIDES) {
+function getFeedingResult({mode,petType,weightKg,meValue,productId,ageMonths,matureWeightKg,breedSize,guideWeightKg,ageBand}, data = FEEDING_GUIDES) {
   if (!['estimate','guide'].includes(mode)) throw Error('Choose a feeding basis.');
   const source = productId ? FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id === productId && validatedSourceIds.has(p.product_id)) : null;
   if (productId && (!source || source.species !== petType)) throw Error('Choose a valid product for this pet type.');
+  if (productId && !guidesForProduct(productId).length) throw Error('Farmina’s feeding guide for this product has not been added yet. Use the feeding guide printed on the bag.');
+  if (productId && mode !== 'guide') throw Error('Farmina products use their supplied feeding guide. The formula estimate is only for a custom bag.');
   if (mode === 'guide') {
     const link = selectGuideLink(productId, breedSize);
     if (!data) throw Error('The guide is not available. Try again when it has loaded.');
     const guide = data.guides.find(g=>g.id === link.id && g.product_id === productId);
     const base = {source:'guide',kind:link.kind,label:link.label,sourceFile:link.source};
+    if (link.kind === 'kitten') {
+      const rows = guide?.rows.filter(row=>row.age_band === ageBand && row.weight_kg === guideWeightKg) || [];
+      if (rows.length !== 1) throw Error('Choose an age band and a weight listed in the supplied guide.');
+      const band = KITTEN_BANDS.find(b=>b.id === ageBand).label;
+      return {...base,gramsMin:rows[0].grams_min,gramsMax:rows[0].grams_max,weightKg:guideWeightKg,ageBand:band};
+    }
     if (link.kind === 'adult') {
       const rows = guide?.rows.filter(row=>row.weight_kg === guideWeightKg) || [];
       if (rows.length !== 1) throw Error('Choose a weight listed in the supplied guide.');
@@ -130,8 +142,6 @@ function getFeedingResult({mode,petType,weightKg,meValue,productId,ageMonths,mat
     if (rows[0].adult_food) throw Error('This table cell specifies adult food. Use the appropriate adult product guide.');
     return {...base,grams:rows[0].grams_per_day,ageMonths,matureWeightKg};
   }
-  const stage = productId && Object.values(CATALOG_LINKS).find(link=>link.ids.includes(productId))?.stage;
-  if (['puppy','kitten'].includes(stage)) throw Error('Adult formula estimates are not provided for puppy or kitten products. Use the product’s feeding guide.');
   const grams = calcPortion(petType,weightKg,meValue);
   if (!Number.isFinite(grams) || grams <= 0) throw Error('These inputs do not produce a valid portion. Check the weight and energy values.');
   return {grams,source:'estimate',label:'Adult formula estimate'};

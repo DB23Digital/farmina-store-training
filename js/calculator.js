@@ -12,7 +12,15 @@ function selectedGuide() {
 function fillSelect(select, values, placeholder, label) {
   const previous = select.value;
   select.innerHTML = `<option value="">${placeholder}</option>` + values.map(v=>`<option value="${v}">${label(v)}</option>`).join('');
-  select.value = values.includes(Number(previous)) ? previous : '';
+  select.value = values.some(v=>String(v) === previous) ? previous : '';
+}
+
+// Current-weight choices: every printed weight, or for kittens the weights printed for the chosen age band.
+function populateGuideWeightOptions() {
+  const guide = selectedGuide();
+  const band = document.getElementById('cAgeBand').value;
+  const rows = !guide || guide.kind === 'puppy' ? [] : guide.kind === 'kitten' ? guide.rows.filter(row=>row.age_band === band) : guide.rows;
+  fillSelect(document.getElementById('cGuideWeight'), rows.map(row=>row.weight_kg), 'Choose weight', w=>`${w} kg`);
 }
 
 function populateGuideWeights() {
@@ -29,11 +37,13 @@ function populateGuideFields() {
   document.getElementById('cGuideAgeField').hidden = !puppy;
   document.getElementById('cGuideMatureField').hidden = !puppy;
   document.getElementById('cGuideWeightField').hidden = !guide || puppy;
+  document.getElementById('cGuideBandField').hidden = guide?.kind !== 'kitten';
   const ages = puppy ? [...new Set(guide.rows.map(row=>row.age_months))].sort((a,b)=>a-b) : [];
   fillSelect(document.getElementById('cAgeMonths'), ages, 'Choose age', a=>`${a} months`);
   populateGuideWeights();
-  const weights = guide && !puppy ? guide.rows.map(row=>row.weight_kg) : [];
-  fillSelect(document.getElementById('cGuideWeight'), weights, 'Choose weight', w=>`${w} kg`);
+  const bands = guide?.kind === 'kitten' ? KITTEN_BANDS.filter(b=>guide.rows.some(row=>row.age_band === b.id)).map(b=>b.id) : [];
+  fillSelect(document.getElementById('cAgeBand'), bands, 'Choose age', id=>KITTEN_BANDS.find(b=>b.id === id).label);
+  populateGuideWeightOptions();
 }
 
 function updateFeedingMode(reset = false) {
@@ -41,9 +51,10 @@ function updateFeedingMode(reset = false) {
   if(!select) return;
   const productId = document.getElementById('cProductSelect').value;
   const links = guidesForProduct(productId);
-  const reference = GUIDE_REFERENCES[productId];
   document.getElementById('cGuideOption').disabled = !links.length || feedingGuideStatus !== 'ready';
-  if(reset) select.value = links.length && feedingGuideStatus === 'ready' ? 'guide' : 'estimate';
+  // A selected Farmina product only ever uses its printed guide.
+  document.getElementById('cEstimateOption').disabled = !!productId;
+  if(reset || productId) select.value = productId ? 'guide' : 'estimate';
   const guideMode = select.value === 'guide';
   document.getElementById('cGuideFields').hidden = !guideMode;
   document.getElementById('cGuideBreedField').hidden = !guideMode || !guideNeedsBreedSize(productId);
@@ -57,10 +68,10 @@ function updateFeedingMode(reset = false) {
         'Only values printed in the supplied guide can be chosen; nothing is interpolated.'
       : 'Supplied guide ' + feedingGuideStatus + '.';
     note.textContent = `Supplied guide${links.length > 1 ? 's' : ''}: ${links.map(l=>l.label).join('; ')}. ${status}`;
-  } else if(reference) {
-    note.innerHTML = `${reference.label}: this guide is not calculated here. <a href="${reference.source}" target="_blank" rel="noopener">View the supplied guide</a>.`;
+  } else if(productId) {
+    note.textContent = 'Farmina’s feeding guide for this product has not been added yet. Use the feeding guide printed on the bag.';
   } else {
-    note.textContent = 'No supplied guide is linked to this formula. Adult estimates use the existing calculation; use the product’s own instructions for puppies and kittens.';
+    note.textContent = 'No product selected: the formula estimate is a rough guide only. Choose a product to use Farmina’s printed feeding guide.';
   }
   populateGuideFields();
 }
@@ -236,9 +247,11 @@ function runCalc() {
       ageMonths:Number(document.getElementById('cAgeMonths').value),
       matureWeightKg:Number(document.getElementById('cMatureWeight').value),
       breedSize:document.getElementById('cGuideBreed').value,
-      guideWeightKg:Number(document.getElementById('cGuideWeight').value)});
-    // Adult and cat guides give a range; show every figure as min–max.
-    const [low, high] = feeding.kind === 'adult' ? [feeding.gramsMin, feeding.gramsMax] : [feeding.grams, feeding.grams];
+      guideWeightKg:Number(document.getElementById('cGuideWeight').value),
+      ageBand:document.getElementById('cAgeBand').value});
+    // Adult, cat and kitten guides give a range; show every figure as min–max.
+    const ranged = feeding.kind === 'adult' || feeding.kind === 'kitten';
+    const [low, high] = ranged ? [feeding.gramsMin, feeding.gramsMax] : [feeding.grams, feeding.grams];
     const costLow = price / bagSizeG * low;
     const costHigh = price / bagSizeG * high;
     if(!Number.isFinite(costLow) || costLow <= 0) throw Error('These inputs do not produce a valid daily cost.');
@@ -250,6 +263,8 @@ function runCalc() {
     const guideLink = `<a href="${feeding.sourceFile}" target="_blank" rel="noopener" style="color:inherit">View supplied guide</a>`;
     const sourceNote = feeding.source !== 'guide'
       ? `Adult formula estimate for a ${weight}kg ${petType}. Confirm against the selected product’s feeding instructions.`
+      : feeding.kind === 'kitten'
+        ? `Supplied guide: ${feeding.label}. Listed min–max for ${feeding.ageBand}, ${feeding.weightKg}kg. ${guideLink}.`
       : feeding.kind === 'adult'
         ? `Supplied guide: ${feeding.label}. Listed min–max for ${feeding.weightKg}kg. ${guideLink}.`
         : `Supplied guide: ${feeding.label}. Age ${feeding.ageMonths} months; expected adult weight ${feeding.matureWeightKg}kg. ${guideLink}.`;

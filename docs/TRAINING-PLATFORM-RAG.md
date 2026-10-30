@@ -119,10 +119,10 @@ Basic use, adult pet:
 4. Check **Feeding basis** is "Adult formula estimate". For dogs, the Metabolic Energy field (kcal/kg) can be adjusted; it is pre-filled for convenience.
 5. Tap **Calculate**. Results: grams per day, cost per day, days per bag, and cost per month.
 
-Supplied feeding guides: when a formula has Farmina's own feeding guide (all but three products), Feeding basis switches to "Supplied feeding guide" automatically. If the bag record covers several breed sizes, choose the breed size first (Mini, Medium or Maxi). Then:
+Supplied feeding guides: the calculator matches the feeding guide printed on the bag. When you choose a Farmina product, it always uses Farmina's own guide; the formula estimate is only for a custom bag with no product chosen. For kittens, choose the age (Weaning, 1–3, 4–6 or 7–12 months), then a weight printed for that age. If the bag record covers several breed sizes, choose the breed size first (Mini, Medium or Maxi). Then:
 - Adult dog and cat guides: choose the pet's current weight from the weights printed in the guide. The result shows Farmina's min–max grams per day, and the cost per day, days per bag and monthly cost as ranges.
 - Puppy guides: choose the age in months and the expected adult weight. The result shows the printed grams per day. Ages where the guide says to move to adult food give no puppy portion.
-Only weights and ages printed in the guide can be chosen; nothing in between is calculated. "View supplied guide" opens Farmina's guide; for most guides that needs a connection. No guide is available yet for Ancestral Grain Light Mini or Quinoa Duck Skin & Coat Medium & Maxi, so use the pack for those. The kitten guide opens for reading but is not calculated.
+Only weights and ages printed in the guide can be chosen; nothing in between is calculated. "View supplied guide" opens Farmina's guide; for most guides that needs a connection. No guide is available yet for Ancestral Grain Light Mini or Quinoa Duck Skin & Coat Medium & Maxi; the calculator says to use the guide printed on the bag for those.
 
 Things to say:
 - The adult figure is an **estimate**. Confirm it against the selected product's own feeding instructions.
@@ -209,7 +209,7 @@ If allowed, the app records aggregate events only: screens visited, product, ing
 **Q: Can the matcher tell me what is safe for an allergic pet?** No. It can list formulas whose ingredient text leaves out what you ticked. Check the pack and follow veterinary advice.
 **Q: Are the prices current?** They match the June 2026 Farmina RRP list, checked on 30/10/2026. Always confirm the shelf price.
 **Q: Does the app work without data?** Yes, after one online load, except Ask by voice.
-**Q: Is the calculator exact?** With a supplied feeding guide it shows Farmina's printed amounts exactly. Without one, it is an estimate. Always confirm with the pack.
+**Q: Is the calculator exact?** For Farmina products it shows the amounts printed in Farmina's feeding guide, exactly. Only a custom bag with no product chosen uses a rough estimate. Always confirm with the pack.
 **Q: Where do I turn analytics off?** Products screen, Analytics choices.
 **Q: How do I leave?** Log out, top right of the page.
 
