@@ -60,9 +60,9 @@ There are 23 supplier PDFs in `assets/feeding-guides/`. Only two are used by the
 Notes on guide identity:
 
 - The `nd-grain-free-canine-2/3/4` guides are titled "N&D Grain Free Chicken & Pomegranate". The app treats them as Prime, the current name for that recipe. A supplier should confirm the rename.
-- The Pumpkin dog and Prime cat PDFs do not print a product name in their text layer. Their identity rests on the filename and calorie content only.
+- Correction: an earlier version of this report said the Pumpkin dog and Prime cat PDFs print no product name. They do. The title sits at the end of their text layer, and the first scan read only the opening characters. The extractor now checks every PDF's printed title.
 
-**Missing:** 10 of 31 source records have no supplied guide (P0013, P0017, P0018, P0023–P0026, P0028, P0031, P0007, P0008).
+**Update, 30/10/2026 (later):** Deon supplied the Pumpkin Lamb Puppy PDFs and nine Farmina images. 33 guides are now wired into the calculator (see `docs/DEPLOYMENT.md`). Only Ancestral Grain Light Mini (`P0013`) and Quinoa Duck Skin & Coat Medium & Maxi (`P0024`) remain unsupplied. The Prime Kitten guide (`P0002`) is linked but not calculated, because its table has a different shape.
 
 ## Decisions (30/10/2026)
 

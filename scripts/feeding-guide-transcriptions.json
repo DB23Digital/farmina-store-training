@@ -1,0 +1,2144 @@
+{
+  "guides": [
+    {
+      "id": "ocean-puppy-mini",
+      "product_id": "P0017",
+      "size": "mini",
+      "kind": "puppy",
+      "label": "Ocean Cod, Pumpkin & Cantaloupe Puppy — Mini",
+      "source_file": "assets/feeding-guides/nd-ocean-canine-cod-pumpkin-cantaloupe-puppy-mini.png",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/704_14_ocean-puppy-mini-cod-pumpkin-feeding-guide.png",
+      "source_sha256": "9c994404d3e77370fa9d1f62644d1f247a3a5498e281c0df0ec2ac59108e67a1",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "age_months": 2,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 25,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 2,
+          "grams_per_day": 30,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 35,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 3,
+          "grams_per_day": 45,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 50,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 4,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 6,
+          "grams_per_day": 70,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 7,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 8,
+          "grams_per_day": 80,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 9,
+          "grams_per_day": 85,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 10,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 35,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 2,
+          "grams_per_day": 45,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 3,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 70,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 4,
+          "grams_per_day": 80,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 5,
+          "grams_per_day": 90,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 6,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 7,
+          "grams_per_day": 110,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 8,
+          "grams_per_day": 115,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 9,
+          "grams_per_day": 120,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 10,
+          "grams_per_day": 130,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 40,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 2,
+          "grams_per_day": 50,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 3,
+          "grams_per_day": 65,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 4,
+          "grams_per_day": 85,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 5,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 6,
+          "grams_per_day": 100,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 7,
+          "grams_per_day": 120,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 8,
+          "grams_per_day": 130,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 9,
+          "grams_per_day": 135,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 10,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 45,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 2,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 3,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 85,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 4,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 5,
+          "grams_per_day": 115,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 6,
+          "grams_per_day": 125,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 7,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 8,
+          "grams_per_day": 150,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 9,
+          "grams_per_day": 165,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 10,
+          "grams_per_day": 175,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 40,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 2,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 3,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 80,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 4,
+          "grams_per_day": 90,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 5,
+          "grams_per_day": 100,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 6,
+          "grams_per_day": 115,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 7,
+          "grams_per_day": 130,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 8,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 9,
+          "grams_per_day": 150,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 10,
+          "grams_per_day": 165,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 2,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 3,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 4,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 6,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 7,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 8,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 9,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 10,
+          "grams_per_day": null,
+          "adult_food": true
+        }
+      ]
+    },
+    {
+      "id": "ocean-puppy-medium-maxi",
+      "product_id": "P0018",
+      "size": "medium_maxi",
+      "kind": "puppy",
+      "label": "Ocean Cod, Pumpkin & Cantaloupe Puppy — Medium & Maxi",
+      "source_file": "assets/feeding-guides/nd-ocean-canine-cod-pumpkin-cantaloupe-puppy-medium-maxi.png",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/705_37_ocean-puppy-medium-maxi-cod-pumpkin-feeding-guide.png",
+      "source_sha256": "0f54d037bbd2a2f007e96d974dfe7155ea517d8c3d0e4f74c0423f0a7afc63f6",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "age_months": 2,
+          "mature_weight_kg": 10,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 15,
+          "grams_per_day": 125,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 20,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 25,
+          "grams_per_day": 160,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 30,
+          "grams_per_day": 185,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 35,
+          "grams_per_day": 200,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 40,
+          "grams_per_day": 215,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 45,
+          "grams_per_day": 230,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 50,
+          "grams_per_day": 250,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 55,
+          "grams_per_day": 265,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 60,
+          "grams_per_day": 280,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 70,
+          "grams_per_day": 330,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 10,
+          "grams_per_day": 130,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 15,
+          "grams_per_day": 175,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 20,
+          "grams_per_day": 215,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 25,
+          "grams_per_day": 245,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 30,
+          "grams_per_day": 280,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 35,
+          "grams_per_day": 305,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 40,
+          "grams_per_day": 335,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 45,
+          "grams_per_day": 350,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 50,
+          "grams_per_day": 370,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 55,
+          "grams_per_day": 375,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 60,
+          "grams_per_day": 390,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 70,
+          "grams_per_day": 425,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 10,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 15,
+          "grams_per_day": 185,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 20,
+          "grams_per_day": 230,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 25,
+          "grams_per_day": 265,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 30,
+          "grams_per_day": 300,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 35,
+          "grams_per_day": 325,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 40,
+          "grams_per_day": 355,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 45,
+          "grams_per_day": 375,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 50,
+          "grams_per_day": 395,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 55,
+          "grams_per_day": 405,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 60,
+          "grams_per_day": 425,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 70,
+          "grams_per_day": 450,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 10,
+          "grams_per_day": 175,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 15,
+          "grams_per_day": 240,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 20,
+          "grams_per_day": 280,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 25,
+          "grams_per_day": 325,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 30,
+          "grams_per_day": 370,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 35,
+          "grams_per_day": 400,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 40,
+          "grams_per_day": 450,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 45,
+          "grams_per_day": 480,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 50,
+          "grams_per_day": 520,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 55,
+          "grams_per_day": 545,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 60,
+          "grams_per_day": 585,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 70,
+          "grams_per_day": 645,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 10,
+          "grams_per_day": 165,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 15,
+          "grams_per_day": 230,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 20,
+          "grams_per_day": 275,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 25,
+          "grams_per_day": 310,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 30,
+          "grams_per_day": 375,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 35,
+          "grams_per_day": 380,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 40,
+          "grams_per_day": 415,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 45,
+          "grams_per_day": 445,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 50,
+          "grams_per_day": 485,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 55,
+          "grams_per_day": 505,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 60,
+          "grams_per_day": 540,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 70,
+          "grams_per_day": 610,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 10,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 15,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 20,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 25,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 30,
+          "grams_per_day": 360,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 35,
+          "grams_per_day": 395,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 40,
+          "grams_per_day": 435,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 45,
+          "grams_per_day": 465,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 50,
+          "grams_per_day": 505,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 55,
+          "grams_per_day": 525,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 60,
+          "grams_per_day": 560,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 70,
+          "grams_per_day": 630,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 10,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 15,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 20,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 25,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 30,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 35,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 40,
+          "grams_per_day": 440,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 45,
+          "grams_per_day": 470,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 50,
+          "grams_per_day": 510,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 55,
+          "grams_per_day": 540,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 60,
+          "grams_per_day": 585,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 70,
+          "grams_per_day": 645,
+          "adult_food": false
+        }
+      ]
+    },
+    {
+      "id": "pumpkin-chicken-puppy-mini",
+      "product_id": "P0028",
+      "size": "mini",
+      "kind": "puppy",
+      "label": "Pumpkin Chicken & Pomegranate Puppy — Mini",
+      "source_file": "assets/feeding-guides/nd-pumpkin-canine-chicken-puppy-mini.jpg",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/716_10_pumpkin-puppy-mini-chicken-pomegranate-2,5kg-feeding-guide.jpg",
+      "source_sha256": "9f42904e2b32ac3b7a811200111406ee1f87154c516552d8b11abf29df11ab68",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "age_months": 2,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 25,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 2,
+          "grams_per_day": 30,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 35,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 3,
+          "grams_per_day": 45,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 50,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 4,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 6,
+          "grams_per_day": 70,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 7,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 8,
+          "grams_per_day": 80,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 9,
+          "grams_per_day": 85,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 10,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 35,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 2,
+          "grams_per_day": 45,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 3,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 70,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 4,
+          "grams_per_day": 80,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 5,
+          "grams_per_day": 90,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 6,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 7,
+          "grams_per_day": 110,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 8,
+          "grams_per_day": 115,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 9,
+          "grams_per_day": 120,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 10,
+          "grams_per_day": 130,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 40,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 2,
+          "grams_per_day": 50,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 3,
+          "grams_per_day": 65,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 4,
+          "grams_per_day": 85,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 5,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 6,
+          "grams_per_day": 100,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 7,
+          "grams_per_day": 120,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 8,
+          "grams_per_day": 130,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 9,
+          "grams_per_day": 135,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 10,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 45,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 2,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 3,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 85,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 4,
+          "grams_per_day": 95,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 5,
+          "grams_per_day": 115,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 6,
+          "grams_per_day": 125,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 7,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 8,
+          "grams_per_day": 150,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 9,
+          "grams_per_day": 165,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 10,
+          "grams_per_day": 175,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": 40,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 2,
+          "grams_per_day": 55,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": 60,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 3,
+          "grams_per_day": 75,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": 80,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 4,
+          "grams_per_day": 90,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 5,
+          "grams_per_day": 100,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 6,
+          "grams_per_day": 115,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 7,
+          "grams_per_day": 130,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 8,
+          "grams_per_day": 140,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 9,
+          "grams_per_day": 150,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 10,
+          "grams_per_day": 165,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 1.5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 2,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 2.5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 3,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 3.5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 4,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 5,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 6,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 7,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 8,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 9,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 10,
+          "grams_per_day": null,
+          "adult_food": true
+        }
+      ]
+    },
+    {
+      "id": "pumpkin-chicken-puppy-medium-maxi",
+      "product_id": "P0028",
+      "size": "medium_maxi",
+      "kind": "puppy",
+      "label": "Pumpkin Chicken & Pomegranate Puppy — Medium & Maxi",
+      "source_file": "assets/feeding-guides/nd-pumpkin-canine-chicken-puppy-medium-maxi.jpg",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/717_05_pumpkin-puppy-medium-maxi-chicken-pomegranate-2,5kg-feeding-guide.jpg",
+      "source_sha256": "0aa5681b1871c848127f718314b0309c896aeda9e3d8b7025d3dec26625e56a2",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "age_months": 2,
+          "mature_weight_kg": 25,
+          "grams_per_day": 160,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 30,
+          "grams_per_day": 185,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 35,
+          "grams_per_day": 200,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 40,
+          "grams_per_day": 215,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 45,
+          "grams_per_day": 230,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 50,
+          "grams_per_day": 250,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 55,
+          "grams_per_day": 265,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 60,
+          "grams_per_day": 280,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 65,
+          "grams_per_day": 300,
+          "adult_food": false
+        },
+        {
+          "age_months": 2,
+          "mature_weight_kg": 70,
+          "grams_per_day": 330,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 25,
+          "grams_per_day": 245,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 30,
+          "grams_per_day": 280,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 35,
+          "grams_per_day": 305,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 40,
+          "grams_per_day": 335,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 45,
+          "grams_per_day": 350,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 50,
+          "grams_per_day": 370,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 55,
+          "grams_per_day": 375,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 60,
+          "grams_per_day": 390,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 65,
+          "grams_per_day": 400,
+          "adult_food": false
+        },
+        {
+          "age_months": 3,
+          "mature_weight_kg": 70,
+          "grams_per_day": 425,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 25,
+          "grams_per_day": 265,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 30,
+          "grams_per_day": 300,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 35,
+          "grams_per_day": 325,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 40,
+          "grams_per_day": 355,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 45,
+          "grams_per_day": 375,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 50,
+          "grams_per_day": 395,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 55,
+          "grams_per_day": 405,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 60,
+          "grams_per_day": 425,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 65,
+          "grams_per_day": 430,
+          "adult_food": false
+        },
+        {
+          "age_months": 4,
+          "mature_weight_kg": 70,
+          "grams_per_day": 450,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 25,
+          "grams_per_day": 325,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 30,
+          "grams_per_day": 370,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 35,
+          "grams_per_day": 400,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 40,
+          "grams_per_day": 450,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 45,
+          "grams_per_day": 480,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 50,
+          "grams_per_day": 520,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 55,
+          "grams_per_day": 545,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 60,
+          "grams_per_day": 585,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 65,
+          "grams_per_day": 605,
+          "adult_food": false
+        },
+        {
+          "age_months": 6,
+          "mature_weight_kg": 70,
+          "grams_per_day": 645,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 25,
+          "grams_per_day": 310,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 30,
+          "grams_per_day": 375,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 35,
+          "grams_per_day": 380,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 40,
+          "grams_per_day": 415,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 45,
+          "grams_per_day": 445,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 50,
+          "grams_per_day": 485,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 55,
+          "grams_per_day": 505,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 60,
+          "grams_per_day": 540,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 65,
+          "grams_per_day": 575,
+          "adult_food": false
+        },
+        {
+          "age_months": 10,
+          "mature_weight_kg": 70,
+          "grams_per_day": 610,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 25,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 30,
+          "grams_per_day": 360,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 35,
+          "grams_per_day": 395,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 40,
+          "grams_per_day": 435,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 45,
+          "grams_per_day": 465,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 50,
+          "grams_per_day": 505,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 55,
+          "grams_per_day": 525,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 60,
+          "grams_per_day": 560,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 65,
+          "grams_per_day": 585,
+          "adult_food": false
+        },
+        {
+          "age_months": 12,
+          "mature_weight_kg": 70,
+          "grams_per_day": 630,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 25,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 30,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 35,
+          "grams_per_day": null,
+          "adult_food": true
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 40,
+          "grams_per_day": 440,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 45,
+          "grams_per_day": 470,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 50,
+          "grams_per_day": 510,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 55,
+          "grams_per_day": 540,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 60,
+          "grams_per_day": 585,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 65,
+          "grams_per_day": 610,
+          "adult_food": false
+        },
+        {
+          "age_months": 16,
+          "mature_weight_kg": 70,
+          "grams_per_day": 645,
+          "adult_food": false
+        }
+      ]
+    },
+    {
+      "id": "quinoa-quail-medium-maxi",
+      "product_id": "P0023",
+      "size": "medium_maxi",
+      "kind": "adult",
+      "label": "Quinoa Skin & Coat Quail — Medium & Maxi",
+      "source_file": "assets/feeding-guides/nd-quinoa-canine-quail-skin-coat-medium-maxi.png",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/1031_03_skin-&-coat-quail-medium-and-maxi-feeding-guide-table.png",
+      "source_sha256": "2cb0d1642d56dd431561c9a21324ac56d49a1c1d71ae1c9d81b6323d4425ca47",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "weight_kg": 5,
+          "grams_min": 60,
+          "grams_max": 110
+        },
+        {
+          "weight_kg": 10,
+          "grams_min": 105,
+          "grams_max": 180
+        },
+        {
+          "weight_kg": 15,
+          "grams_min": 140,
+          "grams_max": 245
+        },
+        {
+          "weight_kg": 20,
+          "grams_min": 175,
+          "grams_max": 310
+        },
+        {
+          "weight_kg": 30,
+          "grams_min": 235,
+          "grams_max": 415
+        },
+        {
+          "weight_kg": 40,
+          "grams_min": 290,
+          "grams_max": 515
+        },
+        {
+          "weight_kg": 50,
+          "grams_min": 345,
+          "grams_max": 610
+        },
+        {
+          "weight_kg": 60,
+          "grams_min": 400,
+          "grams_max": 680
+        },
+        {
+          "weight_kg": 70,
+          "grams_min": 450,
+          "grams_max": 750
+        }
+      ]
+    },
+    {
+      "id": "quinoa-quail-mini",
+      "product_id": "P0026",
+      "size": "mini",
+      "kind": "adult",
+      "label": "Quinoa Skin & Coat Quail — Mini",
+      "source_file": "assets/feeding-guides/nd-quinoa-canine-quail-skin-coat-mini.jpg",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/696_51_quinoa-skin&coat-quail-adult-mini-2,5kg-feeding-guide.jpg",
+      "source_sha256": "a46bbe4b671ebdb1c6882ec64aa7c7bcb4308b3262fe174a76a210c94442c165",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "weight_kg": 2,
+          "grams_min": 30,
+          "grams_max": 52
+        },
+        {
+          "weight_kg": 3,
+          "grams_min": 42,
+          "grams_max": 72
+        },
+        {
+          "weight_kg": 4,
+          "grams_min": 52,
+          "grams_max": 90
+        },
+        {
+          "weight_kg": 5,
+          "grams_min": 60,
+          "grams_max": 100
+        },
+        {
+          "weight_kg": 6,
+          "grams_min": 72,
+          "grams_max": 122
+        },
+        {
+          "weight_kg": 7,
+          "grams_min": 80,
+          "grams_max": 138
+        },
+        {
+          "weight_kg": 8,
+          "grams_min": 90,
+          "grams_max": 150
+        },
+        {
+          "weight_kg": 9,
+          "grams_min": 98,
+          "grams_max": 165
+        },
+        {
+          "weight_kg": 10,
+          "grams_min": 105,
+          "grams_max": 180
+        }
+      ]
+    },
+    {
+      "id": "quinoa-duck-mini",
+      "product_id": "P0025",
+      "size": "mini",
+      "kind": "adult",
+      "label": "Quinoa Skin & Coat Duck — Mini",
+      "source_file": "assets/feeding-guides/nd-quinoa-canine-duck-skin-coat-mini.jpg",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/693_26_quinoa-skin&coat-duck-adult-mini-2,5kg-feeding-guide.jpg",
+      "source_sha256": "12ea540137212938f92ba6582edd709dee0db4f90b1ebf2f49e79404031b6909",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "weight_kg": 2,
+          "grams_min": 30,
+          "grams_max": 52
+        },
+        {
+          "weight_kg": 3,
+          "grams_min": 42,
+          "grams_max": 72
+        },
+        {
+          "weight_kg": 4,
+          "grams_min": 52,
+          "grams_max": 90
+        },
+        {
+          "weight_kg": 5,
+          "grams_min": 60,
+          "grams_max": 100
+        },
+        {
+          "weight_kg": 6,
+          "grams_min": 72,
+          "grams_max": 122
+        },
+        {
+          "weight_kg": 7,
+          "grams_min": 80,
+          "grams_max": 138
+        },
+        {
+          "weight_kg": 8,
+          "grams_min": 90,
+          "grams_max": 150
+        },
+        {
+          "weight_kg": 9,
+          "grams_min": 98,
+          "grams_max": 165
+        },
+        {
+          "weight_kg": 10,
+          "grams_min": 105,
+          "grams_max": 180
+        }
+      ]
+    },
+    {
+      "id": "pumpkin-cat-neutered",
+      "product_id": "P0007",
+      "size": "all",
+      "kind": "adult",
+      "label": "Pumpkin Lamb & Blueberry Neutered Cat",
+      "source_file": "assets/feeding-guides/nd-pumpkin-feline-lamb-neutered.jpg",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/710_10_pumpkin-neutered-lamb-blueberry-1,5kg-feeding-guide.jpg",
+      "source_sha256": "38271c7ac780682cb3bb1f291de3e2dac43b1fc3df3b0af0af07c4c96bc1b78a",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "weight_kg": 2,
+          "grams_min": 25,
+          "grams_max": 33
+        },
+        {
+          "weight_kg": 2.5,
+          "grams_min": 30,
+          "grams_max": 40
+        },
+        {
+          "weight_kg": 3,
+          "grams_min": 32,
+          "grams_max": 44
+        },
+        {
+          "weight_kg": 3.5,
+          "grams_min": 36,
+          "grams_max": 48
+        },
+        {
+          "weight_kg": 4,
+          "grams_min": 40,
+          "grams_max": 52
+        },
+        {
+          "weight_kg": 4.5,
+          "grams_min": 42,
+          "grams_max": 56
+        },
+        {
+          "weight_kg": 5,
+          "grams_min": 45,
+          "grams_max": 60
+        },
+        {
+          "weight_kg": 5.5,
+          "grams_min": 48,
+          "grams_max": 65
+        },
+        {
+          "weight_kg": 6,
+          "grams_min": 52,
+          "grams_max": 68
+        },
+        {
+          "weight_kg": 6.5,
+          "grams_min": 56,
+          "grams_max": 72
+        }
+      ]
+    },
+    {
+      "id": "quinoa-cat-urinary",
+      "product_id": "P0008",
+      "size": "all",
+      "kind": "adult",
+      "label": "Quinoa Urinary Duck Cat",
+      "source_file": "assets/feeding-guides/nd-quinoa-feline-duck-urinary.jpg",
+      "source_url": "https://www.farmina.com/fotoprodotti/dosi/438_24_quinoa-urinary-1,5kg-feeding-guide.jpg",
+      "source_sha256": "d7067474e507ee999cbe4f8b64cea8848d1e510dd68569711e181b9b69d8ac45",
+      "transcription": "Read twice (full image, then two native-resolution halves) on 30/10/2026; both reads agreed.",
+      "rows": [
+        {
+          "weight_kg": 2,
+          "grams_min": 23,
+          "grams_max": 38
+        },
+        {
+          "weight_kg": 2.5,
+          "grams_min": 26,
+          "grams_max": 44
+        },
+        {
+          "weight_kg": 3,
+          "grams_min": 30,
+          "grams_max": 50
+        },
+        {
+          "weight_kg": 3.5,
+          "grams_min": 33,
+          "grams_max": 55
+        },
+        {
+          "weight_kg": 4,
+          "grams_min": 36,
+          "grams_max": 60
+        },
+        {
+          "weight_kg": 4.5,
+          "grams_min": 40,
+          "grams_max": 65
+        },
+        {
+          "weight_kg": 5,
+          "grams_min": 42,
+          "grams_max": 70
+        },
+        {
+          "weight_kg": 5.5,
+          "grams_min": 45,
+          "grams_max": 75
+        },
+        {
+          "weight_kg": 6,
+          "grams_min": 47,
+          "grams_max": 78
+        },
+        {
+          "weight_kg": 6.5,
+          "grams_min": 50,
+          "grams_max": 80
+        }
+      ]
+    }
+  ]
+}

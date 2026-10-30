@@ -70,11 +70,14 @@ test('all offered matcher combinations respect species and exact displayed life 
   assert.equal(failures,0);
   assert.equal(run(c,"matcherState={petType:'dog',stage:'adult',concern:'allergies'};getMatcherResults().length"),0);
 });
-test('each generated table has 84 exact cells and a matching PDF hash',()=>{
+test('each generated table is a complete grid with a matching source hash',()=>{
   const c=runtime();run(c,'validateFeedingGuides(guideFixture)');
   for(const guide of guides.guides){
-    assert.equal(guide.rows.length,84);
-    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,guide.source_pdf))).digest('hex'),guide.source_sha256);
+    if(guide.kind==='puppy'){
+      const ages=new Set(guide.rows.map(r=>r.age_months)),weights=new Set(guide.rows.map(r=>r.mature_weight_kg));
+      assert.equal(guide.rows.length,ages.size*weights.size,guide.id);
+    }
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,guide.source_file))).digest('hex'),guide.source_sha256);
   }
 });
 test('guide lookup distinguishes current weight, projected adult weight and age',()=>{

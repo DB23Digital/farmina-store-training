@@ -1,43 +1,68 @@
+// The guide in use for the selected formula and breed size, or null until one is determined.
+function selectedGuideLink() {
+  const productId = document.getElementById('cProductSelect')?.value;
+  try { return selectGuideLink(productId, document.getElementById('cGuideBreed')?.value); } catch(_) { return null; }
+}
+
 function selectedGuide() {
-  const id = document.getElementById('cProductSelect')?.value;
-  return FEEDING_GUIDES?.guides.find(guide=>guide.product_id === id) || null;
+  const link = selectedGuideLink();
+  return link && FEEDING_GUIDES?.guides.find(guide=>guide.id === link.id) || null;
+}
+
+function fillSelect(select, values, placeholder, label) {
+  const previous = select.value;
+  select.innerHTML = `<option value="">${placeholder}</option>` + values.map(v=>`<option value="${v}">${label(v)}</option>`).join('');
+  select.value = values.includes(Number(previous)) ? previous : '';
 }
 
 function populateGuideWeights() {
   const guide = selectedGuide();
   const age = Number(document.getElementById('cAgeMonths').value);
-  const select = document.getElementById('cMatureWeight');
-  const previous = select.value;
-  const weights = (guide?.rows || []).filter(row=>row.age_months === age && !row.adult_food).map(row=>row.mature_weight_kg);
-  select.innerHTML = '<option value="">Choose weight</option>' + weights.map(weight=>`<option value="${weight}">${weight} kg</option>`).join('');
-  select.value = weights.includes(Number(previous)) ? previous : '';
+  const weights = (guide?.kind === 'puppy' ? guide.rows : []).filter(row=>row.age_months === age && !row.adult_food).map(row=>row.mature_weight_kg);
+  fillSelect(document.getElementById('cMatureWeight'), weights, 'Choose weight', w=>`${w} kg`);
+}
+
+// Show the fields the selected guide needs and fill them from its listed values only.
+function populateGuideFields() {
+  const guide = selectedGuide();
+  const puppy = guide?.kind === 'puppy';
+  document.getElementById('cGuideAgeField').hidden = !puppy;
+  document.getElementById('cGuideMatureField').hidden = !puppy;
+  document.getElementById('cGuideWeightField').hidden = !guide || puppy;
+  const ages = puppy ? [...new Set(guide.rows.map(row=>row.age_months))].sort((a,b)=>a-b) : [];
+  fillSelect(document.getElementById('cAgeMonths'), ages, 'Choose age', a=>`${a} months`);
+  populateGuideWeights();
+  const weights = guide && !puppy ? guide.rows.map(row=>row.weight_kg) : [];
+  fillSelect(document.getElementById('cGuideWeight'), weights, 'Choose weight', w=>`${w} kg`);
 }
 
 function updateFeedingMode(reset = false) {
   const select = document.getElementById('cFeedMethod');
   if(!select) return;
   const productId = document.getElementById('cProductSelect').value;
-  const link = GUIDE_LINKS[productId];
-  document.getElementById('cGuideOption').disabled = !link || feedingGuideStatus !== 'ready';
-  if(reset) select.value = link ? 'guide' : 'estimate';
+  const links = guidesForProduct(productId);
+  const reference = GUIDE_REFERENCES[productId];
+  document.getElementById('cGuideOption').disabled = !links.length || feedingGuideStatus !== 'ready';
+  if(reset) select.value = links.length && feedingGuideStatus === 'ready' ? 'guide' : 'estimate';
   const guideMode = select.value === 'guide';
   document.getElementById('cGuideFields').hidden = !guideMode;
-  document.getElementById('cGuideBreedField').hidden = !guideMode || productId !== 'P0020';
+  document.getElementById('cGuideBreedField').hidden = !guideMode || !guideNeedsBreedSize(productId);
   if(reset) document.getElementById('cGuideBreed').value = '';
   document.getElementById('cWeight').disabled = guideMode;
   document.getElementById('cMEContainer').hidden = guideMode || document.getElementById('cPetType').value === 'cat';
-  document.getElementById('cGuideNote').textContent = link
-    ? `${link.label}. ${feedingGuideStatus === 'ready' ? 'Choose an exact table age and expected adult weight. Adult-food cells and unlisted combinations have no puppy dosage.' : 'Supplied guide ' + feedingGuideStatus + '.'}`
-    : 'No supplied table is linked to this formula. Adult estimates use the existing calculation; use the product’s own instructions for puppies and kittens.';
-  if(reset || !document.getElementById('cAgeMonths').options?.length || document.getElementById('cAgeMonths').options.length === 1) {
-    const guide = selectedGuide();
-    const ageSelect = document.getElementById('cAgeMonths');
-    const previous = reset ? '' : ageSelect.value;
-    const ages = [...new Set((guide?.rows || []).map(row=>row.age_months))].sort((a,b)=>a-b);
-    ageSelect.innerHTML = '<option value="">Choose age</option>' + ages.map(age=>`<option value="${age}">${age} months</option>`).join('');
-    ageSelect.value = ages.includes(Number(previous)) ? previous : '';
-    populateGuideWeights();
+  const note = document.getElementById('cGuideNote');
+  if(links.length) {
+    const status = feedingGuideStatus === 'ready'
+      ? (guideNeedsBreedSize(productId) ? 'Choose the breed size, then the values listed in the guide. ' : '') +
+        'Only values printed in the supplied guide can be chosen; nothing is interpolated.'
+      : 'Supplied guide ' + feedingGuideStatus + '.';
+    note.textContent = `Supplied guide${links.length > 1 ? 's' : ''}: ${links.map(l=>l.label).join('; ')}. ${status}`;
+  } else if(reference) {
+    note.innerHTML = `${reference.label}: this guide is not calculated here. <a href="${reference.source}" target="_blank" rel="noopener">View the supplied guide</a>.`;
+  } else {
+    note.textContent = 'No supplied guide is linked to this formula. Adult estimates use the existing calculation; use the product’s own instructions for puppies and kittens.';
   }
+  populateGuideFields();
 }
 
 function updateProductList() {
@@ -210,21 +235,28 @@ function runCalc() {
     const feeding = getFeedingResult({mode,petType,weightKg:weight,meValue,productId,
       ageMonths:Number(document.getElementById('cAgeMonths').value),
       matureWeightKg:Number(document.getElementById('cMatureWeight').value),
-      breedSize:document.getElementById('cGuideBreed').value});
-    const portion = feeding.grams;
-    const costPerDay = price / bagSizeG * portion;
-    if(!Number.isFinite(costPerDay) || costPerDay <= 0) throw Error('These inputs do not produce a valid daily cost.');
-    document.getElementById('crPortion').textContent = portion + 'g';
-    document.getElementById('crCostDay').textContent = 'R' + costPerDay.toFixed(2);
-    document.getElementById('crDays').textContent = Math.floor(bagSizeG / portion);
-    document.getElementById('crMonth').textContent = 'R' + Math.round(costPerDay * 30.4);
-    const sourceNote = feeding.source === 'guide'
-      ? `Supplied guide: ${feeding.label}. Age ${feeding.ageMonths} months; expected adult weight ${feeding.matureWeightKg}kg. <a href="${feeding.pdf}" target="_blank" rel="noopener" style="color:inherit">View source PDF</a>.`
-      : `Adult formula estimate for a ${weight}kg ${petType}. Confirm against the selected product’s feeding instructions.`;
+      breedSize:document.getElementById('cGuideBreed').value,
+      guideWeightKg:Number(document.getElementById('cGuideWeight').value)});
+    // Adult and cat guides give a range; show every figure as min–max.
+    const [low, high] = feeding.kind === 'adult' ? [feeding.gramsMin, feeding.gramsMax] : [feeding.grams, feeding.grams];
+    const costLow = price / bagSizeG * low;
+    const costHigh = price / bagSizeG * high;
+    if(!Number.isFinite(costLow) || costLow <= 0) throw Error('These inputs do not produce a valid daily cost.');
+    const span = (a, b, fmt) => a === b ? fmt(a) : `${fmt(a)}–${fmt(b)}`;
+    document.getElementById('crPortion').textContent = span(low, high, g=>g + 'g');
+    document.getElementById('crCostDay').textContent = span(costLow, costHigh, c=>'R' + c.toFixed(2));
+    document.getElementById('crDays').textContent = span(Math.floor(bagSizeG / high), Math.floor(bagSizeG / low), d=>d);
+    document.getElementById('crMonth').textContent = span(Math.round(costLow * 30.4), Math.round(costHigh * 30.4), m=>'R' + m);
+    const guideLink = `<a href="${feeding.sourceFile}" target="_blank" rel="noopener" style="color:inherit">View supplied guide</a>`;
+    const sourceNote = feeding.source !== 'guide'
+      ? `Adult formula estimate for a ${weight}kg ${petType}. Confirm against the selected product’s feeding instructions.`
+      : feeding.kind === 'adult'
+        ? `Supplied guide: ${feeding.label}. Listed min–max for ${feeding.weightKg}kg. ${guideLink}.`
+        : `Supplied guide: ${feeding.label}. Age ${feeding.ageMonths} months; expected adult weight ${feeding.matureWeightKg}kg. ${guideLink}.`;
     const formulaNote = feeding.source === 'estimate' && petType === 'dog'
       ? ` Existing calculation: 63.3 × ${weight}^0.75 kcal/day; ME ${meValue} kcal/kg.` : '';
     document.getElementById('crNote').innerHTML = sourceNote + formulaNote +
-      `<br>${bagSizeG/1000}kg bag at R${price} = R${costPerDay.toFixed(2)}/day.<br>Prices: June 2026 snapshot; confirm current RRP.`;
+      `<br>${bagSizeG/1000}kg bag at R${price} = ${span(costLow, costHigh, c=>'R' + c.toFixed(2))}/day.<br>Prices: June 2026 RRP list; confirm the shelf price.`;
     document.getElementById('calcResult').style.display = 'block';
     window.TrainingAnalytics?.track('calculator_used', {pet_type:petType, product_id:productId || 'custom'});
   } catch(error) {
