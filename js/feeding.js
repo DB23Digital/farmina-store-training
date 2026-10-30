@@ -1,6 +1,5 @@
-// Farmina products use only their supplied guide, so results match the printed bag
-// guide; a missing table cell never falls back to a formula. The formula estimate
-// (existing constants) is kept only for a custom bag with no product selected.
+// Results come only from Farmina's supplied feeding guides, so they match the guide
+// printed on the bag. Nothing is estimated or interpolated.
 // Puppy guides: grams per day by age and projected adult weight.
 // Adult and cat guides: a min-max gram range by current weight.
 // Kitten guide: a min-max gram range by age band and current weight.
@@ -108,13 +107,6 @@ fetch('assets/feeding-guides/feeding-guides.json')
   .catch(()=>{ FEEDING_GUIDES = null; feedingGuideStatus = 'unavailable'; })
   .finally(()=>{ if(typeof updateFeedingMode === 'function') updateFeedingMode(); });
 
-function calcPortion(petType, weightKg, meValue = 3997) {
-  if (!['dog','cat'].includes(petType) || !Number.isFinite(weightKg) || weightKg <= 0) throw Error('Enter a positive pet weight.');
-  if (petType === 'cat') return Math.round(16.5 * Math.pow(weightKg, 0.75));
-  if (!Number.isFinite(meValue) || meValue <= 0) throw Error('Enter a positive metabolic energy value.');
-  return Math.round((63.3 * Math.pow(weightKg, 0.75) / meValue) * 1000);
-}
-
 // The printed row for this weight, or the two printed rows either side of it.
 // Nothing is calculated between rows, and weights outside the printed ones get no row.
 function printedRowsFor(rows, weightKg) {
@@ -129,33 +121,27 @@ function printedRowsFor(rows, weightKg) {
   return [pick(below), pick(above)];
 }
 
-function getFeedingResult({mode,petType,weightKg,meValue,productId,ageMonths,matureWeightKg,breedSize,guideWeightKg,ageBand}, data = FEEDING_GUIDES) {
-  if (!['estimate','guide'].includes(mode)) throw Error('Choose a feeding basis.');
-  const source = productId ? FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id === productId && validatedSourceIds.has(p.product_id)) : null;
-  if (productId && (!source || source.species !== petType)) throw Error('Choose a valid product for this pet type.');
-  if (productId && !guidesForProduct(productId).length) throw Error('Farmina’s feeding guide for this product has not been added yet. Use the feeding guide printed on the bag.');
-  if (productId && mode !== 'guide') throw Error('Farmina products use their supplied feeding guide. The formula estimate is only for a custom bag.');
-  if (mode === 'guide') {
-    const link = selectGuideLink(productId, breedSize);
-    if (!data) throw Error('The guide is not available. Try again when it has loaded.');
-    const guide = data.guides.find(g=>g.id === link.id && g.product_id === productId);
-    const base = {source:'guide',kind:link.kind,label:link.label,sourceFile:link.source};
-    if (link.kind === 'kitten' || link.kind === 'adult') {
-      let rows = guide?.rows || [];
-      let band = null;
-      if (link.kind === 'kitten') {
-        band = KITTEN_BANDS.find(b=>b.id === ageBand);
-        if (!band) throw Error('Choose the kitten’s age.');
-        rows = rows.filter(row=>row.age_band === ageBand);
-      }
-      return {...base,weightKg:guideWeightKg,ageBand:band?.label,rows:printedRowsFor(rows,guideWeightKg)};
+function getFeedingResult({petType,productId,ageMonths,matureWeightKg,breedSize,guideWeightKg,ageBand}, data = FEEDING_GUIDES) {
+  if (!productId) throw Error('Choose a product.');
+  const source = FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id === productId && validatedSourceIds.has(p.product_id));
+  if (!source || source.species !== petType) throw Error('Choose a valid product for this pet type.');
+  if (!guidesForProduct(productId).length) throw Error('Farmina’s feeding guide for this product has not been added yet. Use the feeding guide printed on the bag.');
+  const link = selectGuideLink(productId, breedSize);
+  if (!data) throw Error('The guide is not available. Try again when it has loaded.');
+  const guide = data.guides.find(g=>g.id === link.id && g.product_id === productId);
+  const base = {kind:link.kind,label:link.label,sourceFile:link.source};
+  if (link.kind === 'kitten' || link.kind === 'adult') {
+    let rows = guide?.rows || [];
+    let band = null;
+    if (link.kind === 'kitten') {
+      band = KITTEN_BANDS.find(b=>b.id === ageBand);
+      if (!band) throw Error('Choose the kitten’s age.');
+      rows = rows.filter(row=>row.age_band === ageBand);
     }
-    const rows = guide?.rows.filter(row=>row.age_months === ageMonths && row.mature_weight_kg === matureWeightKg) || [];
-    if (rows.length !== 1) throw Error('Choose an age and expected adult weight listed in the supplied guide.');
-    if (rows[0].adult_food) throw Error('This table cell specifies adult food. Use the appropriate adult product guide.');
-    return {...base,grams:rows[0].grams_per_day,ageMonths,matureWeightKg};
+    return {...base,weightKg:guideWeightKg,ageBand:band?.label,rows:printedRowsFor(rows,guideWeightKg)};
   }
-  const grams = calcPortion(petType,weightKg,meValue);
-  if (!Number.isFinite(grams) || grams <= 0) throw Error('These inputs do not produce a valid portion. Check the weight and energy values.');
-  return {grams,source:'estimate',label:'Adult formula estimate'};
+  const rows = guide?.rows.filter(row=>row.age_months === ageMonths && row.mature_weight_kg === matureWeightKg) || [];
+  if (rows.length !== 1) throw Error('Choose an age and expected adult weight listed in the supplied guide.');
+  if (rows[0].adult_food) throw Error('This table cell specifies adult food. Use the appropriate adult product guide.');
+  return {...base,grams:rows[0].grams_per_day,ageMonths,matureWeightKg};
 }

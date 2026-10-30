@@ -84,7 +84,8 @@ test('guide lookup distinguishes current weight, projected adult weight and age'
   const c=runtime();
   const result=run(c,"getFeedingResult({mode:'guide',petType:'dog',weightKg:5,productId:'P0010',ageMonths:4,matureWeightKg:40},guideFixture)");
   assert.equal(result.grams,355);
-  assert.equal(result.source,'guide');
+  assert.equal(result.kind,'puppy');
+  assert.equal(result.sourceFile,'assets/feeding-guides/nd-ancestral-grain-canine-chicken-puppy-medium-maxi.pdf');
   assert.equal(run(c,"getFeedingResult({mode:'guide',petType:'dog',productId:'P0020',breedSize:'maxi',ageMonths:4,matureWeightKg:50},guideFixture).grams"),540);
 });
 test('missing cells, Adult transitions, unavailable guides and the wrong product never fall back',()=>{
@@ -99,14 +100,12 @@ test('missing cells, Adult transitions, unavailable guides and the wrong product
   ]) assert.throws(()=>run(c,`getFeedingResult(${input},guideFixture)`));
   assert.throws(()=>run(c,"getFeedingResult({mode:'guide',petType:'dog',productId:'P0010',ageMonths:4,matureWeightKg:40},null)"));
 });
-test('adult estimate retains the original calculation but rejects invalid energy, weight and young-product use',()=>{
+test('there is no formula estimate: every result needs a product and its printed guide',()=>{
   const c=runtime();
-  assert.equal(run(c,"getFeedingResult({mode:'estimate',petType:'dog',weightKg:10,meValue:3997}).grams"),89);
+  assert.equal(run(c,"typeof calcPortion"),'undefined');
   for(const input of [
-    "{mode:'estimate',petType:'dog',weightKg:10,meValue:0}",
-    "{mode:'estimate',petType:'dog',weightKg:10,meValue:-100}",
-    "{mode:'estimate',petType:'dog',weightKg:Infinity,meValue:3997}",
-    "{mode:'estimate',petType:'cat',weightKg:0}",
-    "{mode:'estimate',petType:'dog',weightKg:10,meValue:3997,productId:'P0019'}"
-  ]) assert.throws(()=>run(c,`getFeedingResult(${input},guideFixture)`));
+    "{petType:'dog',guideWeightKg:10}",
+    "{petType:'dog',productId:'',guideWeightKg:10}",
+    "{petType:'dog',productId:'P0013',guideWeightKg:10}"
+  ]) assert.throws(()=>run(c,`getFeedingResult(${input},guideFixture)`),/Choose a product|printed on the bag/);
 });

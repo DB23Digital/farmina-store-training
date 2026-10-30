@@ -292,7 +292,9 @@ test('feature flows emit completed actions once and pass only the intended metad
   for (const name of ['farmina-data', 'catalog-links', 'products', 'product-images', 'ingredients', 'quiz', 'tips', 'feeding', 'calculator', 'matcher', 'search', 'app']) {
     vm.runInContext(fs.readFileSync(path.join(root, 'js', name + '.js'), 'utf8'), context);
   }
-  for (const [id, value] of Object.entries({ cPetType: 'dog', cWeight: '10', cBagSize: '7000', cPrice: '999', cME: '3997' })) element(id).value = value;
+  context.guideFixture = JSON.parse(fs.readFileSync(path.join(root, 'assets/feeding-guides/feeding-guides.json'), 'utf8'));
+  vm.runInContext("FEEDING_GUIDES = validateFeedingGuides(guideFixture); feedingGuideStatus = 'ready';", context);
+  for (const [id, value] of Object.entries({ cPetType: 'dog', cProductSelect: 'P0012', cGuideWeight: '10', cBagSize: '12000', cPrice: '1549' })) element(id).value = value;
   vm.runInContext(`
     showScreen('quiz', document.getElementById('nav-quiz'));
     startQuiz('quinoa');
@@ -312,7 +314,7 @@ test('feature flows emit completed actions once and pass only the intended metad
     assert.equal(names.filter(n => n === name).length, 1, name);
   }
   assert.equal(hits.find(h => h[0] === 'quiz_complete')[1].score, 5);
-  assert.equal(hits.find(h => h[0] === 'calculator_used')[1].product_id, 'custom');
-  assert.equal(element('crPortion').textContent, '89g');
+  assert.equal(hits.find(h => h[0] === 'calculator_used')[1].product_id, 'P0012');
+  assert.equal(element('crPortion').textContent, '90g–160g');
   assert.ok(!JSON.stringify(hits).includes('chicken'));
 });

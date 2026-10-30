@@ -16,6 +16,8 @@
 @media(max-width:520px){.apex-brand{justify-content:flex-start;gap:8px;padding:8px 81px 8px 12px}.apex-brand img{width:42px;height:42px}.apex-brand p{font-size:10px}.apex-brand strong{font-size:14px}.training-exit{right:9px;padding:7px 9px;font-size:11px}}
 .calc-guide-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .calc-guide-fields[hidden],.calc-error[hidden]{display:none}
+.calc-guide-fields .calc-field-wide{grid-column:1/-1}
+.calc-guide-fields .calc-field[hidden]{display:none}
 .calc-field label{display:block;font-size:11px;font-weight:600;margin-bottom:6px;color:var(--muted)}
 .calc-field select,.calc-field input{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--ww);color:var(--text);font:inherit;font-size:13px}
 .calc-field input+.calc-source-note{margin-top:6px}

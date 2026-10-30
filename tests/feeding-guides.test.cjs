@@ -52,11 +52,19 @@ test('the kitten guide returns printed ranges by age band and never fills "—" 
   assert.throws(()=>run(context,`getFeedingResult({mode:'guide',petType:'cat',productId:'P0002',ageBand:'8-10',guideWeightKg:2})`),/kitten’s age/);
 });
 
-test('Farmina products never use the formula estimate; a custom bag still can',()=>{
-  const context=runtime();
-  assert.throws(()=>run(context,`getFeedingResult({mode:'estimate',petType:'dog',weightKg:20,meValue:3997,productId:'P0012'})`),/custom bag/);
-  assert.throws(()=>run(context,`getFeedingResult({mode:'estimate',petType:'dog',weightKg:20,meValue:3997,productId:'P0013'})`),/printed on the bag/);
-  assert.equal(result(context,{mode:'estimate',petType:'dog',weightKg:10,meValue:3997,productId:''}).source,'estimate');
+test('bag sizes come only from the chosen product; there is no generic list and no 10 kg bag',()=>{
+  const {context,element}=calculatorDom();
+  const appended=[];
+  Object.assign(element('cBagSize'),{appendChild:o=>appended.push(o)});
+  Object.assign(element('cPetType'),{value:'dog'});
+  run(context,'onCalcProductChange()');
+  assert.equal(element('cBagSize').innerHTML,'<option value="">Choose a product first</option>');
+  element('cProductSelect').value='P0027';
+  run(context,'onCalcProductChange()');
+  assert.deepEqual(appended.map(o=>o.value),['800','2500','7000','12000']);
+  const anyTenKg=JSON.parse(run(context,'JSON.stringify(FARMINA_SCRAPED_PRODUCTS.flatMap(p=>p.skus).some(s=>s.pack_size_grams===10000))'));
+  assert.equal(anyTenKg,false);
+  assert.match(fs.readFileSync(path.join(root,'index.html'),'utf8'),/<select id="cBagSize"[^>]*>\s*<option value="">Choose a product first<\/option>\s*<\/select>/);
 });
 
 test('adult and cat guides return the printed row, or both printed rows either side of the weight',()=>{
@@ -121,8 +129,7 @@ test('the calculator walks a kitten through age band, then only that band’s pr
   Object.assign(element('cPetType'),{value:'cat'});
   Object.assign(element('cProductSelect'),{value:'P0002'});
   run(context,'updateFeedingMode(true)');
-  assert.equal(element('cFeedMethod').value,'guide');
-  assert.equal(element('cEstimateOption').disabled,true);
+  assert.equal(element('cGuideFields').hidden,false);
   assert.equal(element('cGuideBandField').hidden,false);
   assert.equal(element('cGuideBreedField').hidden,true);
   run(context,'populateGuideWeightOptions()');
@@ -166,7 +173,7 @@ test('the calculator shows the guide range and its cost range for an adult guide
   Object.assign(element('cPetType'),{value:'dog'});
   Object.assign(element('cProductSelect'),{value:'P0027'});
   run(context,'updateFeedingMode(true)');
-  assert.equal(element('cFeedMethod').value,'guide');
+  assert.equal(element('cGuideFields').hidden,false);
   assert.equal(element('cGuideBreedField').hidden,false);
   assert.equal(element('cGuideWeightField').hidden,true);
   element('cGuideBreed').value='mini';

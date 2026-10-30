@@ -108,25 +108,23 @@ A finished quiz shows its score on the line card (for example "4/5 ✓"). Scores
 
 ## CHUNK calc-01: Cost Calculator
 
-**Keywords:** calculator, cost per day, bag, price, portion, grams per day, days per bag, per month, feeding guide, puppy guide, adult guide, cat guide, breed size, estimate
+**Keywords:** calculator, cost per day, bag, price, portion, grams per day, days per bag, per month, feeding guide, puppy guide, adult guide, cat guide, kitten, breed size
 
-Screen: **Calculator**. It turns a bag price into a cost per day, which is the fair way to answer price objections.
+Screen: **Calculator**. It shows Farmina's printed feeding amounts and turns the bag price into a cost per day, which is the fair way to answer price objections. Every amount comes from Farmina's feeding guide, the same one printed on the bag; the app never estimates one.
 
-Basic use, adult pet:
+How to use it:
 1. Choose Pet Type: Dog or Cat.
-2. Enter the pet's weight in kg.
-3. Optionally choose a Formula. This fills the bag sizes and the current snapshot prices for that product. You can also tap a **Bag SKU pricing** button to set bag size and price in one go. Leave Formula blank to enter a custom bag size and price.
-4. Check **Feeding basis** is "Adult formula estimate". For dogs, the Metabolic Energy field (kcal/kg) can be adjusted; it is pre-filled for convenience.
-5. Tap **Calculate**. Results: grams per day, cost per day, days per bag, and cost per month.
+2. Choose the Formula (product). This is required. The bag sizes list only that product's real packs, with June 2026 RRP prices; you can also tap a **Bag SKU pricing** button. Change the price if the shelf price differs.
+3. Fill in what the guide needs (below), then tap **Calculate**. Results: grams per day, cost per day, days per bag and cost per month.
 
-Supplied feeding guides: the calculator matches the feeding guide printed on the bag. When you choose a Farmina product, it always uses Farmina's own guide; the formula estimate is only for a custom bag with no product chosen. For kittens, choose the age (Weaning, 1–3, 4–6 or 7–12 months), then a weight printed for that age. If the bag record covers several breed sizes, choose the breed size first (Mini, Medium or Maxi). Then:
+If the bag record covers several breed sizes, choose the breed size first (Mini, Medium or Maxi). For kittens, choose the age (Weaning, 1–3, 4–6 or 7–12 months), then a weight printed for that age. Then:
 - Adult dog and cat guides: type the pet's current weight. If that weight is printed in the guide, the result shows Farmina's min–max grams per day for it, with cost per day, days per bag and monthly cost as ranges. If it falls between two printed weights (for example 12 kg, between 10 kg and 15 kg), both printed rows are shown side by side, each labelled with its weight; nothing is calculated in between. A weight outside the printed ones gets no amount: check the pack and ask a vet. The printed weights are listed under the box. Kittens work the same way within the chosen age.
 - Puppy guides: choose the age in months and the expected adult weight. The result shows the printed grams per day. Ages where the guide says to move to adult food give no puppy portion.
 Only amounts printed in the guide are ever shown; nothing in between is calculated. "View supplied guide" opens Farmina's guide; for most guides that needs a connection. No guide is available yet for Ancestral Grain Light Mini or Quinoa Duck Skin & Coat Medium & Maxi; the calculator says to use the guide printed on the bag for those.
 
 Things to say:
-- The adult figure is an **estimate**. Confirm it against the selected product's own feeding instructions.
-- If bag size or price is zero, empty or not a positive number, the calculator shows an error instead of a result.
+- The amounts are Farmina's own, as printed on the bag. Farmina describes them as a starting point to adjust so the pet keeps a healthy weight.
+- If no product is chosen, or the price is empty or not a positive number, the calculator shows an error instead of a result.
 - Prices are the June 2026 snapshot. Confirm the current retail price.
 - Changing any input hides the old result, so press Calculate again.
 
@@ -209,7 +207,7 @@ If allowed, the app records aggregate events only: screens visited, product, ing
 **Q: Can the matcher tell me what is safe for an allergic pet?** No. It can list formulas whose ingredient text leaves out what you ticked. Check the pack and follow veterinary advice.
 **Q: Are the prices current?** They match the June 2026 Farmina RRP list, checked on 30/10/2026. Always confirm the shelf price.
 **Q: Does the app work without data?** Yes, after one online load, except Ask by voice.
-**Q: Is the calculator exact?** For Farmina products it shows the amounts printed in Farmina's feeding guide, exactly. Only a custom bag with no product chosen uses a rough estimate. Always confirm with the pack.
+**Q: Is the calculator exact?** It shows the amounts printed in Farmina's feeding guide, exactly, and never estimates. Always confirm with the pack.
 **Q: Where do I turn analytics off?** Products screen, Analytics choices.
 **Q: How do I leave?** Log out, top right of the page.
 
@@ -227,7 +225,7 @@ Written for store staff on mid-range phones, so keep the video short, vertical-f
 | 4 | Ask by voice | 20s | voice-01 | Tap button, show warning text. Do not show a real customer call |
 | 5 | Learn the ingredients | 30s | ingredients-01 | By Condition, tap a pill, open an ingredient pop-up |
 | 6 | Test yourself | 25s | quiz-01 | One question with the explanation, then results |
-| 7 | Cost per day | 40s | calc-01 | Pick formula, bag, weight, Calculate. Say "estimate" |
+| 7 | Cost per day | 40s | calc-01 | Pick formula, bag, weight, Calculate. Show a weight between two printed rows |
 | 8 | Selling tips | 25s | tips-01 | Open Price Objection Handling, read a script |
 | 9 | Matcher and Search | 30s | matcher-01, search-01 | Matcher for digestion. Show the allergy message. Search an ingredient |
 | 10 | Privacy and offline | 20s | privacy-01, offline-01 | Show consent panel and Analytics choices. Switch to airplane mode and open the app |

@@ -50,32 +50,27 @@ function populateGuideFields() {
   populateGuideWeightOptions();
 }
 
+// Shows the guide fields for the selected product. Called again once the guide file loads.
 function updateFeedingMode(reset = false) {
-  const select = document.getElementById('cFeedMethod');
-  if(!select) return;
-  const productId = document.getElementById('cProductSelect').value;
+  const productSelect = document.getElementById('cProductSelect');
+  if(!productSelect) return;
+  const productId = productSelect.value;
   const links = guidesForProduct(productId);
-  document.getElementById('cGuideOption').disabled = !links.length || feedingGuideStatus !== 'ready';
-  // A selected Farmina product only ever uses its printed guide.
-  document.getElementById('cEstimateOption').disabled = !!productId;
-  if(reset || productId) select.value = productId ? 'guide' : 'estimate';
-  const guideMode = select.value === 'guide';
-  document.getElementById('cGuideFields').hidden = !guideMode;
-  document.getElementById('cGuideBreedField').hidden = !guideMode || !guideNeedsBreedSize(productId);
+  const ready = links.length && feedingGuideStatus === 'ready';
+  document.getElementById('cGuideFields').hidden = !ready;
+  document.getElementById('cGuideBreedField').hidden = !ready || !guideNeedsBreedSize(productId);
   if(reset) document.getElementById('cGuideBreed').value = '';
-  document.getElementById('cWeight').disabled = guideMode;
-  document.getElementById('cMEContainer').hidden = guideMode || document.getElementById('cPetType').value === 'cat';
   const note = document.getElementById('cGuideNote');
-  if(links.length) {
-    const status = feedingGuideStatus === 'ready'
-      ? (guideNeedsBreedSize(productId) ? 'Choose the breed size, then the values listed in the guide. ' : '') +
-        'Only values printed in the supplied guide can be chosen; nothing is interpolated.'
-      : 'Supplied guide ' + feedingGuideStatus + '.';
-    note.textContent = `Supplied guide${links.length > 1 ? 's' : ''}: ${links.map(l=>l.label).join('; ')}. ${status}`;
-  } else if(productId) {
+  if(!productId) {
+    note.textContent = 'Choose a product to use Farmina’s printed feeding guide.';
+  } else if(!links.length) {
     note.textContent = 'Farmina’s feeding guide for this product has not been added yet. Use the feeding guide printed on the bag.';
+  } else if(feedingGuideStatus !== 'ready') {
+    note.textContent = `Supplied guide ${feedingGuideStatus}.`;
   } else {
-    note.textContent = 'No product selected: the formula estimate is a rough guide only. Choose a product to use Farmina’s printed feeding guide.';
+    note.textContent = `Supplied guide${links.length > 1 ? 's' : ''}: ${links.map(l=>l.label).join('; ')}. ` +
+      (guideNeedsBreedSize(productId) ? 'Choose the breed size first. ' : '') +
+      'Only amounts printed in the guide are shown; nothing is calculated between them.';
   }
   populateGuideFields();
 }
@@ -87,7 +82,7 @@ function updateProductList() {
 
   const selectedPet = petTypeSelect.value; // 'dog' or 'cat'
 
-  sel.innerHTML = '<option value="">Custom price or choose a product</option>';
+  sel.innerHTML = '<option value="">Choose a product</option>';
 
   if (typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') return;
 
@@ -106,7 +101,6 @@ function initCalculator() {
   if(calculatorInitialised) return;
   calculatorInitialised = true;
   updateProductList();
-  setGenericBagOptions();
   updateFeedingMode(true);
 }
 
@@ -155,7 +149,8 @@ function onCalcProductChange() {
   const petTypeSelect = document.getElementById('cPetType');
   if (!bagSelect || !priceInput) return;
   if (!product) {
-    setGenericBagOptions();
+    // Bag sizes come only from the chosen product's priced packs.
+    bagSelect.innerHTML = '<option value="">Choose a product first</option>';
     renderCalcSkuButtons(null);
     priceInput.value = '';
     updateFeedingMode(true);
@@ -203,23 +198,6 @@ function onCalcBagSizeChange() {
   calcUpdate();
 }
 
-function setGenericBagOptions() {
-  const bagSelect = document.getElementById('cBagSize');
-  if (!bagSelect) return;
-  bagSelect.innerHTML =
-    '<optgroup label="Dog">' +
-    '<option value="2500">2.5 kg</option>' +
-    '<option value="7000" selected>7 kg</option>' +
-    '<option value="10000">10 kg</option>' +
-    '<option value="12000">12 kg</option>' +
-    '</optgroup>' +
-    '<optgroup label="Cat">' +
-    '<option value="300">300 g</option>' +
-    '<option value="1500">1.5 kg</option>' +
-    '<option value="5000">5 kg</option>' +
-    '</optgroup>';
-}
-
 window.addEventListener('load', initCalculator);
 
 function calcBagPrice() {
@@ -240,21 +218,19 @@ function runCalc() {
   calcUpdate();
   try {
     const petType = document.getElementById('cPetType').value;
-    const weight = Number(document.getElementById('cWeight').value);
+    const productId = document.getElementById('cProductSelect').value;
+    if(!productId) throw Error('Choose a product.');
     const bagSizeG = Number(document.getElementById('cBagSize').value);
     const price = Number(document.getElementById('cPrice').value);
-    const meValue = Number(document.getElementById('cME').value);
-    if(!Number.isFinite(price) || price <= 0 || !Number.isFinite(bagSizeG) || bagSizeG <= 0) throw Error('Enter a positive bag size and bag price.');
-    const productId = document.getElementById('cProductSelect').value;
-    const mode = document.getElementById('cFeedMethod').value || 'estimate';
-    const feeding = getFeedingResult({mode,petType,weightKg:weight,meValue,productId,
+    if(!Number.isFinite(price) || price <= 0 || !Number.isFinite(bagSizeG) || bagSizeG <= 0) throw Error('Choose a bag size and enter a positive bag price.');
+    const feeding = getFeedingResult({petType,productId,
       ageMonths:Number(document.getElementById('cAgeMonths').value),
       matureWeightKg:Number(document.getElementById('cMatureWeight').value),
       breedSize:document.getElementById('cGuideBreed').value,
       guideWeightKg:Number(document.getElementById('cGuideWeight').value),
       ageBand:document.getElementById('cAgeBand').value});
     // Printed rows to show: adult, cat and kitten guides give one min–max row, or the
-    // two printed rows either side of the weight; puppy guides and the estimate give one amount.
+    // two printed rows either side of the weight; puppy guides give one printed amount.
     const rows = feeding.rows || [{gramsMin:feeding.grams, gramsMax:feeding.grams}];
     const span = (a, b, fmt) => a === b ? fmt(a) : `${fmt(a)}–${fmt(b)}`;
     const figures = rows.map(row=>{
@@ -275,19 +251,15 @@ function runCalc() {
     const rowNote = rows.length === 2
       ? `${feeding.weightKg}kg is between the printed ${rows[0].weightKg}kg and ${rows[1].weightKg}kg rows; both are shown and nothing is calculated between them.`
       : `Printed min–max for ${feeding.weightKg}kg.`;
-    const sourceNote = feeding.source !== 'guide'
-      ? `Formula estimate for a ${weight}kg ${petType} on a custom bag. Confirm against the product’s feeding guide.`
-      : feeding.kind === 'kitten'
+    const sourceNote = feeding.kind === 'kitten'
         ? `Supplied guide: ${feeding.label}, ${feeding.ageBand}. ${rowNote} ${guideLink}.`
       : feeding.kind === 'adult'
         ? `Supplied guide: ${feeding.label}. ${rowNote} ${guideLink}.`
         : `Supplied guide: ${feeding.label}. Age ${feeding.ageMonths} months; expected adult weight ${feeding.matureWeightKg}kg. ${guideLink}.`;
-    const formulaNote = feeding.source === 'estimate' && petType === 'dog'
-      ? ` Existing calculation: 63.3 × ${weight}^0.75 kcal/day; ME ${meValue} kcal/kg.` : '';
-    document.getElementById('crNote').innerHTML = sourceNote + formulaNote +
+    document.getElementById('crNote').innerHTML = sourceNote +
       `<br>${bagSizeG/1000}kg bag at R${price}. Prices: June 2026 RRP list; confirm the shelf price.`;
     document.getElementById('calcResult').style.display = 'block';
-    window.TrainingAnalytics?.track('calculator_used', {pet_type:petType, product_id:productId || 'custom'});
+    window.TrainingAnalytics?.track('calculator_used', {pet_type:petType, product_id:productId});
   } catch(error) {
     const message = document.getElementById('calcError');
     message.textContent = error.message;
