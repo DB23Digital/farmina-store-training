@@ -63,6 +63,7 @@ nav button svg{width:21px;height:21px}
 .buddy-cta button.voice-open{background:transparent;border:1px solid rgba(255,255,255,.8);color:#fff}
 .buddy-cta button:disabled{opacity:.7;cursor:default}
 .voice-status{font-size:11px;line-height:1.45;color:var(--muted);padding:2px 18px 0}
+.voice-status:empty{display:none}
 .buddy-container{max-width:760px;margin:0 auto;padding:20px 16px 28px}
 .buddy-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:12px;margin-bottom:16px}
 .buddy-back{border:0;background:none;color:var(--gd);font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:8px 4px}

@@ -76,7 +76,7 @@ Rules to say out loud:
 Next to **Help a customer** is **Ask by voice**. Tapping it loads an external voice assistant from ElevenLabs. Staff then start the conversation inside the widget and the browser asks for microphone permission at that point.
 
 - It needs an internet connection. Offline, the button explains that it needs a connection and **Help a customer** keeps working.
-- The page warns: "Voice uses ElevenLabs online. Avoid sharing customer details; check the pack label and shelf price." Do not say customer names, phone numbers or addresses.
+- Do not say customer names, phone numbers or addresses to the voice assistant, and check the pack label and shelf price.
 - The voice agent is configured outside this app. Always verify what it says against the product card and the pack, especially for prices, health claims and allergies.
 - Nothing from the catalogue, the customer or analytics identifiers is passed into the widget.
 

@@ -20,7 +20,7 @@ function loadVoiceAgent(){
   voiceWidgetState='loading';
   button.disabled=true;
   button.textContent='Loading voice…';
-  status.textContent='Loading the ElevenLabs voice widget. No call starts until you choose to begin.';
+  status.textContent='Loading the voice widget. No call starts until you choose to begin.';
 
   const widget=document.createElement('elevenlabs-convai');
   widget.setAttribute('agent-id',VOICE_AGENT_ID);
