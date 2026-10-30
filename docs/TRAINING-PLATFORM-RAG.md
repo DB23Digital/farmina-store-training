@@ -34,7 +34,7 @@ The Farmina SA Staff Training Guide is a mobile-first web app (a Progressive Web
 The Products screen is the home screen. It lists the Farmina N&D range as cards, grouped under a banner for each line.
 
 Filters, all combinable, in three rows of chips:
-- **Pet:** All, Dog, Cat.
+- **Pet:** Dog, Cat, and **Reset**. Reset clears every filter (pet, life stage, line) and the search box, so the whole range shows again.
 - **Life stage:** All, Puppy, Adult, Light, Kitten, Neutered.
 - **Line:** All, N&D Quinoa, N&D Pumpkin, N&D Ocean, N&D Prime, N&D Ancestral Grain.
 
@@ -120,9 +120,9 @@ Basic use, adult pet:
 5. Tap **Calculate**. Results: grams per day, cost per day, days per bag, and cost per month.
 
 Supplied feeding guides: the calculator matches the feeding guide printed on the bag. When you choose a Farmina product, it always uses Farmina's own guide; the formula estimate is only for a custom bag with no product chosen. For kittens, choose the age (Weaning, 1–3, 4–6 or 7–12 months), then a weight printed for that age. If the bag record covers several breed sizes, choose the breed size first (Mini, Medium or Maxi). Then:
-- Adult dog and cat guides: choose the pet's current weight from the weights printed in the guide. The result shows Farmina's min–max grams per day, and the cost per day, days per bag and monthly cost as ranges.
+- Adult dog and cat guides: type the pet's current weight. If that weight is printed in the guide, the result shows Farmina's min–max grams per day for it, with cost per day, days per bag and monthly cost as ranges. If it falls between two printed weights (for example 12 kg, between 10 kg and 15 kg), both printed rows are shown side by side, each labelled with its weight; nothing is calculated in between. A weight outside the printed ones gets no amount: check the pack and ask a vet. The printed weights are listed under the box. Kittens work the same way within the chosen age.
 - Puppy guides: choose the age in months and the expected adult weight. The result shows the printed grams per day. Ages where the guide says to move to adult food give no puppy portion.
-Only weights and ages printed in the guide can be chosen; nothing in between is calculated. "View supplied guide" opens Farmina's guide; for most guides that needs a connection. No guide is available yet for Ancestral Grain Light Mini or Quinoa Duck Skin & Coat Medium & Maxi; the calculator says to use the guide printed on the bag for those.
+Only amounts printed in the guide are ever shown; nothing in between is calculated. "View supplied guide" opens Farmina's guide; for most guides that needs a connection. No guide is available yet for Ancestral Grain Light Mini or Quinoa Duck Skin & Coat Medium & Maxi; the calculator says to use the guide printed on the bag for those.
 
 Things to say:
 - The adult figure is an **estimate**. Confirm it against the selected product's own feeding instructions.

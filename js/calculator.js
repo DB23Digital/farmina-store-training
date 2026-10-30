@@ -15,12 +15,16 @@ function fillSelect(select, values, placeholder, label) {
   select.value = values.some(v=>String(v) === previous) ? previous : '';
 }
 
-// Current-weight choices: every printed weight, or for kittens the weights printed for the chosen age band.
+// Lists the weights printed in the guide (for kittens, in the chosen age band).
 function populateGuideWeightOptions() {
   const guide = selectedGuide();
+  const hint = document.getElementById('cGuideWeightHint');
+  if(!guide || guide.kind === 'puppy') { hint.textContent = ''; return; }
   const band = document.getElementById('cAgeBand').value;
-  const rows = !guide || guide.kind === 'puppy' ? [] : guide.kind === 'kitten' ? guide.rows.filter(row=>row.age_band === band) : guide.rows;
-  fillSelect(document.getElementById('cGuideWeight'), rows.map(row=>row.weight_kg), 'Choose weight', w=>`${w} kg`);
+  if(guide.kind === 'kitten' && !band) { hint.textContent = 'Choose the kitten’s age first.'; return; }
+  const rows = guide.kind === 'kitten' ? guide.rows.filter(row=>row.age_band === band) : guide.rows;
+  const weights = rows.map(row=>row.weight_kg).sort((a,b)=>a-b);
+  hint.textContent = `Printed weights: ${weights.join(', ')} kg. Between two printed weights, both printed rows are shown.`;
 }
 
 function populateGuideWeights() {
@@ -249,29 +253,39 @@ function runCalc() {
       breedSize:document.getElementById('cGuideBreed').value,
       guideWeightKg:Number(document.getElementById('cGuideWeight').value),
       ageBand:document.getElementById('cAgeBand').value});
-    // Adult, cat and kitten guides give a range; show every figure as min–max.
-    const ranged = feeding.kind === 'adult' || feeding.kind === 'kitten';
-    const [low, high] = ranged ? [feeding.gramsMin, feeding.gramsMax] : [feeding.grams, feeding.grams];
-    const costLow = price / bagSizeG * low;
-    const costHigh = price / bagSizeG * high;
-    if(!Number.isFinite(costLow) || costLow <= 0) throw Error('These inputs do not produce a valid daily cost.');
+    // Printed rows to show: adult, cat and kitten guides give one min–max row, or the
+    // two printed rows either side of the weight; puppy guides and the estimate give one amount.
+    const rows = feeding.rows || [{gramsMin:feeding.grams, gramsMax:feeding.grams}];
     const span = (a, b, fmt) => a === b ? fmt(a) : `${fmt(a)}–${fmt(b)}`;
-    document.getElementById('crPortion').textContent = span(low, high, g=>g + 'g');
-    document.getElementById('crCostDay').textContent = span(costLow, costHigh, c=>'R' + c.toFixed(2));
-    document.getElementById('crDays').textContent = span(Math.floor(bagSizeG / high), Math.floor(bagSizeG / low), d=>d);
-    document.getElementById('crMonth').textContent = span(Math.round(costLow * 30.4), Math.round(costHigh * 30.4), m=>'R' + m);
+    const figures = rows.map(row=>{
+      const costLow = price / bagSizeG * row.gramsMin, costHigh = price / bagSizeG * row.gramsMax;
+      if(!Number.isFinite(costLow) || costLow <= 0) throw Error('These inputs do not produce a valid daily cost.');
+      return {weightKg:row.weightKg,
+        portion:span(row.gramsMin, row.gramsMax, g=>g + 'g'),
+        costDay:span(costLow, costHigh, c=>'R' + c.toFixed(2)),
+        days:span(Math.floor(bagSizeG / row.gramsMax), Math.floor(bagSizeG / row.gramsMin), d=>d),
+        month:span(Math.round(costLow * 30.4), Math.round(costHigh * 30.4), m=>'R' + m)};
+    });
+    for(const [id, key] of [['crPortion','portion'],['crCostDay','costDay'],['crDays','days'],['crMonth','month']]) {
+      const tile = document.getElementById(id);
+      if(figures.length === 1) tile.textContent = figures[0][key];
+      else tile.innerHTML = `<div class="cr-rows">${figures.map(f=>`${f[key]}<span>at ${f.weightKg} kg</span>`).join('')}</div>`;
+    }
     const guideLink = `<a href="${feeding.sourceFile}" target="_blank" rel="noopener" style="color:inherit">View supplied guide</a>`;
+    const rowNote = rows.length === 2
+      ? `${feeding.weightKg}kg is between the printed ${rows[0].weightKg}kg and ${rows[1].weightKg}kg rows; both are shown and nothing is calculated between them.`
+      : `Printed min–max for ${feeding.weightKg}kg.`;
     const sourceNote = feeding.source !== 'guide'
-      ? `Adult formula estimate for a ${weight}kg ${petType}. Confirm against the selected product’s feeding instructions.`
+      ? `Formula estimate for a ${weight}kg ${petType} on a custom bag. Confirm against the product’s feeding guide.`
       : feeding.kind === 'kitten'
-        ? `Supplied guide: ${feeding.label}. Listed min–max for ${feeding.ageBand}, ${feeding.weightKg}kg. ${guideLink}.`
+        ? `Supplied guide: ${feeding.label}, ${feeding.ageBand}. ${rowNote} ${guideLink}.`
       : feeding.kind === 'adult'
-        ? `Supplied guide: ${feeding.label}. Listed min–max for ${feeding.weightKg}kg. ${guideLink}.`
+        ? `Supplied guide: ${feeding.label}. ${rowNote} ${guideLink}.`
         : `Supplied guide: ${feeding.label}. Age ${feeding.ageMonths} months; expected adult weight ${feeding.matureWeightKg}kg. ${guideLink}.`;
     const formulaNote = feeding.source === 'estimate' && petType === 'dog'
       ? ` Existing calculation: 63.3 × ${weight}^0.75 kcal/day; ME ${meValue} kcal/kg.` : '';
     document.getElementById('crNote').innerHTML = sourceNote + formulaNote +
-      `<br>${bagSizeG/1000}kg bag at R${price} = ${span(costLow, costHigh, c=>'R' + c.toFixed(2))}/day.<br>Prices: June 2026 RRP list; confirm the shelf price.`;
+      `<br>${bagSizeG/1000}kg bag at R${price}. Prices: June 2026 RRP list; confirm the shelf price.`;
     document.getElementById('calcResult').style.display = 'block';
     window.TrainingAnalytics?.track('calculator_used', {pet_type:petType, product_id:productId || 'custom'});
   } catch(error) {

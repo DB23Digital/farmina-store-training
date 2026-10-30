@@ -115,6 +115,20 @@ function calcPortion(petType, weightKg, meValue = 3997) {
   return Math.round((63.3 * Math.pow(weightKg, 0.75) / meValue) * 1000);
 }
 
+// The printed row for this weight, or the two printed rows either side of it.
+// Nothing is calculated between rows, and weights outside the printed ones get no row.
+function printedRowsFor(rows, weightKg) {
+  if (!Number.isFinite(weightKg) || weightKg <= 0) throw Error('Enter the pet’s current weight.');
+  const sorted = [...rows].sort((a,b)=>a.weight_kg - b.weight_kg);
+  const pick = row=>({weightKg:row.weight_kg,gramsMin:row.grams_min,gramsMax:row.grams_max});
+  const exact = sorted.find(row=>row.weight_kg === weightKg);
+  if (exact) return [pick(exact)];
+  const below = sorted.filter(row=>row.weight_kg < weightKg).at(-1);
+  const above = sorted.find(row=>row.weight_kg > weightKg);
+  if (!below || !above) throw Error(`${weightKg}kg is outside the weights printed in this guide (${sorted[0].weight_kg}–${sorted.at(-1).weight_kg}kg). Check the pack and ask a vet for guidance.`);
+  return [pick(below), pick(above)];
+}
+
 function getFeedingResult({mode,petType,weightKg,meValue,productId,ageMonths,matureWeightKg,breedSize,guideWeightKg,ageBand}, data = FEEDING_GUIDES) {
   if (!['estimate','guide'].includes(mode)) throw Error('Choose a feeding basis.');
   const source = productId ? FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id === productId && validatedSourceIds.has(p.product_id)) : null;
@@ -126,16 +140,15 @@ function getFeedingResult({mode,petType,weightKg,meValue,productId,ageMonths,mat
     if (!data) throw Error('The guide is not available. Try again when it has loaded.');
     const guide = data.guides.find(g=>g.id === link.id && g.product_id === productId);
     const base = {source:'guide',kind:link.kind,label:link.label,sourceFile:link.source};
-    if (link.kind === 'kitten') {
-      const rows = guide?.rows.filter(row=>row.age_band === ageBand && row.weight_kg === guideWeightKg) || [];
-      if (rows.length !== 1) throw Error('Choose an age band and a weight listed in the supplied guide.');
-      const band = KITTEN_BANDS.find(b=>b.id === ageBand).label;
-      return {...base,gramsMin:rows[0].grams_min,gramsMax:rows[0].grams_max,weightKg:guideWeightKg,ageBand:band};
-    }
-    if (link.kind === 'adult') {
-      const rows = guide?.rows.filter(row=>row.weight_kg === guideWeightKg) || [];
-      if (rows.length !== 1) throw Error('Choose a weight listed in the supplied guide.');
-      return {...base,gramsMin:rows[0].grams_min,gramsMax:rows[0].grams_max,weightKg:guideWeightKg};
+    if (link.kind === 'kitten' || link.kind === 'adult') {
+      let rows = guide?.rows || [];
+      let band = null;
+      if (link.kind === 'kitten') {
+        band = KITTEN_BANDS.find(b=>b.id === ageBand);
+        if (!band) throw Error('Choose the kitten’s age.');
+        rows = rows.filter(row=>row.age_band === ageBand);
+      }
+      return {...base,weightKg:guideWeightKg,ageBand:band?.label,rows:printedRowsFor(rows,guideWeightKg)};
     }
     const rows = guide?.rows.filter(row=>row.age_months === ageMonths && row.mature_weight_kg === matureWeightKg) || [];
     if (rows.length !== 1) throw Error('Choose an age and expected adult weight listed in the supplied guide.');

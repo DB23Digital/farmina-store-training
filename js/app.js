@@ -39,6 +39,19 @@ function setF(type,val,el){
   renderProducts();
 }
 
+// Clears every product filter and the search box. The pet row has no "All" chip,
+// so no pet chip stays active; the other rows return to their "All" chip.
+function resetFilters(){
+  filters={pet:'all',stage:'all',line:'all'};
+  document.getElementById('psearch').value='';
+  for(const group of ['fpet','fstage','fline']){
+    const chips=document.querySelectorAll(`#${group} .chip`);
+    chips.forEach(chip=>chip.classList.remove('active'));
+    if(group!=='fpet') chips[0]?.classList.add('active');
+  }
+  renderProducts();
+}
+
 function renderProducts(){
   const q = document.getElementById('psearch').value.toLowerCase();
   const grid = document.getElementById('pgrid');

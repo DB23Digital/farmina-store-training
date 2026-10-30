@@ -209,17 +209,10 @@ function renderBuddy(){
 function openBuddyProduct(productId,sourceId){
   const product=PRODUCTS.find(item=>item.id===productId);
   if(!product || product.catalog_error) return;
-  filters={pet:'all',stage:'all',line:'all'};
-  document.getElementById('psearch').value='';
-  for(const group of ['fpet','fstage','fline']){
-    const chips=document.querySelectorAll(`#${group} .chip`);
-    chips.forEach(chip=>chip.classList.remove('active'));
-    chips[0]?.classList.add('active');
-  }
   if(sourceId){
     const index=product.scraped_skus.findIndex(sku=>sku.product_id===sourceId);
     if(index>=0) selectedSkuByProduct[productId]=index;
   }
-  renderProducts();
+  resetFilters();
   jumpToProduct(productId);
 }

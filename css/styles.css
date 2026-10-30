@@ -17,7 +17,10 @@
 .calc-guide-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .calc-guide-fields[hidden],.calc-error[hidden]{display:none}
 .calc-field label{display:block;font-size:11px;font-weight:600;margin-bottom:6px;color:var(--muted)}
-.calc-field select{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--ww);color:var(--text);font:inherit;font-size:13px}
+.calc-field select,.calc-field input{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--ww);color:var(--text);font:inherit;font-size:13px}
+.calc-field input+.calc-source-note{margin-top:6px}
+.cr-rows{font-size:15px;line-height:1.35}
+.cr-rows span{display:block;font-size:10px;font-weight:600;opacity:.75}
 .calc-error{padding:12px;border:1px solid #a32d2d;border-radius:10px;background:#fff4f4;color:#8b2020;font-size:13px;line-height:1.5}
 .calc-source-note{font-size:12px;line-height:1.5;color:var(--muted)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -94,6 +97,7 @@ nav button svg{width:21px;height:21px}
 @media(max-width:600px){.fr{flex-wrap:wrap;overflow-x:visible}.fr .fgrp{width:100%}.fr .cr{flex-wrap:wrap}}
 .chip{padding:6px 13px;border-radius:50px;border:1.5px solid var(--border);background:var(--ww);font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;user-select:none}
 .chip.active{background:var(--gd);border-color:var(--gd);color:#fff}
+.chip-reset{border-style:dashed;margin-left:auto}
 
 /* PRODUCT GRID */
 .pg{padding:0 16px;display:flex;flex-direction:column;gap:12px}
