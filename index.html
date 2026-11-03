@@ -18,8 +18,29 @@
   <link rel="stylesheet" href="css/styles.css">
   <script>
     if ('serviceWorker' in navigator) {
+      const sw = navigator.serviceWorker;
+      // A page already run by a worker reloads once when a newer release takes over.
+      // A first visit has no worker yet, so it has nothing to replace.
+      const hadWorker = Boolean(sw.controller);
+      let reloading = false;
+      sw.addEventListener('controllerchange', () => {
+        if (!hadWorker || reloading) return;
+        reloading = true;
+        location.reload();
+      });
+      sw.addEventListener('message', event => {
+        if (event.data?.type !== 'VERSION') return;
+        const label = document.getElementById('appVersion');
+        if (label) label.textContent = 'Version ' + event.data.version;
+      });
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/training/service-worker.js', {scope:'/training/'});
+        sw.register('/training/service-worker.js', {scope:'/training/', updateViaCache:'none'}).then(registration => {
+          // Staff often leave the app open, so check again whenever they return to it.
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') registration.update().catch(() => {});
+          });
+        }).catch(() => {});
+        sw.ready.then(registration => registration.active?.postMessage({type:'GET_VERSION'}));
       });
     }
   </script>
@@ -29,7 +50,7 @@
   <div id="app">
     <header class="apex-brand">
       <img src="assets/apexlogo-mark.png" width="64" height="64" alt="Apex Pet Group">
-      <p>Training powered by <strong>Apex Pet Group</strong></p>
+      <p>Training powered by <strong>Apex Pet Group</strong><span id="appVersion" class="app-version"></span></p>
       <a class="training-exit" href="/" aria-label="Log out of training and return to Apex Pet Group home">Log out</a>
     </header>
 

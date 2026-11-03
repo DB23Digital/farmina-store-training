@@ -227,6 +227,60 @@ test('all precached assets exist, analytics is available offline, and PWA launch
   for(const icon of manifest.icons) assert.ok(icon.src.startsWith('/training/assets/'));
 });
 
+function registrationPage(controller) {
+  const listeners = {};
+  const docListeners = {};
+  const state = { reloads: 0, updates: 0, label: { textContent: '' }, listeners, docListeners };
+  const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
+  const script = html.match(/<script>([\s\S]*?)<\/script>/i)[1];
+  const registration = { update: () => { state.updates++; return Promise.resolve(); } };
+  vm.runInNewContext(script, {
+    Boolean,
+    navigator: { serviceWorker: { controller, ready: new Promise(() => {}),
+      addEventListener(name, fn) { listeners[name] = fn; },
+      register: async () => registration } },
+    window: { addEventListener: (_event, callback) => callback() },
+    document: { visibilityState: 'visible', getElementById: () => state.label,
+      addEventListener(name, fn) { docListeners[name] = fn; } },
+    location: { reload() { state.reloads++; } }
+  });
+  return state;
+}
+
+test('a page already run by a worker reloads once when a new release takes over', () => {
+  const page = registrationPage({});
+  page.listeners.controllerchange();
+  page.listeners.controllerchange();
+  assert.equal(page.reloads, 1);
+});
+
+test('a first visit does not reload when its first worker takes over', () => {
+  const page = registrationPage(null);
+  page.listeners.controllerchange();
+  assert.equal(page.reloads, 0);
+});
+
+test('returning to an open app checks for a new release', async () => {
+  const page = registrationPage({});
+  await new Promise(resolve => setImmediate(resolve));
+  page.docListeners.visibilitychange();
+  assert.equal(page.updates, 1);
+});
+
+test('the worker reports the short release version and the page shows it', () => {
+  const w = worker();
+  const sent = [];
+  vm.runInContext("CACHE_NAME", w.context);
+  w.handlers.message({ data: { type: 'GET_VERSION' }, source: { postMessage: m => sent.push(m) } });
+  assert.equal(sent[0].type, 'VERSION');
+  assert.equal(sent[0].version, 'v13');
+  const page = registrationPage({});
+  page.listeners.message({ data: { type: 'VERSION', version: '1c7fb5' } });
+  assert.equal(page.label.textContent, 'Version 1c7fb5');
+  page.listeners.message({ data: { type: 'OTHER' } });
+  assert.equal(page.label.textContent, 'Version 1c7fb5');
+});
+
 test('worker refuses installation from the website root or another directory', () => {
   assert.throws(()=>worker('https://apexpetgroup.co.za/service-worker.js'), /Worker must be served/);
   assert.throws(()=>worker('https://apexpetgroup.co.za/other/service-worker.js'), /Worker must be served/);
@@ -239,7 +293,8 @@ test('HTML base and worker registration keep resources and control inside /train
   const registrations = [];
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/gi)];
   for(const script of scripts) vm.runInNewContext(script[1], {
-    navigator:{serviceWorker:{register:(url,options)=>registrations.push({url,scope:options.scope})}},
+    navigator:{serviceWorker:{addEventListener(){},ready:new Promise(()=>{}),
+      register:(url,options)=>{registrations.push({url,scope:options.scope});return new Promise(()=>{});}}},
     window:{addEventListener:(_event,callback)=>callback()}
   });
   assert.deepEqual(registrations,[{url:'/training/service-worker.js',scope:'/training/'}]);

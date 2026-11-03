@@ -109,6 +109,12 @@ self.addEventListener('activate', event => {
   });
 });
 
+// ── Version: the release this worker serves, shown in the app header ──
+self.addEventListener('message', event => {
+  if (event.data?.type !== 'GET_VERSION') return;
+  event.source?.postMessage({type:'VERSION', version:CACHE_NAME.replace('apex-training-','').slice(0,6)});
+});
+
 // ── Fetch: cache-first, fall back to network ──
 self.addEventListener('fetch', event => {
   // Only handle GET requests inside this app's directory.
