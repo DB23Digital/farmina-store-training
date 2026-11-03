@@ -2,7 +2,7 @@
 
 ## Current target and handoff
 
-Static PWA for store staff at `https://apexpetgroup.co.za/training/`. The repository root is the application source; no framework or production server build is needed. Use [current status](docs/PROJECT-STATUS-2026-10-26.md) and [deployment instructions](docs/DEPLOYMENT.md) before changing or releasing it. Earlier Vercel notes are historical.
+Static PWA for store staff at `https://apexpetgroup.co.za/training/`. The repository root is the application source; no framework or production server build is needed. Use [current status](docs/PROJECT-STATUS-2026-10-26.md) and [deployment instructions](docs/DEPLOYMENT.md) before changing or releasing it. Vercel hosting is retired; earlier Vercel notes are historical.
 
 ## Runtime map
 

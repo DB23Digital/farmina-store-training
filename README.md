@@ -30,7 +30,7 @@ Use the [current cPanel installation instructions](docs/CPANEL-INSTALLATION.md) 
    assets/    (all icons, logo and supporting feeding-guide documents)
    ```
    Do not upload `.git/`, `.vercel/`, `tests/`, `docs/`, agent configuration or workspace assessment/backups. Do not upload the parent `farmina_data/` source folder. There is no application build step.
-4. The service worker **requires HTTPS** to activate. Confirm HTTPS, the directory's trailing-slash redirect, and HTML/worker cache revalidation on Apache. `vercel.json` does not configure cPanel/Apache.
+4. The service worker **requires HTTPS** to activate. Confirm HTTPS, the directory's trailing-slash redirect, and HTML/worker cache revalidation on Apache.
 5. Open the URL in Chrome on mobile, tap the browser menu → **Add to Home Screen** to install as a PWA.
 
 > Packaged releases get a new content-derived cache name whenever runtime files change. The development source uses `apex-training-v13`. Check an existing installation after activation and reload, as well as a fresh session.
