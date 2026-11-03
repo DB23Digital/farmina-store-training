@@ -23,7 +23,6 @@ Updated 03/11/2026. Source of truth for in-progress work on this repo.
 
 - [ ] Test the responsive build on a physical Android phone and tablet, including the voice widget position
 - [ ] Upload the latest release ZIP from `dist/` to `public_html/training/`
-- [ ] Push access to Farmina-SA/farmina-store-training if the push was refused
 - [ ] Spot-check five transcribed values against the guide images (listed in chat, 30/10/2026)
 - [ ] Supply guides: Quinoa Duck Skin & Coat Medium & Maxi (P0024), Ancestral Grain Light Mini (P0013)
 - [ ] Decide the six card figures that conflict with the price list (docs/RRP-AND-RESOURCE-VERIFICATION-2026-10-30.md)
