@@ -84,7 +84,7 @@ The workbook gives each recipe as "X% of protein from animal sources / Y% meat &
 | cp3 Prime Lamb & Blueberry cat | 98% / 85% | 98% / 86% |
 | cq1 Quinoa Urinary cat | 98% / 85% | 94% / 70% |
 
-**Update, 03/11/2026:** Deon asked for these six cards to follow the approved list, and the figures were re-read from the workbook. All six now match. The cards' other macro figures, such as Fruits & Veg, were not changed and have no source in the workbook, so some cards no longer total 100%.
+**Update, 03/11/2026:** Deon asked for these six cards to follow the approved list, and the figures were re-read from the workbook. All six then matched. Prime Lamb & Blueberry cat later moved to the website's 85% at Deon's request; see `FARMINA-WEB-VERIFICATION-2026-11-03.md`. The cards' other macro figures, such as Fruits & Veg, were not changed and have no source in the workbook, so some cards no longer total 100%.
 
 ## Training copy that contradicted the product range (corrected 30/10/2026)
 

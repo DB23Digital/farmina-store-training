@@ -17,22 +17,31 @@ Scope: each of the 36 cards in `js/products.js` was compared with its official F
 | Prime cat | 5 | 98% | 98% |
 | Pumpkin dog | 10 | 96% | 96% |
 | Pumpkin Neutered cat | 1 | 96% | 96% |
-| Ocean dog | 4 | 98% | 98% ocean-sourced protein |
+| Ocean dog | 4 | 96% | 98% ocean-sourced protein; 96% on the pack and price list |
 | Ocean Herring cat | 1 | 98% | 98% ocean-sourced protein |
 | Quinoa Skin & Coat dog | 4 | 92% | No figure on the page; price list |
 | Quinoa Urinary cat | 1 | 94% | No figure on the page; price list |
 
-The June 2026 price list gives Ocean dog as 96%. The website figure is used, at Deon's instruction.
+Deon confirmed on 03/11/2026 that Ocean dog stays at 96%, as printed on the pack shots.
 
-## Differences left in place
+## Meat and fats
 
-Meat and fats is not a protein figure, so these cards keep the approved price list value:
+Deon chose the website figure for these cards on 03/11/2026:
 
-| Card | Price list and app | Website |
+| Card | Price list | App and website |
 |---|---|---|
-| Prime Puppy Medium & Maxi | 80% | 76% (the Prime Puppy Mini page shows 80%) |
+| Prime Puppy Medium & Maxi | 80% | 76% (the Prime Puppy Mini page and card stay at 80%) |
 | Pumpkin Wild Boar Adult, both kibble sizes | 68% | 67% |
 | Prime Lamb & Blueberry cat | 86% | 85% |
+
+## Figures restored from the website
+
+Deon confirmed on 03/11/2026 that figures quoted on the website can stay. All 36 pages quote these, and each card now shows its own page's values:
+
+- **Fruits, Vegetables, Botanicals, Vitamins & Minerals:** shown as Fruits, Veg, Botanicals.
+- **Share of the meats that are fresh/raw:** 45–51%. This is a share of the meats, not of the whole recipe, so the card label is Of Meats Fresh/Raw.
+
+Meat and fats, grains and this fruit figure total 100% on every card.
 
 ## Other checks
 

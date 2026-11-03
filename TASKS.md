@@ -26,7 +26,7 @@ Updated 03/11/2026. Source of truth for in-progress work on this repo.
 - [x] Ocean and Prime quizzes added
 - [x] Quiz progress saved on the device
 - [x] Catalogue lists all 36 products from the Shopify master, with a Kibble Size filter
-- [x] Ingredient percentages limited to the price list and pack-label source
+- [x] Ingredient percentages limited to the price list, pack-label source and Farmina ZA pages
 - [x] Protein figures checked against all 36 Farmina ZA product pages (docs/FARMINA-WEB-VERIFICATION-2026-11-03.md)
 - [ ] Confirm GA4 receipt in Realtime or DebugView (Deon)
 - [ ] Shadow 5 salespeople in store (Deon)
@@ -35,7 +35,6 @@ Updated 03/11/2026. Source of truth for in-progress work on this repo.
 
 - [ ] Spot-check two or three real bags against the Shopify master, starting with the Urinary cat
 - [ ] Reconcile two master SKUs with the price list: Quail Medium & Maxi 7 kg (PND 0700087 vs PND0700034) and Prime Puppy Mini 7 kg (PND 0700081 missing). The Farmina pages show no SKU codes
-- [ ] Ask Farmina about three meat and fats figures and the Ocean protein wording (docs/FARMINA-WEB-VERIFICATION-2026-11-03.md)
 
 - [ ] Test the responsive build on a physical Android phone and tablet, including the voice widget position
 - [ ] Upload the latest release ZIP from `dist/` to `public_html/training/`

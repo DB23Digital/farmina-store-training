@@ -95,9 +95,9 @@ test('Reset clears pet, life stage, line and search; Find in catalogue starts fr
   assert.deepEqual(shown('fline'),chips.fline);
 });
 
-test('the six card figures match the approved June 2026 list',()=>{
+test('the six reviewed card figures match the approved sources',()=>{
   const context=runtime();
-  const expected={dp3:[96,'75%'],dp4:[96,'75%'],dq1:[92,'51%'],dq2:[92,'51%'],cp3:[98,'86%'],cq1:[94,'70%']};
+  const expected={dp3:[96,'75%'],dp4:[96,'75%'],dq1:[92,'51%'],dq2:[92,'51%'],cp3:[98,'85%'],cq1:[94,'70%']};
   for(const [family,[animal,meat]] of Object.entries(expected)){
     const cards=JSON.parse(vm.runInContext(`JSON.stringify(PRODUCTS.filter(p=>p.family==='${family}'))`,context));
     assert.ok(cards.length>=1,family);
@@ -108,10 +108,20 @@ test('the six card figures match the approved June 2026 list',()=>{
   }
 });
 
-test('protein figures match the Farmina ZA product pages read on 03/11/2026',()=>{
+test('Deon\'s source decisions of 03/11/2026 hold',()=>{
+  const context=runtime();
+  const meat=id=>vm.runInContext(`PRODUCTS.find(p=>p.id==='${id}').macros.meat`,context);
+  assert.equal(meat('dp1-mini'),'80%');
+  assert.equal(meat('dp1-mm'),'76%');
+  assert.equal(meat('dp7-mini'),'67%');
+  assert.equal(meat('dp7-mm'),'67%');
+  assert.equal(meat('cp3'),'85%');
+});
+
+test('protein figures match the Farmina ZA product pages read on 03/11/2026, and the packs for Ocean dog',()=>{
   const context=runtime();
   const crude={dp1:32,dp2:34,do1:30,do2:30,dp3:30,dp4:30,dp5:30,dp6:28,dp7:30,dl1:30,dl2:30,dl3:34,dq1:23,dq2:23,cp1:44,cp2:44,cp3:42,cp4:44,cp6:46,co1:44,cp5:46,cq1:33};
-  const animal={dp1:98,dp2:98,do1:98,do2:98,dp3:96,dp4:96,dp5:96,dp6:96,dp7:96,dl1:90,dl2:90,dl3:90,cp1:98,cp2:98,cp3:98,cp4:98,cp6:98,co1:98,cp5:96};
+  const animal={dp1:98,dp2:98,do1:96,do2:96,dp3:96,dp4:96,dp5:96,dp6:96,dp7:96,dl1:90,dl2:90,dl3:90,cp1:98,cp2:98,cp3:98,cp4:98,cp6:98,co1:98,cp5:96};
   const products=JSON.parse(vm.runInContext('JSON.stringify(PRODUCTS)',context));
   assert.equal(products.length,36);
   for(const p of products){
@@ -135,7 +145,8 @@ test('all 36 products are listed, with each dog recipe in both kibble sizes',()=
     assert.equal(p.catalog_error,false,p.id);
     for(const field of ['composition','analysis','registration']) assert.ok(p[field],`${p.id} ${field}`);
     assert.ok(p.energy>0,p.id);
-    assert.deepEqual(Object.keys(p.macros).sort(),['grains','meat'],`${p.id} quotes an unsourced macro`);
+    assert.deepEqual(Object.keys(p.macros).sort(),['fresh','fruits','grains','meat'],`${p.id} macros`);
+    assert.equal(parseFloat(p.macros.meat)+parseFloat(p.macros.grains)+parseFloat(p.macros.fruits),100,`${p.id} breakdown total`);
     const label=g=>g>=1000?`${g/1000}kg`:`${g}g`;
     assert.deepEqual(p.scraped_skus.map(s=>label(s.pack_size_grams)),p.sizes,`${p.id} packs`);
   }
@@ -149,7 +160,7 @@ test('all 36 products are listed, with each dog recipe in both kibble sizes',()=
 test('copy quotes no ingredient percentage without an approved source',()=>{
   const context=runtime();
   const text=vm.runInContext('JSON.stringify({TIPS,INGREDIENTS,QUIZZES,PRODUCTS})',context);
-  assert.doesNotMatch(text,/48-51%|50%\+ of the recipe|70% water|63%\+|50% fresh|Fruits & Veg/);
+  assert.doesNotMatch(text,/48-51%|50%\+ of the recipe|70% water|63%\+/);
 });
 
 test('Tips no longer carry the two unsourced claims',()=>{

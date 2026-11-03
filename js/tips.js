@@ -47,7 +47,7 @@ const TIPS = [
      a:'7–10 days is standard. Day 1-3: 25% Farmina, 75% old food. Day 4-6: 50/50. Day 7-9: 75% Farmina. Day 10+: 100% Farmina.',
      script:'"The golden rule is 7-10 days. Mix gradually — sudden changes upset even healthy digestive systems. The good news is the prebiotics in Farmina actually help the transition go smoother."'},
     {q:'Customer says their pet won\'t eat new food.',
-     a:'Palatability is a Farmina strength. Suggest warming the food slightly, or adding warm water to release the aromas.',
+     a:'Palatability is a Farmina strength. Farmina lists 45–51% of the meats as fresh/raw, depending on the recipe. Suggest warming the food slightly, or adding warm water to release the aromas.',
      script:'"Try adding a small amount of warm water and let it sit for a minute — the fresh meat smell really opens up. Most picky eaters are converted within 3 days."'},
     {q:'Customer notices softer stools during transition.',
      a:'Normal and expected. The gut microbiome is adjusting. The prebiotics are actively changing the bacterial environment. Typically resolves by day 5-7. The Pumpkin range can help if it persists.',

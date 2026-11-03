@@ -152,8 +152,8 @@ function renderProducts(){
   <div class="spr">
     <div class="sp"><div class="val">${p.macros.meat}</div><div class="lbl">Meat & Fats</div></div>
     <div class="sp"><div class="val">${p.macros.grains}</div><div class="lbl">Grains</div></div>
-    <div class="sp"><div class="val">${p.nutrition.fat}%</div><div class="lbl">Crude Fat</div></div>
-    <div class="sp"><div class="val">${p.nutrition.fibre}%</div><div class="lbl">Crude Fibre</div></div>
+    <div class="sp"><div class="val">${p.macros.fruits}</div><div class="lbl">Fruits, Veg, Botanicals</div></div>
+    <div class="sp"><div class="val">${p.macros.fresh}</div><div class="lbl">Of Meats Fresh/Raw</div></div>
   </div>
   <div class="pinfo">
     <div class="pinfo-row">
