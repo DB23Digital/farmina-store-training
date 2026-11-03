@@ -15,8 +15,8 @@ const INGREDIENTS = [
   {id:'i2',icon:'🐔',name:'Dehydrated Chicken Meat',cat:'protein',catLabel:'Concentrated Protein',
    conditions:[],
    what:'Chicken that\'s been gently dried to remove moisture, concentrating the protein content to ~4x that of fresh meat.',
-   why:'Provides dense, stable protein. When fresh + dehydrated chicken are combined, the total chicken content is significant — typically 50%+ of the recipe.',
-   sell:'Explain: fresh chicken is 70% water. After cooking, dehydrated meat provides more actual protein per gram.'},
+   why:'Provides dense, stable protein.',
+   sell:'Explain: fresh chicken contains a lot of water. After cooking, dehydrated meat provides more actual protein per gram.'},
 
   {id:'i3',icon:'🐗',name:'Italian Wild Boar',cat:'protein',catLabel:'Novel Protein',
    conditions:['allergy'],
@@ -80,7 +80,7 @@ const INGREDIENTS = [
 
   {id:'i13',icon:'🟡',name:'Turmeric Root',cat:'botanical',catLabel:'Anti-inflammatory Botanical',
    conditions:['joint','digestion'],
-   what:'Dried turmeric root at 0.2%. Contains curcumin — one of the most studied natural anti-inflammatory compounds.',
+   what:'Dried turmeric root. The amount varies by recipe, so check the product card. Contains curcumin — one of the most studied natural anti-inflammatory compounds.',
    why:'Curcumin inhibits inflammatory pathways at the molecular level. Supported by hundreds of studies for joint pain, digestive inflammation and liver health.',
    sell:'Turmeric is a vet-recommended natural supplement for dogs with arthritis. It\'s already in the food — no extra cost, no hassle.'},
 

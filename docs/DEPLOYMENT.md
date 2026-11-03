@@ -50,7 +50,7 @@ The workspace's `assessment-2026-10-26/preview.cjs` accepts a staging directory 
 - Product/guide edition applicability and current nutrition/price authority remain owner checks before production sign-off.
 - The matcher lists formulas from each card's declared composition and claims, and every result shows the declared ingredients or claim that put it there. Exact life-stage matches come first. Other-stage formulas appear only in a labelled section: dedicated Skin & Coat and Urinary formulas always, and everything else only when the exact stage has none. The allergy branch is an ingredient-exclusion filter: it lists formulas whose composition text does not name the excluded ingredients, and it treats unnamed animal protein as failing every animal exclusion. It does not diagnose allergies or establish suitability. `node scripts/audit-matcher.cjs` prints every combination with its evidence.
 - Prices were checked against column G of the June 2026 RRP workbook on 30/10/2026: 75 of 75 matched. See [RRP and resource verification](RRP-AND-RESOURCE-VERIFICATION-2026-10-30.md), which also records the training-copy corrections.
-- Analytics is aggregate activity reporting. Named employee identity, attendance, certification and server-side progress are separate features; this release adds none of them. Quiz completion remains in memory for the current visit.
+- Analytics is aggregate activity reporting. Named employee identity, attendance, certification and server-side progress are separate features; this release adds none of them. Quiz scores are saved in the browser on that device only, and are not sent anywhere except the consented GA4 quiz events.
 
 ## Verification record
 

@@ -52,8 +52,9 @@ test('listed evidence matches a reference reading of the declared composition an
   for(const {pet,stage,concerns} of profiles(context)) for(const concern of concerns){
     if(concern==='allergies') continue;
     const o=outcome(context,{petType:pet,stage,concern});
-    const expected=products.filter(p=>p.pet===pet && p.stage===stage && reference[concern](p.t,p.h)).map(p=>p.id).sort();
-    assert.deepEqual(o.exact.map(r=>r.id).sort(),expected,`${pet}/${stage}/${concern}`);
+    const recipe=id=>id.replace(/-(mini|mm)$/,'');
+    const expected=[...new Set(products.filter(p=>p.pet===pet && p.stage===stage && reference[concern](p.t,p.h)).map(p=>recipe(p.id)))].sort();
+    assert.deepEqual(o.exact.map(r=>recipe(r.id)).sort(),expected,`${pet}/${stage}/${concern}`);
     for(const r of [...o.exact,...o.other]){
       if(r.claim) assert.ok(r.highlights.includes(r.claim));
       for(const label of r.evidence) assert.ok(label.length);
@@ -63,8 +64,8 @@ test('listed evidence matches a reference reading of the declared composition an
 
 test('dedicated Quinoa formulas rank first and urinary is cat-only',()=>{
   const context=runtime();
-  assert.deepEqual(outcome(context,{petType:'dog',stage:'adult',concern:'skin'}).exact.slice(0,2).map(r=>r.id),['dq1','dq2']);
-  assert.deepEqual(outcome(context,{petType:'dog',stage:'puppy',concern:'skin'}).other.map(r=>r.id),['dq1','dq2']);
+  assert.deepEqual(outcome(context,{petType:'dog',stage:'adult',concern:'skin'}).exact.slice(0,2).map(r=>r.id),['dq1-mini','dq2-mini']);
+  assert.deepEqual(outcome(context,{petType:'dog',stage:'puppy',concern:'skin'}).other.map(r=>r.id),['dq1-mini','dq2-mini']);
   assert.deepEqual(outcome(context,{petType:'cat',stage:'adult',concern:'urinary'}).exact.map(r=>r.id),['cq1']);
   const neutered=outcome(context,{petType:'cat',stage:'neutered',concern:'urinary'});
   assert.equal(neutered.fallback,true);
@@ -88,18 +89,18 @@ test('ingredient exclusions never list a formula whose composition names an excl
     }
   }
   assert.equal(outcome(context,{petType:'dog',stage:'adult',concern:'allergies',exclusions:[]}).exact.length,0);
-  // "Chicken fat" counts as chicken; hydrolysed animal protein fails any animal exclusion only.
-  assert.ok(!outcome(context,{petType:'dog',stage:'adult',concern:'allergies',exclusions:['chicken']}).exact.some(r=>r.id==='dl2'));
-  assert.ok(!outcome(context,{petType:'cat',stage:'adult',concern:'allergies',exclusions:['duck']}).exact.some(r=>r.id==='cp2'));
+  // "Chicken fat" counts as chicken.
+  assert.ok(!outcome(context,{petType:'dog',stage:'adult',concern:'allergies',exclusions:['chicken']}).exact.some(r=>r.id.startsWith('dl2')));
+  assert.ok(!outcome(context,{petType:'cat',stage:'adult',concern:'allergies',exclusions:['duck']}).exact.some(r=>r.id==='cq1'));
   assert.ok(outcome(context,{petType:'cat',stage:'adult',concern:'allergies',exclusions:['grains']}).exact.some(r=>r.id==='cp2'));
 });
 
 test('products with an unverified catalogue identity drop out of matcher results',()=>{
   const context=runtime();
-  run(context,"PRODUCTS.find(p=>p.id==='dq1').catalog_error=true");
+  run(context,"PRODUCTS.filter(p=>p.family==='dq1').forEach(p=>{p.catalog_error=true;})");
   const o=outcome(context,{petType:'dog',stage:'adult',concern:'skin'});
-  assert.ok(![...o.exact,...o.other].some(r=>r.id==='dq1'));
-  assert.ok(!run(context,"conditionPanelProducts('skin').some(p=>p.id==='dq1')"));
+  assert.ok(![...o.exact,...o.other].some(r=>r.id.startsWith('dq1')));
+  assert.ok(!run(context,"conditionPanelProducts('skin').some(p=>p.family==='dq1')"));
 });
 
 test('every Ingredients condition panel resolves to existing catalogue formulas',()=>{

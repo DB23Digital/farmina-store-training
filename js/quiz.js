@@ -52,6 +52,56 @@ const QUIZZES = {
        explain:'The Mini variant comes in 800g, 2.5kg and 7kg. The Medium & Maxi variant comes in 12kg only. The 800g bag is exclusive to the Mini product — great for trial purchases.'},
     ]
   },
+  ocean: {
+    name:'N&D Ocean',icon:'🌊',color:'#006B7A',
+    questions:[
+      {q:'Which fish is the main protein in the N&D Ocean dog recipes?',
+       opts:['Herring','Cod','Duck','Quail'],
+       ans:1,
+       explain:'Both N&D Ocean dog recipes are built on wild-caught cod. Herring is the main protein in the N&D Ocean cat recipe.'},
+      {q:'Which recipe is the N&D Ocean cat formula?',
+       opts:['Herring & Orange','Cod, Pumpkin & Orange','Lamb & Blueberry','Duck, Quinoa, Cranberry & Chamomile'],
+       ans:0,
+       explain:'Herring & Orange is the only N&D Ocean cat formula. Cod, Pumpkin & Orange is the Ocean adult dog recipe.'},
+      {q:'A customer has a cod-loving puppy. Which N&D Ocean recipe do you show them?',
+       opts:['Cod, Pumpkin & Orange','Cod, Pumpkin & Cantaloupe Melon','Herring & Orange','Chicken & Pomegranate'],
+       ans:1,
+       explain:'Cod, Pumpkin & Cantaloupe Melon is the N&D Ocean Puppy Dog recipe. Cod, Pumpkin & Orange is for adult dogs.'},
+      {q:'What share of the protein in the N&D Ocean dog recipes comes from animal sources?',
+       opts:['80%','90%','96%','100%'],
+       ans:2,
+       explain:'The packs list both Ocean dog recipes at 96% of protein from animal sources. Meat and fats are listed at 67% for Adult and 77% for Puppy.'},
+      {q:'Which bag sizes does N&D Ocean Herring & Orange come in?',
+       opts:['300g, 1.5kg and 5kg','800g, 2.5kg and 7kg','1.5kg and 5kg only','800g, 2.5kg, 7kg and 12kg'],
+       ans:0,
+       explain:'The cat recipe comes in 300g, 1.5kg and 5kg. The Ocean dog recipes come in 800g, 2.5kg, 7kg and 12kg.'},
+    ]
+  },
+  prime: {
+    name:'N&D Prime',icon:'⭐',color:'#7A5200',
+    questions:[
+      {q:'What share of the protein in N&D Prime Adult Dog comes from animal sources?',
+       opts:['90%','92%','96%','98%'],
+       ans:3,
+       explain:'Farmina lists N&D Prime Adult Dog at 98% of protein from animal sources and 76% meat and fats.'},
+      {q:'How much meat and fats does Farmina list for N&D Prime Puppy Mini?',
+       opts:['64%','70%','76%','80%'],
+       ans:3,
+       explain:'N&D Prime Puppy Mini is listed at 80% meat and fats. Prime Puppy Medium & Maxi and Prime Adult Dog are listed at 76%.'},
+      {q:'Which protein is NOT in the N&D Prime cat range?',
+       opts:['Chicken','Lamb','Wild Boar','Duck'],
+       ans:3,
+       explain:'The Prime cat recipes are Chicken & Pomegranate, Lamb & Blueberry and Boar & Apple. Duck is the N&D Quinoa Urinary recipe.'},
+      {q:'A customer wants the 5kg bag of N&D Prime Kitten. What do you tell them?',
+       opts:['It is in stock in every store','Kitten comes in 300g and 1.5kg only','Kitten comes in 800g and 2.5kg only','Kitten comes in 5kg only'],
+       ans:1,
+       explain:'N&D Prime Kitten comes in 300g and 1.5kg. The 5kg bag is available for the adult and neutered Prime cat recipes.'},
+      {q:'How does N&D Prime Chicken & Pomegranate for neutered cats differ from the adult cat recipe?',
+       opts:['More fat, less protein','Less fat, slightly more protein','It contains grains','It is a different protein'],
+       ans:1,
+       explain:'The neutered recipe has 46% protein and 11% fat. The adult cat recipe has 44% protein and 20% fat.'},
+    ]
+  },
   lag: {
     name:'N&D Low Ancestral Grain',icon:'🌾',color:'#0A4070',
     questions:[
@@ -62,7 +112,7 @@ const QUIZZES = {
       {q:'What percentage of the recipe is made up of organic grains in the LAG Adult Dog formula?',
        opts:['10%','15%','20%','30%'],
        ans:2,
-       explain:'20% of the recipe is organic grain (10% spelt + 10% oats), leaving 63%+ from animal sources — still a meat-first food, just with clean ancestral carbohydrates.'},
+       explain:'20% of the recipe is organic grain (10% spelt + 10% oats), with Farmina listing 64% meat and fats — still a meat-first food, just with clean ancestral carbohydrates.'},
       {q:'True or False: N&D Low Ancestral Grain is completely grain-free.',
        opts:['True — all Farmina products are grain-free','False — it contains 20% organic spelt and oats','True — the grains are removed during processing','False — it contains corn and wheat'],
        ans:1,
@@ -85,6 +135,22 @@ let currentQ = 0;
 let score = 0;
 let answered = false;
 let quizDone = {};
+const QUIZ_PROGRESS_KEY = 'apex-training-quiz-progress-v1';
+
+// Progress stays on this device. A blocked storage API must not break training.
+function loadQuizProgress(){
+  try {
+    const saved = JSON.parse(localStorage.getItem(QUIZ_PROGRESS_KEY)) || {};
+    Object.keys(QUIZZES).forEach(key=>{
+      const value = saved[key];
+      if(Number.isInteger(value) && value>=0 && value<=QUIZZES[key].questions.length) quizDone[key]=value;
+    });
+  } catch(_) { /* Start with no saved progress. */ }
+}
+
+function saveQuizProgress(){
+  try { localStorage.setItem(QUIZ_PROGRESS_KEY, JSON.stringify(quizDone)); } catch(_) { /* Keep it for this visit only. */ }
+}
 
 // ── Quiz functions ──
 function renderQuizLines(){
@@ -159,6 +225,7 @@ function nextQ(){
 function showResult(){
   if(quizDone[currentLine]===score && document.getElementById('qres').classList.contains('on')) return;
   quizDone[currentLine]=score;
+  saveQuizProgress();
   window.TrainingAnalytics?.track('quiz_complete', {quiz_line:currentLine, score, question_count:QUIZZES[currentLine].questions.length});
   document.getElementById('qqcard').style.display='none';
   const res=document.getElementById('qres');
@@ -179,6 +246,8 @@ function showResult(){
 }
 
 function retryQ(){ startQuiz(currentLine); }
+
+loadQuizProgress();
 
 function backToLines(){
   document.getElementById('qselect').style.display='block';

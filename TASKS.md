@@ -19,18 +19,30 @@ Updated 03/11/2026. Source of truth for in-progress work on this repo.
 - [x] Products filters: Pet narrows Life Stage, Pet and Life Stage narrow Line, all from catalogue data
 - [x] Fixed: pack-size tap toggled the card; search product result left the overlay open; jumps to a filtered-out product did nothing; 320px Ingredients overflow; installed app locked to portrait
 
+## Two-week list (03/11/2026)
+
+- [x] Six card figures now follow the approved workbook
+- [x] Two unsourced Tips claims removed
+- [x] Ocean and Prime quizzes added
+- [x] Quiz progress saved on the device
+- [x] Catalogue lists all 36 products from the Shopify master, with a Kibble Size filter
+- [x] Ingredient percentages limited to the price list, pack-label source and Farmina ZA pages
+- [x] Protein figures checked against all 36 Farmina ZA product pages (docs/FARMINA-WEB-VERIFICATION-2026-11-03.md)
+- [ ] Confirm GA4 receipt in Realtime or DebugView (Deon)
+- [ ] Shadow 5 salespeople in store (Deon)
+
 ## Needs Deon
+
+- [ ] Spot-check two or three real bags against the Shopify master, starting with the Urinary cat
+- [ ] Reconcile two master SKUs with the price list: Quail Medium & Maxi 7 kg (PND 0700087 vs PND0700034) and Prime Puppy Mini 7 kg (PND 0700081 missing). The Farmina pages show no SKU codes
 
 - [ ] Test the responsive build on a physical Android phone and tablet, including the voice widget position
 - [ ] Upload the latest release ZIP from `dist/` to `public_html/training/`
 - [ ] Spot-check five transcribed values against the guide images (listed in chat, 30/10/2026)
 - [ ] Supply guides: Quinoa Duck Skin & Coat Medium & Maxi (P0024), Ancestral Grain Light Mini (P0013)
-- [ ] Decide the six card figures that conflict with the price list (docs/RRP-AND-RESOURCE-VERIFICATION-2026-10-30.md)
-- [ ] Keep or remove two unsourced Tips claims (heart-study wording; "48%+ vs 15–20%")
 - [ ] Widget UX choice for in-between weights (pick printed weight vs show neighbouring rows)
 
 ## Next improvements
 
-- [ ] Ocean and Prime quizzes
 - [ ] Store supplier codes against each SKU so price checks match exactly
 - [ ] Apply the engine fixes so the Shopify widget matches the printed guides

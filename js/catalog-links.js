@@ -1,19 +1,33 @@
 // Explicit links to the existing source snapshot. No names are scored at runtime.
 const CATALOG_LINKS = {
-  dp1: { ids:['P0019','P0020'], pet:'dog', stage:'puppy', line:'prime' },
-  dp2: { ids:['P0021','P0022'], pet:'dog', stage:'adult', line:'prime' },
-  do1: { ids:['P0017','P0018'], pet:'dog', stage:'puppy', line:'ocean' },
-  do2: { ids:['P0015','P0016'], pet:'dog', stage:'adult', line:'ocean' },
-  dp3: { ids:['P0031'], pet:'dog', stage:'puppy', line:'pumpkin' },
-  dp4: { ids:['P0028'], pet:'dog', stage:'puppy', line:'pumpkin' },
-  dp5: { ids:['P0027'], pet:'dog', stage:'adult', line:'pumpkin' },
-  dp6: { ids:['P0030'], pet:'dog', stage:'adult', line:'pumpkin' },
-  dp7: { ids:['P0029'], pet:'dog', stage:'adult', line:'pumpkin' },
-  dl1: { ids:['P0009','P0010'], pet:'dog', stage:'puppy', line:'lag' },
-  dl2: { ids:['P0011','P0012'], pet:'dog', stage:'adult', line:'lag' },
-  dl3: { ids:['P0013','P0014'], pet:'dog', stage:'light', line:'lag' },
-  dq1: { ids:['P0023','P0026'], pet:'dog', stage:'adult', line:'quinoa' },
-  dq2: { ids:['P0024','P0025'], pet:'dog', stage:'adult', line:'quinoa' },
+  'dp1-mm': { ids:['P0020'], pet:'dog', stage:'puppy', line:'prime' },
+  'dp1-mini': { ids:['P0019'], pet:'dog', stage:'puppy', line:'prime' },
+  'dp2-mm': { ids:['P0022'], pet:'dog', stage:'adult', line:'prime' },
+  'dp2-mini': { ids:['P0021'], pet:'dog', stage:'adult', line:'prime' },
+  'do1-mm': { ids:['P0018'], pet:'dog', stage:'puppy', line:'ocean' },
+  'do1-mini': { ids:['P0017'], pet:'dog', stage:'puppy', line:'ocean' },
+  'do2-mm': { ids:['P0016'], pet:'dog', stage:'adult', line:'ocean' },
+  'do2-mini': { ids:['P0015'], pet:'dog', stage:'adult', line:'ocean' },
+  'dp3-mm': { ids:['P0031'], grams:[12000], pet:'dog', stage:'puppy', line:'pumpkin' },
+  'dp3-mini': { ids:['P0031'], grams:[800,2500,7000], pet:'dog', stage:'puppy', line:'pumpkin' },
+  'dp4-mm': { ids:['P0028'], grams:[12000], pet:'dog', stage:'puppy', line:'pumpkin' },
+  'dp4-mini': { ids:['P0028'], grams:[800,2500,7000], pet:'dog', stage:'puppy', line:'pumpkin' },
+  'dp5-mm': { ids:['P0027'], grams:[12000], pet:'dog', stage:'adult', line:'pumpkin' },
+  'dp5-mini': { ids:['P0027'], grams:[800,2500,7000], pet:'dog', stage:'adult', line:'pumpkin' },
+  'dp6-mm': { ids:['P0030'], grams:[12000], pet:'dog', stage:'adult', line:'pumpkin' },
+  'dp6-mini': { ids:['P0030'], grams:[800,2500,7000], pet:'dog', stage:'adult', line:'pumpkin' },
+  'dp7-mm': { ids:['P0029'], grams:[12000], pet:'dog', stage:'adult', line:'pumpkin' },
+  'dp7-mini': { ids:['P0029'], grams:[800,2500,7000], pet:'dog', stage:'adult', line:'pumpkin' },
+  'dl1-mm': { ids:['P0010'], pet:'dog', stage:'puppy', line:'lag' },
+  'dl1-mini': { ids:['P0009'], pet:'dog', stage:'puppy', line:'lag' },
+  'dl2-mm': { ids:['P0012'], pet:'dog', stage:'adult', line:'lag' },
+  'dl2-mini': { ids:['P0011'], pet:'dog', stage:'adult', line:'lag' },
+  'dl3-mm': { ids:['P0014'], pet:'dog', stage:'light', line:'lag' },
+  'dl3-mini': { ids:['P0013'], pet:'dog', stage:'light', line:'lag' },
+  'dq1-mm': { ids:['P0023'], pet:'dog', stage:'adult', line:'quinoa' },
+  'dq1-mini': { ids:['P0026'], pet:'dog', stage:'adult', line:'quinoa' },
+  'dq2-mm': { ids:['P0024'], pet:'dog', stage:'adult', line:'quinoa' },
+  'dq2-mini': { ids:['P0025'], pet:'dog', stage:'adult', line:'quinoa' },
   cp1: { ids:['P0002'], pet:'cat', stage:'kitten', line:'prime' },
   cp2: { ids:['P0003'], pet:'cat', stage:'adult', line:'prime' },
   cp3: { ids:['P0006'], pet:'cat', stage:'adult', line:'prime' },
@@ -59,7 +73,9 @@ function resolveCatalogProduct(product, sources) {
       if (!duplicate) byWeight.set(sku.pack_size_grams, sku);
     });
   });
-  return { records, skus:[...byWeight.values()].sort((a,b) => a.pack_size_grams - b.pack_size_grams) };
+  const skus = [...byWeight.values()].filter(sku => !link.grams || link.grams.includes(sku.pack_size_grams));
+  if (!skus.length) throw Error('No packs for this kibble size');
+  return { records, skus:skus.sort((a,b) => a.pack_size_grams - b.pack_size_grams) };
 }
 
 // Canonical fields copied from the reviewed source records on 2026-10-26.

@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════
 
 // ── Shared filter state ──
-let filters = {pet:'all',stage:'all',line:'all'};
+let filters = {pet:'all',stage:'all',line:'all',kibble:'all'};
 let ingFilter = 'all';
 let ingMode = 'type';   // 'type' | 'condition'
 let condFilter = 'all';
@@ -48,6 +48,11 @@ function syncFilterChips(){
   syncChipRow('fstage','stage',inPet.map(p=>p.stage));
   const inStage=inPet.filter(p=>filters.stage==='all'||p.stage===filters.stage);
   syncChipRow('fline','line',inStage.map(p=>p.line));
+  syncChipRow('fkibble','kibble',inPet.map(kibbleKey));
+}
+
+function kibbleKey(product){
+  return product.kibble==='Mini'?'mini':product.kibble?'mm':null;
 }
 
 // Hides unavailable chips. A selection that just became unavailable falls back to "All".
@@ -63,9 +68,9 @@ function syncChipRow(group,type,available){
 // Clears every product filter and the search box. The pet row has no "All" chip,
 // so no pet chip stays active; the other rows return to their "All" chip.
 function resetFilters(){
-  filters={pet:'all',stage:'all',line:'all'};
+  filters={pet:'all',stage:'all',line:'all',kibble:'all'};
   document.getElementById('psearch').value='';
-  for(const group of ['fpet','fstage','fline']){
+  for(const group of ['fpet','fstage','fline','fkibble']){
     const chips=document.querySelectorAll(`#${group} .chip`);
     chips.forEach(chip=>chip.classList.remove('active'));
     if(group!=='fpet') chips[0]?.classList.add('active');
@@ -84,6 +89,7 @@ function renderProducts(){
     if(filters.stage!=='all' && p.stage!==filters.stage) return false;
     // Strict line filter (no fuzzy matches)
     if(filters.line!=='all' && p.line!==filters.line) return false;
+    if(filters.kibble!=='all' && kibbleKey(p)!==filters.kibble) return false;
     // Search only in name, variant, protein, composition
     if(q && !p.name.toLowerCase().includes(q) && !p.variant.toLowerCase().includes(q) &&
        !p.protein.toLowerCase().includes(q) && !p.composition.toLowerCase().includes(q)) return false;
@@ -135,6 +141,7 @@ function renderProducts(){
         <span class="badge ${lb}">${lbn}</span>
         <span class="badge ${p.pet==='dog'?'bdog':'bcat'}">${pet}</span>
         <span class="badge bstage">${stageLabel}</span>
+        ${p.kibble?`<span class="badge bstage">${p.kibble}</span>`:''}
       </div>
       <div class="cn">${p.name}</div>
       <div class="cs">${p.variant} · ${p.protein}</div>
@@ -143,10 +150,10 @@ function renderProducts(){
     <svg class="cchev" id="chev-${p.id}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="18" height="18"><path d="M6 9l6 6 6-6"/></svg>
   </div>
   <div class="spr">
-    <div class="sp"><div class="val">${p.macros.meat}</div><div class="lbl">Animal Source</div></div>
+    <div class="sp"><div class="val">${p.macros.meat}</div><div class="lbl">Meat & Fats</div></div>
     <div class="sp"><div class="val">${p.macros.grains}</div><div class="lbl">Grains</div></div>
-    <div class="sp"><div class="val">${p.macros.fruits}</div><div class="lbl">Fruits & Veg</div></div>
-    <div class="sp"><div class="val">${p.macros.fresh}</div><div class="lbl">Fresh/Raw Meat</div></div>
+    <div class="sp"><div class="val">${p.macros.fruits}</div><div class="lbl">Fruits, Veg, Botanicals</div></div>
+    <div class="sp"><div class="val">${p.macros.fresh}</div><div class="lbl">Of Meats Fresh/Raw</div></div>
   </div>
   <div class="pinfo">
     <div class="pinfo-row">
@@ -159,7 +166,7 @@ function renderProducts(){
       <div class="pi-track"><div class="pi-fill-a" style="width:${p.nutrition.proteinAnimal}%"></div></div>
       <span class="pi-val">${p.nutrition.proteinAnimal}${p.nutrition.estimated?'*':''}%</span>
     </div>
-    <div class="pinfo-note">${p.nutrition.proteinAnimal}% of the protein is from ${p.pet==='cat'?'named meat — no plant proteins':'named meat'}${p.nutrition.estimated?' · * estimated — confirm from packaging':''}</div>
+    <div class="pinfo-note">${p.nutrition.proteinAnimal}% of the protein is from animal sources${p.nutrition.estimated?' · * estimated — confirm from packaging':''}</div>
   </div>
   <div class="cd" id="cd-${p.id}">
     <div class="ds"><h4>🏷️ Key Selling Point</h4><p>${p.sell}</p></div>
@@ -167,6 +174,8 @@ function renderProducts(){
     <div class="ds"><h4>📦 Available Sizes</h4><div class="sl">${sizesHtml}</div></div>
     <div class="ds"><h4>🐾 Suitable For</h4><p>${p.suitable}</p></div>
     <div class="ds"><h4>📋 Full Composition</h4><p style="font-size:12px;color:var(--muted)">${p.composition}</p></div>
+    <div class="ds"><h4>🔬 Analytical Constituents</h4><p style="font-size:12px;color:var(--muted)">${p.analysis}</p></div>
+    <div class="ds"><h4>⚡ Energy & Registration</h4><p style="font-size:12px;color:var(--muted)">${p.energy} kcal/kg · ${p.registration}</p></div>
   </div>
 </div>`;
   });
