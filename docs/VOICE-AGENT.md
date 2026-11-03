@@ -10,6 +10,16 @@ The widget requires a public agent with authentication disabled. Restrict its al
 
 Review ElevenLabs' transcript retention and audio-saving settings before staff use the agent with customers. The local code cannot read or set those account options. The page asks staff not to share customer details, but that notice does not replace an agent privacy configuration.
 
+## Knowledge sources
+
+Upload `docs/VOICE-AGENT-KNOWLEDGE.md` as the agent's main knowledge source. It covers all 36 products with prices, ingredients and analysis, every printed feeding guide, ingredients, selling tips, quiz answers and how to use the app. Add `https://farmina.com/za/` as a second, reference source. The file's "Which source wins" section tells the agent that it takes priority over the website, because the two differ in places.
+
+After any content change, run `node scripts/build-voice-knowledge.cjs` and upload the new file. ElevenLabs does not read this repo, so the agent keeps the old answers until then. Keep "use the knowledge base" on for every query if the agent offers that setting, so that the rules chunks are not skipped.
+
+Paste into the agent's system prompt:
+
+> You help Apex Pet Group store staff with the Farmina N&D range and the training app. Answer in short, spoken sentences. Use only your knowledge base. If it does not contain the answer, say so and suggest the pack label or a manager. Never invent a price, percentage, feeding amount, product or health benefit. Prices are June 2026 RRP, so remind staff to confirm the shelf price. Give only printed feeding amounts. Do not diagnose or confirm that a food is safe for an allergic or unwell pet; refer health questions to a vet. If your knowledge document and the Farmina website differ, use the document. Do not ask for or repeat customer names or contact details.
+
 ## Verification
 
 1. On the live HTTPS `/training/` page, confirm no ElevenLabs script request occurs before **Ask by voice** is tapped.

@@ -34,6 +34,8 @@ Updated 03/11/2026. Source of truth for in-progress work on this repo.
 
 ## Needs Deon
 
+- [ ] Upload docs/VOICE-AGENT-KNOWLEDGE.md to the ElevenLabs agent, add https://farmina.com/za/ as a reference, and paste the prompt from docs/VOICE-AGENT.md
+
 - [ ] Spot-check two or three real bags against the Shopify master, starting with the Urinary cat
 - [ ] Reconcile two master SKUs with the price list: Quail Medium & Maxi 7 kg (PND 0700087 vs PND0700034) and Prime Puppy Mini 7 kg (PND 0700081 missing). The Farmina pages show no SKU codes
 
