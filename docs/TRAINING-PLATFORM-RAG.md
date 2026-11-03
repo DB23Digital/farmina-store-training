@@ -2,7 +2,7 @@
 
 Purpose: a retrieval-ready knowledge base describing how store staff use the training app at `https://apexpetgroup.co.za/training/`. Each chunk is self-contained so it can be embedded and retrieved on its own. Chunk IDs are stable; keep them when editing. A video script outline is in the appendix.
 
-Source of truth: `index.html` and `js/*.js` as of 29/10/2026. Prices in the app are a June 2026 snapshot. Chunks marked **[Verify live]** describe behaviour that local code cannot prove (see `docs/DEPLOYMENT.md`).
+Source of truth: `index.html` and `js/*.js` as of 03/11/2026. `scripts/build-voice-knowledge.cjs` includes these chunks in the voice agent's knowledge file. Prices in the app are a June 2026 snapshot. Chunks marked **[Verify live]** describe behaviour that local code cannot prove (see `docs/DEPLOYMENT.md`).
 
 Ground rules the app itself follows, and any answer built from this file should follow too:
 
@@ -41,9 +41,9 @@ Filters, all combinable, in four rows of chips. Choosing a pet shows only its li
 
 There is also a text box, "Search by name or ingredient". It matches the product name, variant, protein and full composition. If nothing matches, the screen says "No products match your filters"; clear a chip or the text to get results back.
 
-Each card collapsed shows: pack photo (where an exact source record exists), line, pet and life-stage badges, product name, variant and protein, the selected pack's price and size, and a row of pack-size buttons (for example "7000 g · R...") to switch size and price. Four mini-stats show animal-source percentage, grains, fruit and vegetables, and fresh/raw meat. Two bars show crude protein and the share of protein from animal sources. A value with an asterisk is estimated; confirm it from the packaging.
+Each card collapsed shows: pack photo (where an exact source record exists), line, pet and life-stage badges, product name, variant and protein, the selected pack's price and size, and a row of pack-size buttons (for example "7.0kg · R1299") to switch size and price. Four mini-stats show meat and fats, grains, fruits, vegetables and botanicals, and the share of the meats that are fresh or raw. Two bars show crude protein and the share of protein from animal sources.
 
-Tap a card header to expand it. The expanded card shows: Key Selling Point, Product Claims, Available Sizes, Suitable For, and Full Composition. Opening a card is counted as a product view if the member of staff accepted analytics.
+Tap a card header to expand it. The expanded card shows: Key Selling Point, Product Claims, Available Sizes, Suitable For, Full Composition, Analytical Constituents, and Energy & Registration. Opening a card is counted as a product view if the member of staff accepted analytics.
 
 If a card shows "Pricing unavailable — catalogue needs review", the app could not match that card to a verified supplier record. Do not quote a price; check the shelf.
 
@@ -65,7 +65,7 @@ Back buttons walk one step back. At the first step the back button returns to Pr
 Rules to say out loud:
 - Results are starting points, not a diagnosis or an allergy check.
 - The guide does not show prices. Check the shelf price.
-- If the dog's breed size is unknown, or a recipe shares one source record across sizes, the result says "Confirm the exact breed-size pack on the shelf before recommending it". Do not guess from bag weight or the photo.
+- Choosing Mini or Medium or Maxi opens that kibble size's product and packs. If the dog's breed size is not known yet, the result says "Confirm the exact breed-size pack on the shelf before recommending it". Do not guess from bag weight or the photo.
 - Specialised Quinoa Skin & Coat and Urinary products are not suggested here. They stay in the catalogue.
 - If nothing matches the choices, it says "No catalogue product matches these choices. Browse the full catalogue instead."
 - Customer answers are not stored and are not sent to analytics.
@@ -129,7 +129,7 @@ Things to say:
 - Prices are the June 2026 snapshot. Confirm the current retail price.
 - Changing any input hides the old result, so press Calculate again.
 
-A "Value Context" panel under the calculator carries Farmina's comparison message for N&D Ancestral Adult. Treat that as brand positioning supplied with the training, and do not quote percentages to customers unless your manager has approved the wording.
+A "Value Context" panel under the calculator says N&D Ancestral Adult is 38% lower cost per day than comparable premium brands, and by far the most cost-effective food available in South Africa. The named source for these claims is Andrew Fourie, Chief Technical Officer, Apex Pet Group.
 
 ## CHUNK tips-01: Selling Tips
 
@@ -161,7 +161,7 @@ How results are chosen (from each card's declared composition and claims):
 - Dedicated formulas rank first: Quinoa Skin & Coat (dog) and Quinoa Urinary (cat).
 - Results for the chosen life stage come first. A formula for another life stage appears only in a separate, labelled section, with "Check the pack's life-stage guidance before recommending". That happens for dedicated formulas, and when no formula at the chosen stage matches. For example, a neutered cat with a urinary concern is shown the adult Urinary formula, labelled.
 
-Food Allergies/Sensitivities works differently. Staff tick the ingredients the owner or vet has confirmed must be avoided: chicken, egg, fish (including fish oil), lamb, duck, wild boar, quail, peas and legumes, potato and sweet potato, or grains. The app lists formulas whose composition text does not name them. A formula listing "hydrolysed animal protein" without a species is left out whenever an animal ingredient is excluded. Every catalogue formula lists fish or fish oil, and every cat formula lists egg and potato or sweet potato, so those exclusions honestly return no product.
+Food Allergies/Sensitivities works differently. Staff tick the ingredients the owner or vet has confirmed must be avoided: chicken, egg, fish (including fish oil), lamb, duck, wild boar, quail, peas and legumes, potato and sweet potato, or grains. The app lists formulas whose composition text does not name them. A formula listing "hydrolysed animal protein" without a species is left out whenever an animal ingredient is excluded. Every catalogue formula lists fish or fish oil, and every cat formula lists egg, so those exclusions honestly return no product.
 
 Important: it lists products to **compare**, not to prescribe. It does not diagnose or establish allergy suitability. Confirm the full ingredient list on the pack and follow veterinary advice. Exclusion choices are never sent to analytics.
 
@@ -186,7 +186,7 @@ If allowed, the app records aggregate events only: screens visited, product, ing
 - Open `https://apexpetgroup.co.za/training/` in Chrome (Android) or Safari (iPhone), then use the browser menu to **Add to Home Screen** for an app-style icon.
 - Load it once online. After that the screens, catalogue, quiz, calculator and Help a customer work without a connection, which suits store dead zones and keeps data use low.
 - Needs internet: Ask by voice, Google Fonts on the first load, and Analytics.
-- After an update is released, the app updates itself when staff open it or return to it online, and reloads once. The version shows under "Apex Pet Group" at the top of the screen, for example "Version 1c7fb5". Offline, it keeps running the last version it downloaded.
+- After an update is released, the app updates itself when staff open it or return to it online, and reloads once. The version shows under "Apex Pet Group" at the top of the screen, for example "Version 710342". Offline, it keeps running the last version it downloaded.
 - If something looks out of date, refresh the page while online.
 
 ## CHUNK flow-01: A typical shift: which tool for which moment
@@ -202,8 +202,10 @@ If allowed, the app records aggregate events only: screens visited, product, ing
 
 ## CHUNK faq-01: Quick answers
 
-**Q: Does the quiz save my score?** Only until you close or refresh the page.
+**Q: Does the quiz save my score?** Yes, in the browser on that device. It does not follow you to another device.
+**Q: Which version am I on?** It shows under "Apex Pet Group" at the top of the screen.
 **Q: Why does a product have no price?** It could not be matched to a verified supplier record. Check the shelf.
+**Q: Why are there two cards for a dog recipe?** One is Mini kibble and one is Medium & Maxi. They have different packs and prices.
 **Q: Why does Help a customer show only two products?** It is a shortlist to start a comparison, not a full catalogue. Use Products to see everything.
 **Q: Can the matcher tell me what is safe for an allergic pet?** No. It can list formulas whose ingredient text leaves out what you ticked. Check the pack and follow veterinary advice.
 **Q: Are the prices current?** They match the June 2026 Farmina RRP list, checked on 30/10/2026. Always confirm the shelf price.
@@ -245,4 +247,4 @@ Production notes:
 - Store the chunk ID and title as metadata and return them as the citation.
 - Retrieval is only as good as the file. If the app changes, update the matching chunk and its date, then re-embed.
 - Instruct any assistant that uses it to answer only from retrieved chunks, to say "I don't have that" when nothing matches, and never to invent prices, feeding amounts, or health suitability.
-- If this will feed the ElevenLabs voice agent, review its prompt and knowledge settings as described in `docs/VOICE-AGENT.md` first. Uploading it there is configured outside this repo and is a decision for Deon.
+- For the ElevenLabs voice agent, upload `docs/VOICE-AGENT-KNOWLEDGE.md`, which includes these chunks. See `docs/VOICE-AGENT.md`.

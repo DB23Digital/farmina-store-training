@@ -163,6 +163,17 @@ test('copy quotes no ingredient percentage without an approved source',()=>{
   assert.doesNotMatch(text,/48-51%|50%\+ of the recipe|70% water|63%\+/);
 });
 
+test('the voice agent knowledge file is current and covers every product',()=>{
+  const {execFileSync}=require('node:child_process');
+  execFileSync(process.execPath,[path.join(root,'scripts/build-voice-knowledge.cjs'),'--check'],{stdio:'pipe'});
+  const text=fs.readFileSync(path.join(root,'docs/VOICE-AGENT-KNOWLEDGE.md'),'utf8');
+  const context=runtime();
+  const ids=JSON.parse(vm.runInContext('JSON.stringify(PRODUCTS.map(p=>p.id))',context));
+  assert.equal(ids.length,36);
+  for(const id of ids) assert.ok(text.includes(`## CHUNK product-${id}:`),id);
+  assert.match(text,/Andrew Fourie, Chief Technical Officer, Apex Pet Group/);
+});
+
 test('Tips no longer carry the two unsourced claims',()=>{
   const text=vm.runInContext('JSON.stringify(TIPS)',runtime());
   assert.doesNotMatch(text,/AAFCO|boutique brands|15-20%|Most competitors/);
