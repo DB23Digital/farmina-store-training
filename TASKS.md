@@ -25,6 +25,7 @@ Updated 03/11/2026. Source of truth for in-progress work on this repo.
 - [x] Two unsourced Tips claims removed
 - [x] Ocean and Prime quizzes added
 - [x] Quiz progress saved on the device
+- [x] Version shown in the header; the app updates itself when opened online
 - [x] Catalogue lists all 36 products from the Shopify master, with a Kibble Size filter
 - [x] Ingredient percentages limited to the price list, pack-label source and Farmina ZA pages
 - [x] Protein figures checked against all 36 Farmina ZA product pages (docs/FARMINA-WEB-VERIFICATION-2026-11-03.md)

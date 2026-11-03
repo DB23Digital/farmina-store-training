@@ -11,6 +11,7 @@
 .apex-brand img{display:block;flex:none;width:42px;height:42px;object-fit:contain;border-radius:4px}
 .apex-brand p{font-size:10px;line-height:1.5}
 .apex-brand strong{display:block;font-size:14px;font-weight:600}
+.app-version{display:block;font-size:10px;color:rgba(255,255,255,.72)}
 .training-exit{position:absolute;right:9px;top:50%;transform:translateY(-50%);padding:8px 11px;border:1px solid rgba(255,255,255,.48);border-radius:8px;color:#fff;text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap}
 .training-exit:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .calc-guide-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}

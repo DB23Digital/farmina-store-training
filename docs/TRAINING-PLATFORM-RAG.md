@@ -186,7 +186,7 @@ If allowed, the app records aggregate events only: screens visited, product, ing
 - Open `https://apexpetgroup.co.za/training/` in Chrome (Android) or Safari (iPhone), then use the browser menu to **Add to Home Screen** for an app-style icon.
 - Load it once online. After that the screens, catalogue, quiz, calculator and Help a customer work without a connection, which suits store dead zones and keeps data use low.
 - Needs internet: Ask by voice, Google Fonts on the first load, and Analytics.
-- After an update is released, the app picks up the new version when staff next open it online; closing and reopening it may be needed.
+- After an update is released, the app updates itself when staff open it or return to it online, and reloads once. The version shows under "Apex Pet Group" at the top of the screen, for example "Version 1c7fb5". Offline, it keeps running the last version it downloaded.
 - If something looks out of date, refresh the page while online.
 
 ## CHUNK flow-01: A typical shift: which tool for which moment
