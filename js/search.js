@@ -156,7 +156,7 @@ function formatSearchResultsHtml(){
     items.slice(0, 5).forEach(r=>{
       if(type === 'product'){
         html += `
-  <div class="search-result" onclick="jumpToProduct('${r.id}')">
+  <div class="search-result" role="button" tabindex="0" onclick="jumpToProduct('${r.id}'); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>
@@ -166,7 +166,7 @@ function formatSearchResultsHtml(){
   </div>`;
       } else if(type === 'ingredient'){
         html += `
-  <div class="search-result" onclick="openIng('${r.id}'); closeSearchModal()">
+  <div class="search-result" role="button" tabindex="0" onclick="openIng('${r.id}'); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>
@@ -175,7 +175,7 @@ function formatSearchResultsHtml(){
   </div>`;
       } else if(type === 'tip'){
         html += `
-  <div class="search-result" onclick="jumpToTip(${r.catIdx}); closeSearchModal()">
+  <div class="search-result" role="button" tabindex="0" onclick="jumpToTip(${r.catIdx}); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>
@@ -185,7 +185,7 @@ function formatSearchResultsHtml(){
   </div>`;
       } else if(type === 'quiz'){
         html += `
-  <div class="search-result" onclick="jumpToQuiz('${r.id.split('-')[1]}'); closeSearchModal()">
+  <div class="search-result" role="button" tabindex="0" onclick="jumpToQuiz('${r.id.split('-')[1]}'); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>

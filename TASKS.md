@@ -1,6 +1,6 @@
 # Store training: open work
 
-Updated 30/10/2026. Source of truth for in-progress work on this repo.
+Updated 03/11/2026. Source of truth for in-progress work on this repo.
 
 ## Done (30/10/2026)
 
@@ -13,8 +13,15 @@ Updated 30/10/2026. Source of truth for in-progress work on this repo.
 - [x] Products pet filter: Dog, Cat, Reset
 - [x] Shopify widget fixes documented in apex-feeding-engine/docs/FEEDING-GUIDE-ACCURACY-FIXES.md (not actioned)
 
+## Done (03/11/2026)
+
+- [x] Responsive layout for tablet and desktop, phone layout kept as the base
+- [x] Products filters: Pet narrows Life Stage, Pet and Life Stage narrow Line, all from catalogue data
+- [x] Fixed: pack-size tap toggled the card; search product result left the overlay open; jumps to a filtered-out product did nothing; 320px Ingredients overflow; installed app locked to portrait
+
 ## Needs Deon
 
+- [ ] Test the responsive build on a physical Android phone and tablet, including the voice widget position
 - [ ] Upload the latest release ZIP from `dist/` to `public_html/training/`
 - [ ] Push access to Farmina-SA/farmina-store-training if the push was refused
 - [ ] Spot-check five transcribed values against the guide images (listed in chat, 30/10/2026)

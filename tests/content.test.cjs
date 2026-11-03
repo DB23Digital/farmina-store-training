@@ -47,8 +47,8 @@ test('Reset clears pet, life stage, line and search; Find in catalogue starts fr
   function classes(initial=[]){const set=new Set(initial);return {add:c=>set.add(c),remove:c=>set.delete(c),contains:c=>set.has(c),
     toggle(c,f){const on=f===undefined?!set.has(c):f;on?set.add(c):set.delete(c);return on}};}
   // Chips in printed order, as in index.html.
-  const chips={fpet:['dog','cat','reset'],fstage:['all','puppy','adult','light','kitten','neutered'],fline:['all','quinoa','pumpkin','ocean','prime','lag']};
-  const chipEls=Object.fromEntries(Object.entries(chips).map(([g,list])=>[g,list.map((v,i)=>({value:v,classList:classes(i===0&&g!=='fpet'?['active']:[])}))]));
+  const chips={fpet:['dog','cat','reset'],fstage:['all','puppy','kitten','adult','light','neutered'],fline:['all','quinoa','pumpkin','ocean','prime','lag']};
+  const chipEls=Object.fromEntries(Object.entries(chips).map(([g,list])=>[g,list.map((v,i)=>({value:v,dataset:{value:v},hidden:false,classList:classes(i===0&&g!=='fpet'?['active']:[])}))]));
   const document={getElementById:element,querySelector:()=>element('nav-first'),
     querySelectorAll:sel=>{const m=sel.match(/^#(\w+) \.chip$/);return m?chipEls[m[1]]:[];}};
   const context=vm.createContext({document,window:{addEventListener(){}},fetch:()=>new Promise(()=>{}),setTimeout:fn=>fn(),clearTimeout(){}});
@@ -69,6 +69,29 @@ test('Reset clears pet, life stage, line and search; Find in catalogue starts fr
   vm.runInContext("filters.pet='cat';openBuddyProduct('dp5','')",context);
   assert.deepEqual(active('fpet'),[]);
   assert.equal(vm.runInContext('filters.pet',context),'all');
+  // Pet decides the life stages and lines on offer; a stale selection falls back to All.
+  const shown=g=>chipEls[g].filter(c=>!c.hidden).map(c=>c.value);
+  const pick=(type,value)=>vm.runInContext(`filters.${type}='${value}';syncFilterChips()`,context);
+  const pickActive=(g,value)=>{chipEls[g].forEach(c=>c.classList.remove('active'));chipEls[g].find(c=>c.value===value).classList.add('active');};
+  pick('pet','dog');
+  assert.deepEqual(shown('fstage'),['all','puppy','adult','light']);
+  assert.deepEqual(shown('fline'),['all','quinoa','pumpkin','ocean','prime','lag']);
+  pick('line','lag');pickActive('fline','lag');
+  pick('pet','cat');
+  assert.deepEqual(shown('fstage'),['all','kitten','adult','neutered']);
+  assert.deepEqual(shown('fline'),['all','quinoa','pumpkin','ocean','prime']);
+  assert.equal(vm.runInContext('filters.line',context),'all');
+  assert.deepEqual(active('fline'),['all']);
+  pick('stage','kitten');pickActive('fstage','kitten');
+  assert.deepEqual(shown('fline'),['all','prime']);
+  pick('pet','dog');
+  assert.equal(vm.runInContext('filters.stage',context),'all');
+  assert.deepEqual(active('fstage'),['all']);
+  pick('stage','light');
+  assert.deepEqual(shown('fline'),['all','lag']);
+  vm.runInContext('resetFilters()',context);
+  assert.deepEqual(shown('fstage'),chips.fstage);
+  assert.deepEqual(shown('fline'),chips.fline);
 });
 
 test('Quinoa Skin & Coat cards are listed for adult dogs, matching the approved list',()=>{
@@ -78,4 +101,15 @@ test('Quinoa Skin & Coat cards are listed for adult dogs, matching the approved 
     assert.equal(p.stage,'adult');
     assert.match(p.suitable,/^Adult dogs/);
   }
+});
+
+test('responsive layout: tablets can rotate and taps do only what they say',()=>{
+  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
+  assert.equal(manifest.orientation,'any');
+  const app=fs.readFileSync(path.join(root,'js/app.js'),'utf8');
+  assert.match(app,/class="sku-chip[^`]*onclick="event\.stopPropagation\(\);setProductSku/,'choosing a pack size must not toggle the card');
+  const search=fs.readFileSync(path.join(root,'js/search.js'),'utf8');
+  assert.match(search,/onclick="jumpToProduct\('\$\{r\.id\}'\); closeSearchModal\(\)"/,'a product result must close the search overlay');
+  const css=fs.readFileSync(path.join(root,'css/styles.css'),'utf8');
+  assert.match(css,/@media\(min-width:900px\) and \(min-height:561px\)/,'side rail needs width and height, so landscape phones keep the bottom bar');
 });

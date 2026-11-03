@@ -179,7 +179,7 @@ function initMatcher(){
 function matcherResultCard(result, otherStage){
   const p = result.product;
   return `
-    <div class="match-result-card" style="background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;cursor:pointer" onclick="jumpToProduct('${p.id}')">
+    <div class="match-result-card" style="background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;cursor:pointer" role="button" tabindex="0" onclick="jumpToProduct('${p.id}')">
       <div style="display:flex;gap:12px;align-items:flex-start">
         <div style="font-size:24px">${p.icon}</div>
         <div style="flex:1">

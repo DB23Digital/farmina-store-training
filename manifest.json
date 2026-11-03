@@ -6,7 +6,7 @@
   "start_url": "/training/",
   "scope": "/training/",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#0D5A96",
   "theme_color": "#1B75BC",
   "icons": [

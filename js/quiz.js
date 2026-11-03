@@ -93,7 +93,7 @@ function renderQuizLines(){
     const done = quizDone[key] !== undefined;
     const scoreLabel = done ? `${quizDone[key]}/5 ✓` : '5 questions';
     return `
-<div class="qlc ${done?'done':''}" onclick="startQuiz('${key}')">
+<div class="qlc ${done?'done':''}" role="button" tabindex="0" onclick="startQuiz('${key}')">
   <div class="qlci">${quiz.icon}</div>
   <div class="qlcinfo"><h3>${quiz.name}</h3><p>${done?'Completed — tap to retry':'Tap to start quiz'}</p></div>
   <div class="qlcbadge ${done?'done':'todo'}">${scoreLabel}</div>

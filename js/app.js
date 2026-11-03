@@ -18,6 +18,7 @@ function showScreen(name, btn){
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('s-'+name).classList.add('active');
   if(btn) btn.classList.add('active');
+  window.scrollTo?.(0,0);
   window.TrainingAnalytics?.screen(name);
   
   // Initialize screen-specific logic
@@ -36,7 +37,27 @@ function setF(type,val,el){
   filters[type]=val;
   el.closest('.cr').querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
+  syncFilterChips();
   renderProducts();
+}
+
+// Pet narrows Life Stage, and Pet plus Life Stage narrow Line, using the catalogue
+// itself, so every chip on show leads to at least one product.
+function syncFilterChips(){
+  const inPet=PRODUCTS.filter(p=>filters.pet==='all'||p.pet===filters.pet);
+  syncChipRow('fstage','stage',inPet.map(p=>p.stage));
+  const inStage=inPet.filter(p=>filters.stage==='all'||p.stage===filters.stage);
+  syncChipRow('fline','line',inStage.map(p=>p.line));
+}
+
+// Hides unavailable chips. A selection that just became unavailable falls back to "All".
+function syncChipRow(group,type,available){
+  const chips=document.querySelectorAll(`#${group} .chip`);
+  chips.forEach(chip=>{chip.hidden=chip.dataset.value!=='all'&&!available.includes(chip.dataset.value);});
+  if(filters[type]!=='all'&&!available.includes(filters[type])){
+    filters[type]='all';
+    chips.forEach(chip=>chip.classList.toggle('active',chip.dataset.value==='all'));
+  }
 }
 
 // Clears every product filter and the search box. The pet row has no "All" chip,
@@ -49,6 +70,7 @@ function resetFilters(){
     chips.forEach(chip=>chip.classList.remove('active'));
     if(group!=='fpet') chips[0]?.classList.add('active');
   }
+  syncFilterChips();
   renderProducts();
 }
 
@@ -106,7 +128,7 @@ function renderProducts(){
         (p.scraped_price_label ? `<div class="price-summary">${p.scraped_price_label}</div>` : ''));
     html += `
 <div class="pc" id="pc-${p.id}">
-  <div class="ch" onclick="toggleCard('${p.id}')">
+  <div class="ch" role="button" tabindex="0" onclick="toggleCard('${p.id}')">
     ${shot ? `<img class="product-shot" id="shot-${p.id}" src="${shot.src}" alt="${shot.alt}" width="52" height="78" loading="lazy" decoding="async">` : `<div class="ci">${p.icon}</div>`}
     <div class="cm">
       <div class="cb">
@@ -183,7 +205,7 @@ function renderSkuOptions(product){
   const buttons = product.scraped_skus.map((sku, index)=>{
     const label = sku.pack_size_unit==='g' ? `${parseInt(sku.pack_size_grams)} g` : `${sku.pack_size_value}${sku.pack_size_unit}`;
     const priceLabel = sku.price_current ? `R${sku.price_current.toFixed(0)}` : 'N/A';
-    return `<button type="button" class="sku-chip${index===selectedIndex?' active':''}" onclick="setProductSku('${product.id}', ${index})" data-product="${product.id}" data-index="${index}">${label} · ${priceLabel}</button>`;
+    return `<button type="button" class="sku-chip${index===selectedIndex?' active':''}" onclick="event.stopPropagation();setProductSku('${product.id}', ${index})" data-product="${product.id}" data-index="${index}">${label} · ${priceLabel}</button>`;
   }).join('');
   return `<div class="sku-options" style="display:flex;flex-wrap:wrap;align-items:flex-start;margin-top:8px">${buttons}</div>`;
 }
@@ -266,7 +288,7 @@ function renderIngredients(){
     return;
   }
   grid.innerHTML=list.map(i=>`
-<div class="ingcard" onclick="openIng('${i.id}')">
+<div class="ingcard" role="button" tabindex="0" onclick="openIng('${i.id}')">
   <div class="ii">${i.icon}</div>
   <div class="in">${i.name}</div>
   <div class="ic">${i.catLabel}</div>
@@ -300,6 +322,8 @@ function renderConditionPanel(){
 function jumpToProduct(id){
   const btn=document.querySelector('nav button');
   showScreen('catalog',btn);
+  // An active filter may be hiding the card this jump is looking for.
+  if(!document.getElementById('pc-'+id)) resetFilters();
   setTimeout(()=>{
     const el=document.getElementById('pc-'+id);
     if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -329,6 +353,19 @@ ${i.notes ? `<div class="msec"><h4>📝 Notes</h4><p>${i.notes}</p></div>` : ''}
 function closeModal(e){
   if(e.target===document.getElementById('overlay')) document.getElementById('overlay').classList.remove('open');
 }
+
+// ═══════════════════════════════════════
+// KEYBOARD (tablet keyboards and desktop)
+// ═══════════════════════════════════════
+document.addEventListener?.('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('overlay').classList.remove('open');
+    closeSearchModal();
+  } else if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute?.('role')==='button'){
+    e.preventDefault();
+    e.target.click();
+  }
+});
 
 // ═══════════════════════════════════════
 // INIT

@@ -44,8 +44,7 @@
               <p>Product Knowledge Guide · SA Edition</p>
               <button type="button" id="analyticsPreferences" class="analytics-preferences" hidden>Analytics choices</button>
             </div>
-          </div><button type="button" onclick="openSearchModal()"
-            style="background:none;border:none;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;padding:8px;display:flex;align-items:center;justify-content:center">🔍</button>
+          </div><button type="button" class="hdr-search" aria-label="Search everything" onclick="openSearchModal()">🔍</button>
         </div>
       </div>
       <div class="sh">
@@ -69,31 +68,31 @@
         <div class="fgrp">
           <div class="flbl">Pet</div>
           <div class="cr" id="fpet">
-            <div class="chip" onclick="setF('pet','dog',this)">🐶 Dog</div>
-            <div class="chip" onclick="setF('pet','cat',this)">🐱 Cat</div>
-            <div class="chip chip-reset" role="button" onclick="resetFilters()">Reset</div>
+            <button type="button" class="chip" onclick="setF('pet','dog',this)">🐶 Dog</button>
+            <button type="button" class="chip" onclick="setF('pet','cat',this)">🐱 Cat</button>
+            <button type="button" class="chip chip-reset" onclick="resetFilters()">Reset</button>
           </div>
         </div>
         <div class="fgrp">
           <div class="flbl">Life Stage</div>
           <div class="cr" id="fstage">
-            <div class="chip active" onclick="setF('stage','all',this)">All</div>
-            <div class="chip" onclick="setF('stage','puppy',this)">Puppy</div>
-            <div class="chip" onclick="setF('stage','adult',this)">Adult</div>
-            <div class="chip" onclick="setF('stage','light',this)">Light</div>
-            <div class="chip" onclick="setF('stage','kitten',this)">Kitten</div>
-            <div class="chip" onclick="setF('stage','neutered',this)">Neutered</div>
+            <button type="button" class="chip active" data-value="all" onclick="setF('stage','all',this)">All</button>
+            <button type="button" class="chip" data-value="puppy" onclick="setF('stage','puppy',this)">Puppy</button>
+            <button type="button" class="chip" data-value="kitten" onclick="setF('stage','kitten',this)">Kitten</button>
+            <button type="button" class="chip" data-value="adult" onclick="setF('stage','adult',this)">Adult</button>
+            <button type="button" class="chip" data-value="light" onclick="setF('stage','light',this)">Light</button>
+            <button type="button" class="chip" data-value="neutered" onclick="setF('stage','neutered',this)">Neutered</button>
           </div>
         </div>
         <div class="fgrp">
           <div class="flbl">Line</div>
           <div class="cr" id="fline">
-            <div class="chip active" onclick="setF('line','all',this)">All</div>
-            <div class="chip" onclick="setF('line','quinoa',this)">N&D Quinoa</div>
-            <div class="chip" onclick="setF('line','pumpkin',this)">N&D Pumpkin</div>
-            <div class="chip" onclick="setF('line','ocean',this)">N&D Ocean</div>
-            <div class="chip" onclick="setF('line','prime',this)">N&D Prime</div>
-            <div class="chip" onclick="setF('line','lag',this)">N&D Ancestral Grain</div>
+            <button type="button" class="chip active" data-value="all" onclick="setF('line','all',this)">All</button>
+            <button type="button" class="chip" data-value="quinoa" onclick="setF('line','quinoa',this)">N&D Quinoa</button>
+            <button type="button" class="chip" data-value="pumpkin" onclick="setF('line','pumpkin',this)">N&D Pumpkin</button>
+            <button type="button" class="chip" data-value="ocean" onclick="setF('line','ocean',this)">N&D Ocean</button>
+            <button type="button" class="chip" data-value="prime" onclick="setF('line','prime',this)">N&D Prime</button>
+            <button type="button" class="chip" data-value="lag" onclick="setF('line','lag',this)">N&D Ancestral Grain</button>
           </div>
         </div>
       </div>
@@ -125,32 +124,32 @@
       </div>
       <!-- Type filter chips -->
       <div class="fr" id="ifilter" style="padding-bottom:14px">
-        <div class="chip active" onclick="setIF('all',this)">All</div>
-        <div class="chip" onclick="setIF('protein',this)">🥩 Protein</div>
-        <div class="chip" onclick="setIF('prebiotic',this)">🦠 Prebiotics</div>
-        <div class="chip" onclick="setIF('botanical',this)">🌿 Botanicals</div>
-        <div class="chip" onclick="setIF('grain',this)">🌾 Grains</div>
-        <div class="chip" onclick="setIF('joint',this)">🦴 Joint Health</div>
-        <div class="chip" onclick="setIF('fruit',this)">🍎 Fruits</div>
+        <button type="button" class="chip active" onclick="setIF('all',this)">All</button>
+        <button type="button" class="chip" onclick="setIF('protein',this)">🥩 Protein</button>
+        <button type="button" class="chip" onclick="setIF('prebiotic',this)">🦠 Prebiotics</button>
+        <button type="button" class="chip" onclick="setIF('botanical',this)">🌿 Botanicals</button>
+        <button type="button" class="chip" onclick="setIF('grain',this)">🌾 Grains</button>
+        <button type="button" class="chip" onclick="setIF('joint',this)">🦴 Joint Health</button>
+        <button type="button" class="chip" onclick="setIF('fruit',this)">🍎 Fruits</button>
       </div>
       <!-- Condition chips grid -->
       <div class="condgrid" id="icondfilter">
-        <div class="condchip" onclick="setIC('digestion',this)"><span class="cci">🍏</span><span
-            class="ccl">Digestion</span></div>
-        <div class="condchip" onclick="setIC('joint',this)"><span class="cci">🦴</span><span class="ccl">Joints</span>
-        </div>
-        <div class="condchip" onclick="setIC('skin',this)"><span class="cci">🐾</span><span class="ccl">Skin &
-            Coat</span></div>
-        <div class="condchip" onclick="setIC('immune',this)"><span class="cci">🛡️</span><span
-            class="ccl">Immunity</span></div>
-        <div class="condchip" onclick="setIC('brain',this)"><span class="cci">🧠</span><span class="ccl">Brain</span>
-        </div>
-        <div class="condchip" onclick="setIC('eye',this)"><span class="cci">👁️</span><span class="ccl">Eyes</span>
-        </div>
-        <div class="condchip" onclick="setIC('heart',this)"><span class="cci">❤️</span><span class="ccl">Heart</span>
-        </div>
-        <div class="condchip" onclick="setIC('allergy',this)"><span class="cci">🌿</span><span
-            class="ccl">Sensitivities</span></div>
+        <button type="button" class="condchip" onclick="setIC('digestion',this)"><span class="cci">🍏</span><span
+            class="ccl">Digestion</span></button>
+        <button type="button" class="condchip" onclick="setIC('joint',this)"><span class="cci">🦴</span><span class="ccl">Joints</span>
+        </button>
+        <button type="button" class="condchip" onclick="setIC('skin',this)"><span class="cci">🐾</span><span class="ccl">Skin &
+            Coat</span></button>
+        <button type="button" class="condchip" onclick="setIC('immune',this)"><span class="cci">🛡️</span><span
+            class="ccl">Immunity</span></button>
+        <button type="button" class="condchip" onclick="setIC('brain',this)"><span class="cci">🧠</span><span class="ccl">Brain</span>
+        </button>
+        <button type="button" class="condchip" onclick="setIC('eye',this)"><span class="cci">👁️</span><span class="ccl">Eyes</span>
+        </button>
+        <button type="button" class="condchip" onclick="setIC('heart',this)"><span class="cci">❤️</span><span class="ccl">Heart</span>
+        </button>
+        <button type="button" class="condchip" onclick="setIC('allergy',this)"><span class="cci">🌿</span><span
+            class="ccl">Sensitivities</span></button>
       </div>
       <div class="ig" id="igrid"></div>
       <div id="condpanel"></div>
@@ -252,10 +251,10 @@
             <input type="text" id="globalSearchInput" placeholder="Search products, ingredients, tips..."
               style="width:100%;padding:12px 44px 12px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;background:var(--ww);outline:none"
               oninput="onSearchInput(event)">
-            <button type="button" onclick="clearSearchInput()"
+            <button type="button" aria-label="Clear search" onclick="clearSearchInput()"
               style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px">✕</button>
           </div>
-          <button type="button" onclick="closeSearchModal()"
+          <button type="button" aria-label="Close search" onclick="closeSearchModal()"
             style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;margin-left:12px">✕</button>
         </div>
         <div class="search-modal-results" id="searchResultsContainer"></div>
@@ -272,19 +271,19 @@
           </div>
         </div>
       </div>
-      <div style="padding:18px 20px 4px">
+      <div style="padding:18px 16px 4px">
         <h2 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--gd)">Daily Feeding Cost</h2>
         <p style="font-size:12px;color:var(--muted);margin-top:3px">Enter pet details and bag info to calculate real
           cost per day</p>
       </div>
 
-      <div style="padding:14px 16px 0;display:flex;flex-direction:column;gap:11px">
+      <div class="calc-layout">
+        <div class="calc-form">
 
         <!-- Pet Type -->
         <div class="cfield">
           <label>Pet Type</label>
-          <select id="cPetType" aria-label="Pet type" onchange="onCalcPetChange()"
-            style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
+          <select id="cPetType" class="calc-select" aria-label="Pet type" onchange="onCalcPetChange()">
             <option value="dog">🐶 Dog</option>
             <option value="cat">🐱 Cat</option>
           </select>
@@ -293,8 +292,7 @@
         <!-- Product selector -->
         <div class="cfield">
           <label>Formula</label>
-          <select id="cProductSelect" aria-label="Formula" onchange="onCalcProductChange()"
-            style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
+          <select id="cProductSelect" class="calc-select" aria-label="Formula" onchange="onCalcProductChange()">
             <option value="">Choose a product</option>
           </select>
         </div>
@@ -305,8 +303,7 @@
             <div
               style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px">
               Bag Size</div>
-            <select id="cBagSize" aria-label="Bag size" onchange="onCalcBagSizeChange()"
-              style="width:100%;padding:11px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--ww);outline:none;-webkit-appearance:none">
+            <select id="cBagSize" class="calc-select" aria-label="Bag size" onchange="onCalcBagSizeChange()">
               <option value="">Choose a product first</option>
             </select>
           </div>
@@ -361,7 +358,9 @@
         <button onclick="runCalc()"
           style="width:100%;background:var(--gm);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:2px">Calculate
           →</button>
+        </div>
 
+        <div class="calc-side">
         <!-- Result -->
         <div id="calcResult" style="display:none;background:var(--gd);border-radius:16px;padding:18px;margin-top:4px">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
@@ -406,6 +405,7 @@
               in South Africa</strong> — with 60–65% more meat than leading competitors on a per-day feeding cost basis.
           </div>
         </div>
+        </div>
 
       </div>
       <div style="height:20px"></div>
@@ -424,8 +424,8 @@
       </button>
       <button onclick="showScreen('ingredients',this)">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M12 2a10 10 0 100 20A10 10 0 0012 2z" />
-          <path d="M12 8v4l3 3" />
+          <path d="M11 20A7 7 0 014 13c0-6 5-9 16-9 0 11-3 16-9 16z" />
+          <path d="M4 21c2-5 5-8 10-10" />
         </svg>
         Ingredients
       </button>
@@ -452,8 +452,9 @@
       </button>
       <button onclick="showScreen('matcher',this)">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8" />
-          <path d="m21 21-4.35-4.35" />
+          <circle cx="12" cy="12" r="9" />
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
         </svg>
         Matcher
       </button>

@@ -203,7 +203,7 @@ function renderBuddy(){
     <h2 id="buddyHeading" tabindex="-1">${heading}</h2>${body}
     ${step!=='results'?'<p class="buddy-caution">This guide uses product and life-stage information. It does not assess allergies or medical conditions.</p>':''}`;
   document.getElementById('buddyHeading').focus({preventScroll:true});
-  document.getElementById('s-buddy').scrollTo(0,0);
+  window.scrollTo?.(0,0);
 }
 
 function openBuddyProduct(productId,sourceId){
