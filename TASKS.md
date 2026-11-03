@@ -42,7 +42,7 @@ Updated 03/11/2026. Source of truth for in-progress work on this repo.
 - [ ] Test the responsive build on a physical Android phone and tablet, including the voice widget position
 - [ ] Upload the latest release ZIP from `dist/` to `public_html/training/`
 - [ ] Spot-check five transcribed values against the guide images (listed in chat, 30/10/2026)
-- [ ] Supply guides: Quinoa Duck Skin & Coat Medium & Maxi (P0024), Ancestral Grain Light Mini (P0013)
+- [ ] Get the two missing feeding guides, from the bag or Farmina: Quinoa Duck Skin & Coat Medium & Maxi (P0024) and Ancestral Grain Light Mini (P0013). Until then the calculator says to use the guide on the bag. The two PDFs added on 03/11/2026 (`1031_03_...` and `112_15_...`) are copies of guides already in use, so they do not fill this gap. Farmina's Light Mini page links the Medium & Maxi file `112_15`, which starts at 10 kg
 - [ ] Widget UX choice for in-between weights (pick printed weight vs show neighbouring rows)
 
 ## Next improvements
