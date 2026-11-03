@@ -2,20 +2,22 @@
   "name": "Farmina Staff Training",
   "short_name": "Farmina",
   "description": "Farmina Pet Foods SA instore staff product knowledge guide",
-  "start_url": "/",
+  "id": "/training/",
+  "start_url": "/training/",
+  "scope": "/training/",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#0D5A96",
   "theme_color": "#1B75BC",
   "icons": [
     {
-      "src": "assets/icons/icon-192.png",
+      "src": "/training/assets/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/icon-512.png",
+      "src": "/training/assets/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

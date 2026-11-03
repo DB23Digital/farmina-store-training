@@ -1,0 +1,293 @@
+{
+  "checked_at": "2026-10-26T15:39:59.729Z",
+  "files": [
+    {
+      "name": "P0001.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15581_21_494_34_494_58_nd-ocean-adult-herring-orange-[400x600pxl]@img_farmina_site.png",
+      "sha256": "0458dede54a0a0a0e65e1ed26227ea22cf013f62469ad179f0f4399c40abff57",
+      "product_id": "P0001",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-ocean-feline/494-herring-&-orange-adult.html"
+    },
+    {
+      "name": "P0002.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15384_40_144_55_nd-prime-kitten-chicken-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "8dc913263bcaede49f3cd3ba66590c0147c48c8f41aa4495ee86602c13045727",
+      "product_id": "P0002",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-prime-grain-free-feline/144-chicken-&-pomegranate-kitten.html"
+    },
+    {
+      "name": "P0003.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15387_26_145_34_ND-Prime-feline-1,5kg-Adult-Chicken-[3D_Front+Right].png",
+      "sha256": "f307e6e219dd263ee04023fce8b4b67fdfdd13b5c369bb8c52e55183e9131b49",
+      "product_id": "P0003",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-prime-grain-free-feline/145-chicken-&-pomegranate-adult.html"
+    },
+    {
+      "name": "P0004.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15388_04_146_48_ND-Prime-feline-1,5kg-Adult-Neutered-Chicken[3D_Front+Right].png",
+      "sha256": "38b003013347ca5647dea421f4a1bbe177bd4171e96623be2c6a0b59b57ca2aa",
+      "product_id": "P0004",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-prime-grain-free-feline/146-chicken-&-pomegranate-neutered.html"
+    },
+    {
+      "name": "P0005.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15389_11_147_07_ND-Prime-feline-1,5kg-Adult-Boar-[3D_Front+Right].png",
+      "sha256": "8c81d31d59c0f1ad8777e994d02ceed3ef60c96a4103b2fc368e138f3b7331c4",
+      "product_id": "P0005",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-prime-grain-free-feline/147-boar-&-apple-adult.html"
+    },
+    {
+      "name": "P0006.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15391_58_149_23_ND-Prime-feline-1,5kg-Adult-Lamb-[3D_Front+Right].png",
+      "sha256": "5b1c93a7b616a0b01b89c823b731626f5c059810d1532d138974fe23d839d063",
+      "product_id": "P0006",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-prime-grain-free-feline/149-lamb-&-blueberry-adult.html"
+    },
+    {
+      "name": "P0007.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_23475_32_710_51_nd-pumpkin-neutered-lamb-pumpkin-blueberry-[400x600pxl]@img_farmina_site.png",
+      "sha256": "ccb9d6d52125f1c4a32561aea5177a1cdba8b70281cf2ffe4077450d6be2d03c",
+      "product_id": "P0007",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-pumpkin-grain-free-feline/710-neutered,-lamb,-pumpkin-and-blueberry-adult.html"
+    },
+    {
+      "name": "P0008.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15598_24_438_32_nd-quinoa-urinary-[400x600pxl]@img_farmina_site.png",
+      "sha256": "173710eb4691176537437bc8ad2751bf73ecc8ab79bd92f627e33d6cc37d7ba0",
+      "product_id": "P0008",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/cat-food/n&d-quinoa-grain-free-feline/438-urinary-duck.html"
+    },
+    {
+      "name": "P0009.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15370_07_106_44_106_54_nd-ancestral-puppy-mini-chicken-spel-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "396534fbc7f179fcb592f53b73ba26d5c4a7b72661acab59375f8236db5d4eea",
+      "product_id": "P0009",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-low-ancestral-grain-canine/106-chicken-&-pomegranate-puppy-mini.html"
+    },
+    {
+      "name": "P0010.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15393_51_593_20_593_25_nd-ancestral-canine-puppy-medium_maxi-CHICKEN@web.png",
+      "sha256": "e1b722fea3175ec4b3cbc164dd491a78661e910c7d9f15335ecc3ebad815fa4c",
+      "product_id": "P0010",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-low-ancestral-grain-canine/108-chicken-&-pomegranate-puppy-medium&maxi.html"
+    },
+    {
+      "name": "P0011.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15394_31_109_07_nd-ancestral-adult-mini-chicken-spel-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "855302487455b36da54994e56e72c0dc47858d73858f5e199498a024e1c39a6c",
+      "product_id": "P0011",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-low-ancestral-grain-canine/109-chicken-&-pomegranate-adult-mini.html"
+    },
+    {
+      "name": "P0012.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15396_13_594_57_ND-Ancestral-Grain-adult-MEDIUM&MAXI-2.5kg-CHICKEN[400x600px]@online.png",
+      "sha256": "ce50ec41a8eb07b8fe729479ef09af21ca3accbab2a0068b82b7d9f55eb64420",
+      "product_id": "P0012",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-low-ancestral-grain-canine/111-chicken-&-pomegranate-adult-medium&maxi.html"
+    },
+    {
+      "name": "P0013.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15397_44_595_29_595_11_ND-Ancestral-Grain-adult-LIGHT-mini-2.5kg-CHICKEN[400x600px]@online.png",
+      "sha256": "43aff98606b75aeb777563c4318d78d9ea928a55a9b60dd103cbe9c4f2c43a57",
+      "product_id": "P0013",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-low-ancestral-grain-canine/112-chicken-&-pomegranate-light-mini.html"
+    },
+    {
+      "name": "P0014.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15398_47_113_14_113_10_nd-ancestral-adult-light-medium-maxi-chicken-spel-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "af209a00a6bed2ad1ecfa9fbb94806997372bc2ee92e50ce598332abe380e919",
+      "product_id": "P0014",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-low-ancestral-grain-canine/113-chicken-&-pomegranate-light-medium&maxi.html"
+    },
+    {
+      "name": "P0015.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15559_04_580_36_580_23_nd-ocean-adult-mini-cod-pumpkin-[400x600pxl]@img_farmina_site.png",
+      "sha256": "6c5a42365322cfc92c5712870752632c2841dc8a6ebd015a7ca2f3f06c273c35",
+      "product_id": "P0015",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-ocean-canine/580-cod,-pumpkin-&-orange-adult-mini.html"
+    },
+    {
+      "name": "P0016.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15568_09_582_25_582_08_nd-ocean-adult-medium-maxi-cod-pumpkin-[400x600pxl]@img_farmina_site.png",
+      "sha256": "12d03b10c951071fded5e9c0c3e61eaa5b5673a92778883b0a99c8c4798ba307",
+      "product_id": "P0016",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-ocean-canine/582-cod,-pumpkin-&-orange-adult-medium-&-maxi.html"
+    },
+    {
+      "name": "P0017.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_23486_20_704_46_nd-ocean-puppy-mini-cod-melon-pumpkin-[400x600pxl]@img_farmina_site.png",
+      "sha256": "d5c876a855964179139172cff447aad17467405c9d43aa67c8d243bb435a7775",
+      "product_id": "P0017",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-ocean-canine/704-cod,-pumpkin-and-cantaloupe-melon-puppy-mini.html"
+    },
+    {
+      "name": "P0018.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_23485_47_705_27_nd-ocean-puppy-medium-maxi-cod-melon-pumpkin-[400x600pxl]@img_farmina_site.png",
+      "sha256": "a738b56aad20111238a0ffc3cf569c5d23ae359f1d7ce4d382642ef83a6b8b5f",
+      "product_id": "P0018",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-ocean-canine/705-cod,-pumpkin-and-cantaloupe-melon-puppy-medium-&-maxi.html"
+    },
+    {
+      "name": "P0019.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15552_50_585_01_585_38_nd-prime-puppy-mini-chicken-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "39132166f207fb11c27e652421be7d7da211f5496383bf309fb85f9ea11cd765",
+      "product_id": "P0019",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-prime-grain-free-canine/585-chicken-&-pomegranate-puppy-mini.html"
+    },
+    {
+      "name": "P0020.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15373_16_586_19_586_11_nd-prime-puppy-medium-maxi-chicken-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "f27af57c3c84dcb6f505028b0e1b9d3e313343560595c837c186fe0a38774267",
+      "product_id": "P0020",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-prime-grain-free-canine/92-chicken-&-pomegranate-puppy-medium&maxi.html"
+    },
+    {
+      "name": "P0021.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15374_25_587_59_93_42_nd-prime-adult-mini-chicken-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "163b2fccacda7319f010d7b660e8118124ca7bb578dd0df70de80405ecf66421",
+      "product_id": "P0021",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-prime-grain-free-canine/93-chicken-&-pomegranate-adult-mini.html"
+    },
+    {
+      "name": "P0022.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15376_23_588_49_94_59_nd-prime-adult-medium-uk-chicken[400x600px]@img_farmina_site.png",
+      "sha256": "5d51bf3f4cabc5d0b0d52dcd6d4f5d22bd38f36e02d80d82ba41a418200a5a5e",
+      "product_id": "P0022",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-prime-grain-free-canine/95-chicken-&-pomegranate-adult-medium&maxi.html"
+    },
+    {
+      "name": "P0023.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_26744_20_1031_21_N&D-QUINOA-canine-FRONT-RIGHT-Skin&Coat-QUAIL-Medmaxi-2.5kg[400x600px]@-img_farmina_site.png",
+      "sha256": "72cdb0baa7f8aab4208230862757d77213f8c4e6c67bb4f0c65d831e6058f33a",
+      "product_id": "P0023",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-quinoa-grain-free-canine/1031-skin-&-coat-quail-medium-&-maxi.html"
+    },
+    {
+      "name": "P0024.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_26742_46_1033_55_N&D-QUINOA-canine-FRONT-RIGHT-Skin&Coat--DUCK--Medmaxi-2.5kg[400x600px]@-img_farmina_site.png",
+      "sha256": "dc82334fced379e198f46580d935bba7c096f7c1371701c71c2fd4319ea856ac",
+      "product_id": "P0024",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-quinoa-grain-free-canine/1033-skin-&-coat-duck-medium-&-maxi.html"
+    },
+    {
+      "name": "P0025.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_26743_30_693_55_nd-quinoa-adult-mini-duck-[400x600pxl]@img_farmina_site.png",
+      "sha256": "61bb21648568d6c9f38a438c28504bef0ba118265c8cca7a7cd2fc387f0f84bd",
+      "product_id": "P0025",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-quinoa-grain-free-canine/693-skin-&-coat-duck-mini.html"
+    },
+    {
+      "name": "P0026.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_26739_42_696_38_nd-quinoa-adult-mini-quail-[400x600pxl]@img_farmina_site.png",
+      "sha256": "33781c3a90476b66b578810388f417a847fc92d4bf582086e8b2a8fb67e62638",
+      "product_id": "P0026",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n&d-quinoa-grain-free-canine/696-skin-&-coat-quail-mini.html"
+    },
+    {
+      "name": "P0027-large.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15535_08_391_45_391_44_nd-pumpkin-adult-medium-maxi-chicken-pumpkin-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "498d96e4b28a2631013ebea755418d8077e2d74d440d0c92682964a6ace6ad08",
+      "product_id": "P0027",
+      "kind": "large",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/391-product.html"
+    },
+    {
+      "name": "P0027.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15536_30_390_21_390_45_nd-pumpkin-adult-mini-chicken-pumpkin-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "95161198615ed04871cf5d26199150051238952effb379d43d5a76d1d784cb4c",
+      "product_id": "P0027",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/390-product.html"
+    },
+    {
+      "name": "P0028-large.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_23479_37_717_06_nd-pumpkin-puppy-medium-maxi-chicken-pomegranate-[400x600pxl]@img_farmina_site%20(1).png",
+      "sha256": "f39cc6e3df91bd52cf7a3ac5a61f42ddff032743dac03d464c895ab3976de134",
+      "product_id": "P0028",
+      "kind": "large",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/717-product.html"
+    },
+    {
+      "name": "P0028.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_23480_56_716_00_nd-pumpkin-puppy-mini-chicken-pomegranate-[400x600pxl]@img_farmina_site.png",
+      "sha256": "4d5ec5de4dba87d7c79687ee0d6244f32a600fad043d061b2164e66911cb10f7",
+      "product_id": "P0028",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/716-product.html"
+    },
+    {
+      "name": "P0029-large.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15533_07_397_06_397_56_nd-pumpkin-adult-medium-maxi-wild-boar-pumpkin-apple-[400x600pxl]@img_farmina_site.png",
+      "sha256": "c9994588461e8fa03aa5d13f7dbc4b6ba157a57b79413c8cefec251409fd4fca",
+      "product_id": "P0029",
+      "kind": "large",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/397-product.html"
+    },
+    {
+      "name": "P0029.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15534_14_396_57_396_47_nd-pumpkin-adult-mini-wild-boar-pumpkin-apple-[400x600pxl]@img_farmina_site.png",
+      "sha256": "4b41763716799c96c50dd2396c4e8d90db26a36369fa0c4a4a51502a8eff395f",
+      "product_id": "P0029",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/396-product.html"
+    },
+    {
+      "name": "P0030-large.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15539_47_393_57_393_11_nd-pumpkin-adult-medium-maxi-lamb-pumpkin-blueberry-[400x600pxl]@img_farmina_site.png",
+      "sha256": "548a277bf86165e91f51872a7465c76f9a89fa1a80ae8b5bc88f389d043bfe0b",
+      "product_id": "P0030",
+      "kind": "large",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/393-product.html"
+    },
+    {
+      "name": "P0030.jpg",
+      "url": "https://www.farmina.com/fotoprodotti/l_15540_26_392_41_392_04_ND-Pumpkin-adult-mini-2.5kg-LAMB[400x600px]@online.jpg",
+      "sha256": "a557c9a80b00811688a5b2726907b129ee19460ac6a0c155acca7a8b2fbed02e",
+      "product_id": "P0030",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/392-product.html"
+    },
+    {
+      "name": "P0031-large.png",
+      "url": "https://www.farmina.com/fotoprodotti/389_03_nd-pumpkin-puppy-medium-maxi-lamb-pumpkin-blueberry-[400x600pxl]@img_farmina_site.png",
+      "sha256": "205f8e76f03b38e6da0a0fd656acdfdd24c0a228e136fe0e5784e84a2a6c4904",
+      "product_id": "P0031",
+      "kind": "large",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/389-product.html"
+    },
+    {
+      "name": "P0031.png",
+      "url": "https://www.farmina.com/fotoprodotti/l_15542_03_388_16_nd-pumpkin-puppy-mini-lamb-pumpkin-blueberry-[400x600pxl]@img_farmina_site.png",
+      "sha256": "f6539f33e39455d50332f12d7c86a0ca723ab9c08bd0bf0bd73f9ebb6692b066",
+      "product_id": "P0031",
+      "kind": "standard",
+      "source_page": "https://www.farmina.com/za/eshop/dog-food/n%26d-pumpkin-grain-free-canine/388-product.html"
+    }
+  ]
+}

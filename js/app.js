@@ -17,7 +17,9 @@ function showScreen(name, btn){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('s-'+name).classList.add('active');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  window.scrollTo?.(0,0);
+  window.TrainingAnalytics?.screen(name);
   
   // Initialize screen-specific logic
   if(name === 'matcher') initMatcher();
@@ -35,6 +37,40 @@ function setF(type,val,el){
   filters[type]=val;
   el.closest('.cr').querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
+  syncFilterChips();
+  renderProducts();
+}
+
+// Pet narrows Life Stage, and Pet plus Life Stage narrow Line, using the catalogue
+// itself, so every chip on show leads to at least one product.
+function syncFilterChips(){
+  const inPet=PRODUCTS.filter(p=>filters.pet==='all'||p.pet===filters.pet);
+  syncChipRow('fstage','stage',inPet.map(p=>p.stage));
+  const inStage=inPet.filter(p=>filters.stage==='all'||p.stage===filters.stage);
+  syncChipRow('fline','line',inStage.map(p=>p.line));
+}
+
+// Hides unavailable chips. A selection that just became unavailable falls back to "All".
+function syncChipRow(group,type,available){
+  const chips=document.querySelectorAll(`#${group} .chip`);
+  chips.forEach(chip=>{chip.hidden=chip.dataset.value!=='all'&&!available.includes(chip.dataset.value);});
+  if(filters[type]!=='all'&&!available.includes(filters[type])){
+    filters[type]='all';
+    chips.forEach(chip=>chip.classList.toggle('active',chip.dataset.value==='all'));
+  }
+}
+
+// Clears every product filter and the search box. The pet row has no "All" chip,
+// so no pet chip stays active; the other rows return to their "All" chip.
+function resetFilters(){
+  filters={pet:'all',stage:'all',line:'all'};
+  document.getElementById('psearch').value='';
+  for(const group of ['fpet','fstage','fline']){
+    const chips=document.querySelectorAll(`#${group} .chip`);
+    chips.forEach(chip=>chip.classList.remove('active'));
+    if(group!=='fpet') chips[0]?.classList.add('active');
+  }
+  syncFilterChips();
   renderProducts();
 }
 
@@ -82,16 +118,18 @@ function renderProducts(){
     const hlHtml = p.highlights.map(h=>`<span class="ht">${h}</span>`).join('');
     const skuOptionsHtml = renderSkuOptions(p);
     const selectedSku = getSelectedSku(p);
+    const shot = getProductShot(p, selectedSku);
     const selectedPriceLabel = selectedSku ? `R${selectedSku.price_current.toFixed(0)}` : (p.scraped_price_label || '');
     const selectedSizeLabel = selectedSku ? (selectedSku.pack_size_unit==='g' ? `${parseInt(selectedSku.pack_size_grams)} g` : `${selectedSku.pack_size_value}${selectedSku.pack_size_unit}`) : '';
     const priceHtml = selectedSku ?
       `<div class="price-summary" id="price-${p.id}">${selectedPriceLabel}</div>` +
       `<div class="price-summary-size" id="size-${p.id}">${selectedSizeLabel}</div>${skuOptionsHtml}` :
-      (p.scraped_price_label ? `<div class="price-summary">${p.scraped_price_label}</div>` : '');
+      (p.catalog_error ? '<div class="price-summary">Pricing unavailable — catalogue needs review</div>' :
+        (p.scraped_price_label ? `<div class="price-summary">${p.scraped_price_label}</div>` : ''));
     html += `
 <div class="pc" id="pc-${p.id}">
-  <div class="ch" onclick="toggleCard('${p.id}')">
-    <div class="ci">${p.icon}</div>
+  <div class="ch" role="button" tabindex="0" onclick="toggleCard('${p.id}')">
+    ${shot ? `<img class="product-shot" id="shot-${p.id}" src="${shot.src}" alt="${shot.alt}" width="52" height="78" loading="lazy" decoding="async">` : `<div class="ci">${p.icon}</div>`}
     <div class="cm">
       <div class="cb">
         <span class="badge ${lb}">${lbn}</span>
@@ -140,6 +178,10 @@ function toggleCard(id){
   const chev = document.getElementById('chev-'+id);
   const open = cd.classList.toggle('open');
   chev.classList.toggle('open',open);
+  if(open){
+    const product = PRODUCTS.find(p=>p.id===id);
+    if(product) window.TrainingAnalytics?.track('product_view', {product_id:id, product_line:product.line, pet_type:product.pet});
+  }
 }
 
 function getSelectedSku(product){
@@ -148,13 +190,22 @@ function getSelectedSku(product){
   return product.scraped_skus[selectedIndex] || product.scraped_skus[0];
 }
 
+function getProductShot(product, sku){
+  const image = sku && PRODUCT_SHOTS[sku.product_id];
+  if(!image) return null;
+  return {
+    src: image.large && sku.pack_size_grams >= 12000 ? image.large : image.standard,
+    alt: `${product.lineName} ${product.name} ${product.variant} product pack`
+  };
+}
+
 function renderSkuOptions(product){
   if(!product.scraped_skus || !product.scraped_skus.length) return '';
   const selectedIndex = Number.isFinite(selectedSkuByProduct[product.id]) ? selectedSkuByProduct[product.id] : 0;
   const buttons = product.scraped_skus.map((sku, index)=>{
     const label = sku.pack_size_unit==='g' ? `${parseInt(sku.pack_size_grams)} g` : `${sku.pack_size_value}${sku.pack_size_unit}`;
     const priceLabel = sku.price_current ? `R${sku.price_current.toFixed(0)}` : 'N/A';
-    return `<button type="button" class="sku-chip${index===selectedIndex?' active':''}" onclick="setProductSku('${product.id}', ${index})" data-product="${product.id}" data-index="${index}">${label} · ${priceLabel}</button>`;
+    return `<button type="button" class="sku-chip${index===selectedIndex?' active':''}" onclick="event.stopPropagation();setProductSku('${product.id}', ${index})" data-product="${product.id}" data-index="${index}">${label} · ${priceLabel}</button>`;
   }).join('');
   return `<div class="sku-options" style="display:flex;flex-wrap:wrap;align-items:flex-start;margin-top:8px">${buttons}</div>`;
 }
@@ -174,6 +225,11 @@ function setProductSku(productId, selectedIndex){
   const sku = product.scraped_skus?.[selectedIndex];
   const priceText = document.getElementById(`price-${productId}`);
   const sizeText = document.getElementById(`size-${productId}`);
+  const shot = document.getElementById(`shot-${productId}`);
+  if(shot){
+    const nextShot = getProductShot(product, sku);
+    if(nextShot){ shot.src = nextShot.src; shot.alt = nextShot.alt; }
+  }
   if(priceText){
     priceText.textContent = sku ? `R${sku.price_current.toFixed(0)}` : '';
   }
@@ -232,7 +288,7 @@ function renderIngredients(){
     return;
   }
   grid.innerHTML=list.map(i=>`
-<div class="ingcard" onclick="openIng('${i.id}')">
+<div class="ingcard" role="button" tabindex="0" onclick="openIng('${i.id}')">
   <div class="ii">${i.icon}</div>
   <div class="in">${i.name}</div>
   <div class="ic">${i.catLabel}</div>
@@ -245,8 +301,8 @@ function renderConditionPanel(){
   if(ingMode!=='condition'||condFilter==='all'){panel.className='';panel.innerHTML='';return;}
   const cond=BODY_CONDITIONS.find(c=>c.id===condFilter);
   if(!cond){panel.className='';panel.innerHTML='';return;}
-  const prodIds=CONDITIONS_PRODUCTS[condFilter]||[];
-  const prods=prodIds.map(id=>PRODUCTS.find(p=>p.id===id)).filter(Boolean);
+  const rule=CONDITION_MATCHER_RULES[condFilter];
+  const prods=rule?conditionPanelProducts(rule):[];
   const pillsHtml=prods.map(p=>{
     const badge=p.line==='quinoa'?'bq':p.line==='pumpkin'?'bp':p.line==='ocean'?'bo':p.line==='prime'?'bpr':'bl';
     const lname=p.line==='quinoa'?'Quinoa':p.line==='pumpkin'?'Pumpkin':p.line==='ocean'?'Ocean':p.line==='prime'?'Prime':'Low Grain';
@@ -257,8 +313,8 @@ function renderConditionPanel(){
   panel.innerHTML=`
 <div class="cpanel-hdr"><h4>${cond.icon} ${cond.label}</h4><p>${cond.blurb}</p></div>
 <div class="cpanel-body">
-  <div class="cpanel-label">Tap a formula to view it</div>
-  <div class="cpanel-pills">${pillsHtml||'<span style="font-size:12px;color:var(--muted)">All Farmina formulas provide support</span>'}</div>
+  <div class="cpanel-label">Formulas that declare these ingredients · tap to view. Use Matcher for a pet-specific list.</div>
+  <div class="cpanel-pills">${pillsHtml||'<span style="font-size:12px;color:var(--muted)">No catalogue formula declares these ingredients.</span>'}</div>
 </div>`;
   panel.className='active';
 }
@@ -266,6 +322,8 @@ function renderConditionPanel(){
 function jumpToProduct(id){
   const btn=document.querySelector('nav button');
   showScreen('catalog',btn);
+  // An active filter may be hiding the card this jump is looking for.
+  if(!document.getElementById('pc-'+id)) resetFilters();
   setTimeout(()=>{
     const el=document.getElementById('pc-'+id);
     if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -275,6 +333,7 @@ function jumpToProduct(id){
 function openIng(id){
   const i = INGREDIENTS.find(x=>x.id===id);
   if(!i) return;
+  window.TrainingAnalytics?.track('ingredient_view', {ingredient_id:id});
   document.getElementById('mcontent').innerHTML = `
 <div class="micon">${i.icon}</div>
 <h3>${i.name}</h3>
@@ -294,6 +353,19 @@ ${i.notes ? `<div class="msec"><h4>📝 Notes</h4><p>${i.notes}</p></div>` : ''}
 function closeModal(e){
   if(e.target===document.getElementById('overlay')) document.getElementById('overlay').classList.remove('open');
 }
+
+// ═══════════════════════════════════════
+// KEYBOARD (tablet keyboards and desktop)
+// ═══════════════════════════════════════
+document.addEventListener?.('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('overlay').classList.remove('open');
+    closeSearchModal();
+  } else if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute?.('role')==='button'){
+    e.preventDefault();
+    e.target.click();
+  }
+});
 
 // ═══════════════════════════════════════
 // INIT

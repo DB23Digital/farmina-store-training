@@ -69,7 +69,7 @@ function buildSearchIndex(){
       const quiz = QUIZZES[lineKey];
       if(quiz && quiz.questions){
         quiz.questions.forEach((q, qIdx)=>{
-          const searchText = `${q.q} ${q.a1} ${q.a2} ${q.a3} ${q.a4}`.toLowerCase();
+          const searchText = `${q.q} ${(q.opts || []).join(' ')}`.toLowerCase();
           searchIndex.push({
             type:'quiz',
             id:`quiz-${lineKey}-${qIdx}`,
@@ -126,9 +126,10 @@ function formatSearchResultsHtml(){
   }
   
   if(searchState.results.length === 0){
+    const queryLabel = searchState.query.replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
     return `<div style="padding:24px 16px;text-align:center;color:var(--muted)">
       <div style="font-size:32px;margin-bottom:12px">🔍</div>
-      <p>No results for "${searchState.query}"</p>
+      <p>No results for "${queryLabel}"</p>
       <p style="font-size:12px;margin-top:6px">Try different keywords</p>
     </div>`;
   }
@@ -155,7 +156,7 @@ function formatSearchResultsHtml(){
     items.slice(0, 5).forEach(r=>{
       if(type === 'product'){
         html += `
-  <div class="search-result" onclick="jumpToProduct('${r.id}')">
+  <div class="search-result" role="button" tabindex="0" onclick="jumpToProduct('${r.id}'); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>
@@ -165,7 +166,7 @@ function formatSearchResultsHtml(){
   </div>`;
       } else if(type === 'ingredient'){
         html += `
-  <div class="search-result" onclick="openIng('${r.id}'); closeSearchModal()">
+  <div class="search-result" role="button" tabindex="0" onclick="openIng('${r.id}'); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>
@@ -174,7 +175,7 @@ function formatSearchResultsHtml(){
   </div>`;
       } else if(type === 'tip'){
         html += `
-  <div class="search-result" onclick="jumpToTip(${r.catIdx}); closeSearchModal()">
+  <div class="search-result" role="button" tabindex="0" onclick="jumpToTip(${r.catIdx}); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>
@@ -184,7 +185,7 @@ function formatSearchResultsHtml(){
   </div>`;
       } else if(type === 'quiz'){
         html += `
-  <div class="search-result" onclick="jumpToQuiz('${r.id.split('-')[1]}'); closeSearchModal()">
+  <div class="search-result" role="button" tabindex="0" onclick="jumpToQuiz('${r.id.split('-')[1]}'); closeSearchModal()">
     <div style="font-size:24px;margin-right:12px">${r.icon}</div>
     <div style="flex:1">
       <div class="search-result-title">${r.title}</div>
@@ -218,13 +219,23 @@ function closeSearchModal(){
   if(overlay) overlay.classList.remove('open');
 }
 
+let searchAnalyticsTimer;
 function onSearchInput(e){
   const query = e.target.value;
   performSearch(query);
   renderSearchResults();
+  clearTimeout(searchAnalyticsTimer);
+  if(query.trim() && window.TrainingAnalytics?.isEnabled()){
+    const searchSurface = e.target.id === 'globalSearchInput' ? 'overlay' : 'screen';
+    const resultCount = searchState.resultCount;
+    searchAnalyticsTimer = setTimeout(()=>{
+      window.TrainingAnalytics?.track('search_used', {search_surface:searchSurface, result_count:resultCount});
+    }, 700);
+  }
 }
 
 function clearSearchInput(){
+  clearTimeout(searchAnalyticsTimer);
   const input = document.getElementById('globalSearchInput');
   if(input){
     input.value = '';

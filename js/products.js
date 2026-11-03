@@ -153,7 +153,7 @@ const PRODUCTS = [
    macros:{meat:'55%',grains:'0%',fruits:'5%',legumes:'38%',fresh:'30%'},
    highlights:['GMO Free','Mono Protein','Grain Free','Skin & Coat','Novel Protein','Lean Protein'],
    composition:'Quail, dehydrated quail protein, pea starch, fish oil from herring, quinoa seed (extracted), linseed, dried coconut, turmeric, inulin, fructooligosaccharides, yeast extract (source of mannooligosaccharides), calcium carbonate, dicalcium phosphate, psyllium husks and seeds, potassium chloride, sodium chloride, dried brewers\' yeast, aloe vera extract, glucosamine, chondroitin sulphate.',
-   suitable:'All breeds and all life stages. For dogs with food sensitivities or skin and coat concerns.',
+   suitable:'Adult dogs of all breeds. Farmina lists it for reducing ingredient and nutrient intolerances and supporting skin and coat.',
    sizes:['800g','2.5kg','7kg'],
    sell:'Quail is exceptionally lean and highly digestible with omega fatty acid support for skin and coat health.'},
 
@@ -164,7 +164,7 @@ const PRODUCTS = [
    macros:{meat:'55%',grains:'0%',fruits:'5%',legumes:'38%',fresh:'30%'},
    highlights:['GMO Free','Mono Protein','Grain Free','Skin & Coat','Novel Protein','Omega Rich'],
    composition:'Boneless duck, dehydrated duck protein, pea starch, fish oil from herring, quinoa seed (extracted), linseed, dried coconut, turmeric, inulin, fructooligosaccharides, yeast extract (source of mannooligosaccharides), calcium carbonate, dicalcium phosphate, psyllium husks and seeds, potassium chloride, sodium chloride, dried brewers\' yeast, aloe vera extract, glucosamine, chondroitin sulphate.',
-   suitable:'All breeds and all life stages. For dogs with food sensitivities or skin and coat concerns.',
+   suitable:'Adult dogs of all breeds. Farmina lists it for reducing ingredient and nutrient intolerances and supporting skin and coat.',
    sizes:['800g','2.5kg','7kg'],
    sell:'Mono-protein skin and coat formula with duck and quinoa for exceptional omega support.'},
 
@@ -262,60 +262,33 @@ const PRODUCTS = [
    composition:'Fresh boneless duck (28%), dehydrated duck meat (26%), sweet potato, duck fat, dehydrated whole eggs, fresh herring, dehydrated herring, herring oil, pea fibre, dried carrots, sun-cured alfalfa, inulin, FOS, MOS, cranberry powder (0.5%), chamomile flowers, dehydrated apple, pomegranate powder, spinach powder, psyllium (0.3%), sodium chloride, dried brewer\'s yeast, turmeric (0.2%), glucosamine, chondroitin sulfate, marigold flower extract (lutein), aloe vera gel concentrate, green tea extract, rosemary extract.',
    suitable:'All breeds and adult life stages. For cats with lower urinary tract disease concerns.',
    sizes:['300g','1.5kg','5kg'],
-   sell:'Duck is novel protein. Cranberry and chamomile provide targeted urinary tract support. Ideal for recurrent struvite stone issues.'},
+   sell:'Duck is novel protein. Cranberry and chamomile are included for urinary tract support. Farmina lists it for reducing the recurrence of struvite stones.'},
 ];
 
-function normalizeText(value){
-  return (value || '').toString().toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-}
-
-function scoreScrapedProduct(product, scraped){
-  if(product.pet !== scraped.species) return -999;
-  const productWords = new Set(normalizeText(product.name).split(' ').filter(Boolean));
-  const scrapedWords = new Set(normalizeText(scraped.product_name).split(' ').filter(Boolean));
-  const overlap = [...productWords].filter(word=>scrapedWords.has(word)).length;
-  let score = overlap * 10;
-  const appLine = normalizeText(product.lineName || product.line);
-  const scrapedLine = normalizeText(scraped.line);
-  if(appLine && scrapedLine && (appLine === scrapedLine || appLine.includes(scrapedLine) || scrapedLine.includes(appLine))) {
-    score += 5;
-  }
-  // Stage-aware bonus so puppy/adult/light SKUs don't bleed across life stages
-  const sn = normalizeText(scraped.product_name);
-  const scrapedStage = sn.includes('puppy') || sn.includes('kitten') ? 'young' :
-    sn.includes('light') || sn.includes('neutered') ? 'special' : 'adult';
-  const productStage = product.stage === 'puppy' || product.stage === 'kitten' ? 'young' :
-    product.stage === 'light' || product.stage === 'neutered' ? 'special' : 'adult';
-  if(scrapedStage === productStage) score += 15;
-  return score;
-}
-
 function applyScrapedProductData(){
-  if(typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') return;
+  catalogIssues = [];
+  validatedSourceIds = new Set();
   PRODUCTS.forEach(product=>{
-    const allScored = FARMINA_SCRAPED_PRODUCTS
-      .map(scraped=>({scraped, score:scoreScrapedProduct(product, scraped)}))
-      .filter(({score})=>score>0);
-    if(!allScored.length) return;
-    const topScore = Math.max(...allScored.map(({score})=>score));
-    const topMatches = allScored.filter(({score})=>score===topScore).map(({scraped})=>scraped);
-    const best = topMatches[0];
-    product.scraped_product_id = best.product_id;
-    product.scraped_product_name = best.product_name;
-    product.scraped_product_url = best.product_url;
-    product.scraped_line = best.line;
-    // Merge SKUs from all tied top matches (e.g. MINI + MEDIUM&MAXI), dedup by pack size
-    const seen = new Set();
-    product.scraped_skus = topMatches.flatMap(m=>m.skus||[])
-      .filter(sku=>{ if(seen.has(sku.pack_size_grams)) return false; seen.add(sku.pack_size_grams); return true; })
-      .sort((a,b)=>a.pack_size_grams-b.pack_size_grams);
-    const pricedSkus = product.scraped_skus.filter(sku => typeof sku.price_current === 'number');
-    if(pricedSkus.length){
-      const cheapest = pricedSkus.reduce((best, sku) => (sku.price_current < best.price_current ? sku : best), pricedSkus[0]);
+    Object.keys(product).filter(key=>key.startsWith('scraped_')).forEach(key=>delete product[key]);
+    product.catalog_error = false;
+    try {
+      if(typeof FARMINA_SCRAPED_PRODUCTS === 'undefined') throw Error('Source catalogue unavailable');
+      const resolved = resolveCatalogProduct(product, FARMINA_SCRAPED_PRODUCTS);
+      const best = resolved.records[0];
+      product.scraped_product_id = best.product_id;
+      product.scraped_product_name = best.product_name;
+      product.scraped_product_url = best.product_url;
+      product.scraped_line = best.line;
+      product.scraped_skus = resolved.skus;
+      resolved.records.forEach(record=>validatedSourceIds.add(record.product_id));
+      const cheapest = resolved.skus.reduce((best,sku)=>sku.price_current < best.price_current ? sku : best);
       const sizeLabel = cheapest.pack_size_unit === 'g' ? `${parseInt(cheapest.pack_size_grams)} g` : `${cheapest.pack_size_value}${cheapest.pack_size_unit}`;
       product.scraped_price_min = cheapest.price_current;
       product.scraped_price_per_kg = cheapest.price_per_kg;
       product.scraped_price_label = `From R${cheapest.price_current.toFixed(0)} (${sizeLabel})`;
+    } catch(error) {
+      product.catalog_error = true;
+      catalogIssues.push({product_id:product.id,reason:error.message});
     }
   });
 }
