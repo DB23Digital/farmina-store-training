@@ -23,9 +23,14 @@ const BUDDY_PREFERENCES = [
 ];
 let buddyState = {step:'pet',pet:null,stage:null,size:null,preference:'any'};
 
+function buddyCardId(family,state){
+  if(state.pet==='cat') return family;
+  return `${family}-${state.size==='medium_maxi'?'mm':'mini'}`;
+}
+
 function buddyCandidates(state){
   return (BUDDY_PRIORITY[`${state.pet}:${state.stage}`] || [])
-    .map(id=>PRODUCTS.find(product=>product.id===id))
+    .map(id=>PRODUCTS.find(product=>product.id===buddyCardId(id,state)))
     .filter(product=>product && !product.catalog_error && product.scraped_skus?.length &&
       CATALOG_LINKS[product.id]?.ids.every(id=>validatedSourceIds.has(id)) &&
       product.pet===state.pet && product.stage===state.stage);
@@ -49,21 +54,10 @@ function buddyPreferenceOptions(state){
 }
 
 function buddySource(product, size){
-  const sources=CATALOG_LINKS[product.id].ids
-    .map(id=>FARMINA_SCRAPED_PRODUCTS.find(source=>source.product_id===id))
-    .filter(Boolean);
-  if(product.pet==='cat') return {source:sources[0],exact:true};
-  if(size==='mini'){
-    const source=sources.find(item=>/\bMINI\b/i.test(item.product_name));
-    if(source) return {source,exact:true};
-  }
-  if(size==='medium_maxi'){
-    const source=sources.find(item=>/\bMEDIUM\s*&\s*MAXI\b/i.test(item.product_name));
-    if(source) return {source,exact:true};
-  }
-  // One source can contain both Mini and Medium/Maxi packs. Do not infer
-  // which pack applies from its weight or photograph.
-  return {source:sources.length===1?sources[0]:null,exact:false};
+  const source=FARMINA_SCRAPED_PRODUCTS.find(item=>item.product_id===CATALOG_LINKS[product.id].ids[0]);
+  if(product.pet==='cat' || size==='mini' || size==='medium_maxi') return {source,exact:true};
+  // Breed size not known yet: do not claim one kibble size's packs.
+  return {source:null,exact:false};
 }
 
 function buddyResults(state){
@@ -92,7 +86,7 @@ function buddyResultCard(result){
   const shot=source && PRODUCT_SHOTS[source.product_id];
   const image=shot && (product.pet==='dog' && buddyState.size==='medium_maxi' && shot.large ? shot.large : shot.standard);
   const sizeText=exact && source
-    ? `Listed packs: ${source.skus.map(sku=>buddySizeLabel(sku.pack_size_grams)).join(', ')}`
+    ? `Listed packs: ${product.scraped_skus.map(sku=>buddySizeLabel(sku.pack_size_grams)).join(', ')}`
     : 'Confirm the exact breed-size pack on the shelf before recommending it.';
   const grainText=product.line==='lag' ? 'Ancestral Grain range' : 'Grain-free range';
   return `<article class="buddy-result">

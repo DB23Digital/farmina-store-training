@@ -31,12 +31,13 @@ The Farmina SA Staff Training Guide is a mobile-first web app (a Progressive Web
 
 **Keywords:** products, catalogue, filter, pet, life stage, line, cards, price, pack size, composition
 
-The Products screen is the home screen. It lists the Farmina N&D range as cards, grouped under a banner for each line.
+The Products screen is the home screen. It lists all 36 Farmina N&D products as cards, grouped under a banner for each line. Each dog recipe has a Mini card and a Medium & Maxi card; each of the 8 cat products has one card.
 
-Filters, all combinable, in three rows of chips:
-- **Pet:** Dog, Cat, and **Reset**. Reset clears every filter (pet, life stage, line) and the search box, so the whole range shows again.
+Filters, all combinable, in four rows of chips. Choosing a pet shows only its life stages and lines:
+- **Pet:** Dog, Cat, and **Reset**. Reset clears every filter (pet, life stage, line, kibble size) and the search box, so the whole range shows again.
 - **Life stage:** All, Puppy, Adult, Light, Kitten, Neutered.
 - **Line:** All, N&D Quinoa, N&D Pumpkin, N&D Ocean, N&D Prime, N&D Ancestral Grain.
+- **Kibble size:** All, Mini, Medium & Maxi. Hidden for cats.
 
 There is also a text box, "Search by name or ingredient". It matches the product name, variant, protein and full composition. If nothing matches, the screen says "No products match your filters"; clear a chip or the text to get results back.
 
@@ -94,9 +95,9 @@ A search box filters by ingredient name or category. Tap an ingredient tile to o
 
 ## CHUNK quiz-01: Knowledge Quiz
 
-**Keywords:** quiz, test, score, stars, badge, retry, N&D Quinoa, N&D Pumpkin, Low Ancestral Grain
+**Keywords:** quiz, test, score, stars, badge, retry, N&D Quinoa, N&D Pumpkin, N&D Ocean, N&D Prime, Low Ancestral Grain
 
-Screen: **Quiz**. There are three quizzes of five questions each: **N&D Quinoa**, **N&D Pumpkin**, and **N&D Low Ancestral Grain**. There are no quizzes yet for Ocean or Prime.
+Screen: **Quiz**. There are five quizzes of five questions each: **N&D Quinoa**, **N&D Pumpkin**, **N&D Ocean**, **N&D Prime** and **N&D Low Ancestral Grain**.
 
 How it works:
 1. Tap a line card.
@@ -104,7 +105,7 @@ How it works:
 3. Tap **Next Question**, then **See Results** after question five.
 4. Results show stars and a message: 0–1 "Keep Studying", 2 "Good Start!", 3 "Solid Knowledge", 4 "Great Work!", 5 "Expert Level!". Choose **Try Again** or **All Quizzes**.
 
-A finished quiz shows its score on the line card (for example "4/5 ✓"). Scores are kept only while the page is open. Refreshing or closing the app clears them. If the member of staff accepted analytics, quiz start and score are recorded as aggregate training data. Tip: read the Ingredients and Products screens first, then do the quiz.
+A finished quiz shows its score on the line card (for example "4/5 ✓"). Scores are saved in the browser on that device, so they survive closing the app. They do not follow the person to another device, and anyone sharing the device sees the same scores. If the member of staff accepted analytics, quiz start and score are recorded as aggregate training data. Tip: read the Ingredients and Products screens first, then do the quiz.
 
 ## CHUNK calc-01: Cost Calculator
 

@@ -300,7 +300,7 @@ test('feature flows emit completed actions once and pass only the intended metad
     startQuiz('quinoa');
     for(let i=0; i<5; i++) { selectAns(document.querySelectorAll('.opt')[0], true); nextQ(); }
     showResult();
-    toggleCard('dp1'); toggleCard('dp1');
+    toggleCard('dp1-mini'); toggleCard('dp1-mini');
     openIng('i1');
     initMatcher(); selectMatcherPet('dog'); selectMatcherStage('adult'); selectMatcherConcern('skin');
     runCalc();

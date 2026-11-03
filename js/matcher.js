@@ -111,6 +111,17 @@ function matcherExcludedBy(product, exclusionIds){
   return hits;
 }
 
+// The kibble sizes of a recipe would otherwise fill the shortlist with near-duplicates.
+function matcherOnePerRecipe(results){
+  const byRecipe = new Map();
+  results.forEach(result=>{
+    const first = byRecipe.get(result.product.family);
+    if(first) first.alsoKibble = result.product.kibble;
+    else byRecipe.set(result.product.family,{...result});
+  });
+  return [...byRecipe.values()];
+}
+
 function matcherCandidates(pet){
   return PRODUCTS.filter(p=>!p.catalog_error && p.pet===pet);
 }
@@ -132,6 +143,7 @@ function getMatcherOutcome(state){
     ranked = pool.map(p=>matcherEvaluate(p,state.concern)).filter(Boolean)
       .sort((a,b)=>b.score-a.score || PRODUCTS.indexOf(a.product)-PRODUCTS.indexOf(b.product));
   }
+  ranked = matcherOnePerRecipe(ranked);
   const exact = ranked.filter(r=>r.product.stage===state.stage);
   const elsewhere = ranked.filter(r=>r.product.stage!==state.stage);
   const other = exact.length ? elsewhere.filter(r=>r.claim) : elsewhere;
@@ -144,9 +156,9 @@ function getMatcherResults(){
 
 // Top formulas across both pets for an Ingredients screen condition panel.
 function conditionPanelProducts(ruleId, limit=6){
-  return PRODUCTS.filter(p=>!p.catalog_error)
+  return matcherOnePerRecipe(PRODUCTS.filter(p=>!p.catalog_error)
     .map(p=>matcherEvaluate(p,ruleId)).filter(Boolean)
-    .sort((a,b)=>b.score-a.score || PRODUCTS.indexOf(a.product)-PRODUCTS.indexOf(b.product))
+    .sort((a,b)=>b.score-a.score || PRODUCTS.indexOf(a.product)-PRODUCTS.indexOf(b.product)))
     .slice(0,limit).map(r=>r.product);
 }
 
@@ -184,7 +196,7 @@ function matcherResultCard(result, otherStage){
         <div style="font-size:24px">${p.icon}</div>
         <div style="flex:1">
           <div style="font-weight:600;font-size:14px;color:var(--text)">${matcherEscape(p.name)}</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">${matcherEscape(p.variant)}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${matcherEscape(p.variant)}${result.alsoKibble?` · also ${matcherEscape(result.alsoKibble)}`:''}</div>
           <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
             <span class="badge badge-line" style="font-size:11px;padding:3px 8px">${matcherEscape(p.lineName)}</span>
             <span class="badge" style="font-size:11px;padding:3px 8px;background:var(--gd);color:#fff">${p.pet==='cat'?'🐱 Cat':'🐶 Dog'}</span>

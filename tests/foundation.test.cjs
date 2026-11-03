@@ -14,13 +14,13 @@ function runtime() {
 }
 function run(ctx,code) { return vm.runInContext(code,ctx); }
 
-test('all 22 cards resolve explicitly to the 31 source records and retain prices',()=>{
+test('all 36 cards resolve explicitly to the 31 source records and retain prices',()=>{
   const c = runtime();
   assert.equal(run(c,'catalogIssues.length'),0);
   assert.equal(run(c,'validatedSourceIds.size'),31);
-  assert.equal(run(c,'PRODUCTS.length'),22);
+  assert.equal(run(c,'PRODUCTS.length'),36);
   assert.equal(run(c,"PRODUCTS.find(p=>p.id==='cp1').scraped_skus.some(s=>s.pack_size_grams===5000)"),false);
-  assert.equal(run(c,"PRODUCTS.find(p=>p.id==='dp2').scraped_skus.find(s=>s.pack_size_grams===12000).price_current"),1999);
+  assert.equal(run(c,"PRODUCTS.find(p=>p.id==='dp2-mm').scraped_skus.find(s=>s.pack_size_grams===12000).price_current"),1999);
 });
 
 test('every listed pack has a local Farmina product shot with recorded source and checksum',()=>{
@@ -51,10 +51,10 @@ test('duplicate source identities, invalid prices and contradictory same-size pr
   for(const mutation of [
     "FARMINA_SCRAPED_PRODUCTS.push(FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id==='P0019'))",
     "FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id==='P0019').skus[0].price_current=NaN",
-    "Object.assign(FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id==='P0020').skus[0],{pack_size_grams:800,pack_size_value:'800',pack_size_unit:'g'})"
+    "Object.assign(FARMINA_SCRAPED_PRODUCTS.find(p=>p.product_id==='P0019').skus[1],{pack_size_grams:800,pack_size_value:'800',pack_size_unit:'g'})"
   ]) {
     const c=runtime();run(c,mutation+'; applyScrapedProductData();');
-    assert.equal(run(c,"PRODUCTS.find(p=>p.id==='dp1').catalog_error"),true,mutation);
+    assert.equal(run(c,"PRODUCTS.find(p=>p.id==='dp1-mini').catalog_error"),true,mutation);
   }
 });
 test('all offered matcher combinations respect species and exact displayed life stage',()=>{

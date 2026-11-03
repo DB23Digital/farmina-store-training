@@ -46,14 +46,16 @@ test('recipe preferences and explicit breed-size source records select the corre
   assert.equal(run(context,"buddyPreferenceOptions({pet:'cat',stage:'adult'}).some(p=>p.id==='ancestral')"),false);
 });
 
-test('shared-source dog recipes and unknown breed size do not claim a verified pack variant',()=>{
+test('breed size picks the kibble card, and an unknown size does not claim its packs',()=>{
   const context=runtime();
   const generic=run(context,"buddyResults({pet:'dog',stage:'puppy',size:'medium_maxi',preference:'lamb'})[0]");
-  assert.equal(generic.product.id,'dp3');
-  assert.equal(generic.exact,false);
+  assert.equal(generic.product.id,'dp3-mm');
+  assert.equal(generic.exact,true);
   const card=run(context,"buddyState={pet:'dog',stage:'puppy',size:'medium_maxi',preference:'lamb'};buddyResultCard(buddyResults(buddyState)[0])");
-  assert.match(card,/Confirm the exact breed-size pack/);
-  assert.match(card,/openBuddyProduct\('dp3',''\)/);
+  assert.match(card,/Listed packs: 12 kg/);
+  assert.doesNotMatch(card,/800 g/);
+  const unknown=run(context,"buddyState={pet:'dog',stage:'puppy',size:'unknown',preference:'lamb'};buddyResultCard(buddyResults(buddyState)[0])");
+  assert.match(unknown,/Confirm the exact breed-size pack/);
   assert.equal(run(context,"buddyResults({pet:'dog',stage:'puppy',size:'unknown',preference:'fish'})[0].exact"),false);
 });
 

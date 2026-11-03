@@ -84,6 +84,8 @@ The workbook gives each recipe as "X% of protein from animal sources / Y% meat &
 | cp3 Prime Lamb & Blueberry cat | 98% / 85% | 98% / 86% |
 | cq1 Quinoa Urinary cat | 98% / 85% | 94% / 70% |
 
+**Update, 03/11/2026:** Deon asked for these six cards to follow the approved list, and the figures were re-read from the workbook. All six now match. The cards' other macro figures, such as Fruits & Veg, were not changed and have no source in the workbook, so some cards no longer total 100%.
+
 ## Training copy that contradicted the product range (corrected 30/10/2026)
 
 Also corrected: the Quinoa Skin & Coat cards said "all life stages" (now adult dogs, per the approved list); quiz distractors named Senior, Indoor, Salmon, Tuna and Trout; a Tips upsell recommended wet food, which is not in the list; and a Tips line said "probiotics" where Farmina uses prebiotics.
@@ -103,7 +105,7 @@ These statements conflict with `assets/feeding-guides/product lines.txt` and the
 | `js/tips.js:39` | NZ Lamb & Blueberry "(both ranges)" with green tea and rosemary | The dog lamb recipe is Pumpkin only |
 | `js/tips.js:42` | "N&D Quinoa Neutered Cat" | It should be Prime or Pumpkin Neutered |
 
-These claims remain unsupported by any source in this repository: `js/tips.js` heart/grain-free study wording, and "48%+ vs 15–20%" fresh meat compared with competitors.
+The `js/tips.js` heart/grain-free study wording and the "48%+ vs 15–20%" fresh meat comparison had no source in this repository. Both were removed on 03/11/2026.
 
 ## How to repeat
 
